@@ -73,6 +73,15 @@ void j1Map::Draw()
 					else if (layers_item->data->type == LAYER_SKY) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.1f);
 					}
+					else if (layers_item->data->type == LAYER_ROCKS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+					}
+					else if (layers_item->data->type == LAYER_CAVE) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.99f);
+					}
+					else if (layers_item->data->type == LAYER_BACKROCKS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
+					}
 				}
 
 			}
@@ -388,6 +397,12 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->type = LAYER_CLOUDS;
 	else if (layer->name == "Sky")
 		layer->type = LAYER_SKY;
+	else if (layer->name == "Rocks")
+		layer->type = LAYER_ROCKS;
+	else if (layer->name == "Mainground")
+		layer->type = LAYER_CAVE;
+	else if (layer->name == "Background")
+		layer->type = LAYER_BACKROCKS;
 
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
