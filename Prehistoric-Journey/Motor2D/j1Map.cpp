@@ -49,14 +49,29 @@ void j1Map::Draw()
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
 
-					if (layers_item->data->type == LAYER_FRONT) {
+					if (layers_item->data->type == LAYER_GROUND) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
 					}
-					else if (layers_item->data->type == LAYER_BACKGROUND) {
+					else if (layers_item->data->type == LAYER_GRASS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
+					}
+					else if (layers_item->data->type == LAYER_FOREST) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.7f);
 					}
+					else if (layers_item->data->type == LAYER_MOUNTAINS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.6f);
+					}
+					else if (layers_item->data->type == LAYER_ISLANDS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
+					}
+					else if (layers_item->data->type == LAYER_SEA) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
+					}
+					else if (layers_item->data->type == LAYER_CLOUDS) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.2f);
+					}
 					else if (layers_item->data->type == LAYER_SKY) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.1f);
 					}
 				}
 
@@ -357,11 +372,21 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	
 	
 	layer->name = node.attribute("name").as_string();
-	if (layer->name == "Capa de Patrones 1")
-		layer->type = LAYER_FRONT;
-	else if (layer->name == "Capa de patrones 2")//CHANGE NAMES AFTER
-		layer->type = LAYER_BACKGROUND;
-	else if (layer->name == "Capa de patrones 3")//CHANGE NAMES AFTER
+	if (layer->name == "MainGround")
+		layer->type = LAYER_GROUND;
+	else if (layer->name == "Grass")
+		layer->type = LAYER_GRASS;
+	else if (layer->name == "Forest")
+		layer->type = LAYER_FOREST;
+	else if (layer->name == "Mountains")
+		layer->type = LAYER_MOUNTAINS;
+	else if (layer->name == "Islands")
+		layer->type = LAYER_ISLANDS;
+	else if (layer->name == "Sea")
+		layer->type = LAYER_SEA;
+	else if (layer->name == "Clouds")
+		layer->type = LAYER_CLOUDS;
+	else if (layer->name == "Sky")
 		layer->type = LAYER_SKY;
 
 	layer->width = node.attribute("width").as_uint();
