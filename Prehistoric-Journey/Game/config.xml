@@ -25,5 +25,8 @@
   <map>
     <folder>maps/</folder>
   </map>
-
+  
+  <player>
+  <position x="0" y="0"/>
+  </player>
 </config>
