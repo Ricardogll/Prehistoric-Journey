@@ -49,39 +49,35 @@ void j1Map::Draw()
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
 
-					if (layers_item->data->type == LAYER_GROUND) {
+					if (layers_item->data->type == LAYER_BG_FRONT) {
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.1f);
+
+					}else if (layers_item->data->type == LAYER_GROUND) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
 					}
-					else if (layers_item->data->type == LAYER_GRASS) {
+					else if (layers_item->data->type == LAYER_BG_1) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
 					}
-					else if (layers_item->data->type == LAYER_FOREST) {
+					else if (layers_item->data->type == LAYER_BG_2) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.7f);
 					}
-					else if (layers_item->data->type == LAYER_MOUNTAINS) {
+					else if (layers_item->data->type == LAYER_BG_3) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.6f);
 					}
-					else if (layers_item->data->type == LAYER_ISLANDS) {
+					else if (layers_item->data->type == LAYER_BG_4) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
 					}
-					else if (layers_item->data->type == LAYER_SEA) {
+					else if (layers_item->data->type == LAYER_BG_5) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
 					}
-					else if (layers_item->data->type == LAYER_CLOUDS) {
+					else if (layers_item->data->type == LAYER_BG_6) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.2f);
 					}
-					else if (layers_item->data->type == LAYER_SKY) {
+					else if (layers_item->data->type == LAYER_BG_7) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.1f);
 					}
-					else if (layers_item->data->type == LAYER_ROCKS) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
-					}
-					else if (layers_item->data->type == LAYER_CAVE) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.99f);
-					}
-					else if (layers_item->data->type == LAYER_BACKROCKS) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
-					}
+					
+					
 				}
 
 			}
@@ -384,25 +380,25 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	if (layer->name == "MainGround")
 		layer->type = LAYER_GROUND;
 	else if (layer->name == "Grass")
-		layer->type = LAYER_GRASS;
+		layer->type = LAYER_BG_1;
 	else if (layer->name == "Forest")
-		layer->type = LAYER_FOREST;
+		layer->type = LAYER_BG_2;
 	else if (layer->name == "Mountains")
-		layer->type = LAYER_MOUNTAINS;
+		layer->type = LAYER_BG_3;
 	else if (layer->name == "Islands")
-		layer->type = LAYER_ISLANDS;
+		layer->type = LAYER_BG_4;
 	else if (layer->name == "Sea")
-		layer->type = LAYER_SEA;
+		layer->type = LAYER_BG_5;
 	else if (layer->name == "Clouds")
-		layer->type = LAYER_CLOUDS;
+		layer->type = LAYER_BG_6;
 	else if (layer->name == "Sky")
-		layer->type = LAYER_SKY;
+		layer->type = LAYER_BG_7;
 	else if (layer->name == "Rocks")
-		layer->type = LAYER_ROCKS;
+		layer->type = LAYER_BG_FRONT;
 	else if (layer->name == "Mainground")
-		layer->type = LAYER_CAVE;
+		layer->type = LAYER_GROUND;
 	else if (layer->name == "Background")
-		layer->type = LAYER_BACKROCKS;
+		layer->type = LAYER_BG_1;
 
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();

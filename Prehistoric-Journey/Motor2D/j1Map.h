@@ -10,17 +10,17 @@
 // ----------------------------------------------------
 enum LayerType {
 	LAYER_NONE = -1,
+	LAYER_BG_FRONT,
 	LAYER_GROUND,
-	LAYER_GRASS,
-	LAYER_FOREST,
-	LAYER_MOUNTAINS,
-	LAYER_ISLANDS,
-	LAYER_SEA,
-	LAYER_CLOUDS,
-	LAYER_SKY,
-	LAYER_ROCKS,
-	LAYER_CAVE,
-	LAYER_BACKROCKS
+	LAYER_BG_1,
+	LAYER_BG_2,
+	LAYER_BG_3,
+	LAYER_BG_4,
+	LAYER_BG_5,
+	LAYER_BG_6,
+	LAYER_BG_7,
+	
+	
 };
 
 
