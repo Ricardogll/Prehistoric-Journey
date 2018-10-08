@@ -21,7 +21,7 @@ struct Mix_Chunk;
 
 enum STATE {
 	IDLE,
-	WALK,
+	RUN,
 	JUMP,
 	NO_STATE,
 };
@@ -74,6 +74,7 @@ private:
 	bool jumping = false;
 	bool onGround = true;
 	X_DIRECTION player_x_dir = NONE;
+	bool just_landed = true;
 
 
 	pugi::xml_attribute starting_x;

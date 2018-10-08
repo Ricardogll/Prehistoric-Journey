@@ -160,7 +160,7 @@ bool j1Player::PostUpdate()
 
 		speed.x = SPEED_X;
 		if (jumping == false) {
-			state = WALK;
+			state = RUN;
 		}
 		else {
 			state = JUMP;
@@ -172,18 +172,18 @@ bool j1Player::PostUpdate()
 
 		player_x_dir = RIGHT;
 	}
-	/*if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 	{
 		if (jumping == false) {
-			state = IDLE_RIGHT;
+			state = IDLE;
 		}
-	}*/
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT )
 	{
 		speed.x = -SPEED_X;
 		if (jumping == false) {
-			state = WALK;
+			state = RUN;
 		}
 		else {
 			state = JUMP;
@@ -194,15 +194,15 @@ bool j1Player::PostUpdate()
 
 		player_x_dir = LEFT;
 	}
-	//if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP )
-	//{
-	//	if (jumping == false) {
-	//		state = IDLE_LEFT;
-	//	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP )
+	{
+		if (jumping == false) {
+			state = IDLE;
+		}
 
-	//}
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumping==false)
 	{
 		/*if (playerdir == RIGHT)
 			state = JUMP_RIGHT;
@@ -210,7 +210,7 @@ bool j1Player::PostUpdate()
 			state = JUMP_LEFT;*/
 		state = JUMP;
 		Jumping();
-		speed.x = SPEED_X;
+		//speed.x = SPEED_X;
 		/*if (in_ledge) {
 			disable_ledge = SDL_GetTicks();
 			ledge_disabled = true;
@@ -225,6 +225,7 @@ bool j1Player::PostUpdate()
 
 	if (touching_floor == false && playerpos.y < 300) { //change when collisions are implemented
 		speed.y += GRAVITY;
+		just_landed = false;
 
 	}
 	else// if (playerpos.y >= 400) 
@@ -237,6 +238,17 @@ bool j1Player::PostUpdate()
 		//jump_left.Reset();
 		//jump.Reset();
 		jumping = false;
+
+		if (just_landed == false) {
+			
+			just_landed == true;
+
+			if (speed.x != 0.0f)
+				state = RUN;
+			else
+				state = IDLE;
+		}
+
 		
 	}
 
@@ -282,7 +294,8 @@ bool j1Player::Jumping() {
 		onGround = false;
 		playerpos.y -= 5;
 		touching_floor = false;
-		App->audio->PlayFx(jumpfx);
+		just_landed = false;
+		//App->audio->PlayFx(jumpfx);
 	}
 
 	if (speed.y < -3.2f) {
@@ -321,16 +334,16 @@ void j1Player::Draw()
 		current_animation = &idle;
 		break;
 
-	case WALK:
+	case RUN:
 		current_animation = &run;
 		break;
 
 	case JUMP:
 		current_animation = &jump;
-		if (current_animation->Finished()) {
-			jump.Reset();
-			state = NO_STATE;
-		}
+		//if (current_animation->Finished()) {
+			//jump.Reset();
+			//state = NO_STATE;
+		//}
 		break;
 
 	default:
@@ -353,7 +366,7 @@ void j1Player::Draw()
 		current_animation = &idle;
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
-	if (player_x_dir == LEFT) {
+	if (player_x_dir == LEFT) {//Render FLIP doesnt work if we move camera
 		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL);
 	}
 	else {
