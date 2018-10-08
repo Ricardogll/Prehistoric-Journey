@@ -135,10 +135,10 @@ bool j1Map::CleanUp()
 	p2List_item<MapLayer*>* item_layer;
 	item_layer = data.layers.start;
 
-	while (item != NULL)
+	while (item_layer != NULL)
 	{
-		RELEASE(item->data);
-		item = item->next;
+		RELEASE(item_layer->data);
+		item_layer = item_layer->next;
 	}
 	data.layers.clear();
 

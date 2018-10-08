@@ -19,24 +19,51 @@ j1Player::j1Player() : j1Module()
 
 	name.create("player");
 
-	idle_right.PushBack({ 21,8,45,57 });
-	idle_right.PushBack({ 118,8,45,57 });
-	/*idle_right.PushBack({ 1,39,20,35 });
-	idle_right.PushBack({ 21,39,20,35 });
-	idle_right.PushBack({ 42,39,20,35 });
-	idle_right.PushBack({ 63,39,20,35 });
-	idle_right.PushBack({ 84,39,20,35 });
-	idle_right.PushBack({ 105,39,20,35 });
-	idle_right.PushBack({ 126,39,20,35 });
-	idle_right.PushBack({ 147,39,20,35 });
-	idle_right.PushBack({ 168,39,20,35 });
-	idle_right.PushBack({ 189,39,20,35 });
-	idle_right.PushBack({ 210,39,20,35 });
-	idle_right.PushBack({ 231,39,20,35 });
-	idle_right.speed = 0.05f;
+	idle.PushBack({ 21,8,45,57 });
+	idle.PushBack({ 118,8,45,57 });
+	idle.PushBack({ 215,8,45,57 });
+	idle.PushBack({ 312,8,45,57 });
+	idle.PushBack({ 409,8,45,57 });
+	idle.PushBack({ 506,8,45,57 });
+	idle.PushBack({ 118,8,45,57 });
+	idle.speed = 0.05f;
+	
+	
+	/*run.PushBack({ 112,76,60,61 });
+	run.PushBack({ 209,76,60,61 });
+	run.PushBack({ 306,76,60,61 });
+	run.PushBack({ 403,76,60,61 });
+	run.PushBack({ 500,76,60,61 });
+	run.PushBack({ 15,148,60,61 });
+	run.PushBack({ 112,148,60,61 });
+	run.PushBack({ 209,148,60,61 });
+	run.PushBack({ 306,148,60,61 });
+	run.PushBack({ 403,148,60,61 });
+	run.PushBack({ 500,148,60,61 });
+	run.PushBack({ 15,148,60,61 });
+	run.PushBack({ 112,219,60,61 });
+	run.PushBack({ 212,219,60,61 });*/
+	run.PushBack({ 112,76,60,61 });
+	run.PushBack({ 209,76,60,61 });
+	run.PushBack({ 306,76,60,61 });
+	run.PushBack({ 112,76,60,61 });
+	run.PushBack({ 403,76,60,61 });
+	run.PushBack({ 500,76,60,61 });
+	run.PushBack({ 15,148,60,61 });
+	run.PushBack({ 112,148,60,61 });
+	run.PushBack({ 500,76,60,61 });
+	run.PushBack({ 403,76,60,61 });
+	run.speed = 0.08f;
 
-	*/
 
+	jump.PushBack({ 211, 148, 56,60 });
+	jump.PushBack({ 405, 148, 56,60 });
+	jump.PushBack({ 502, 148, 56,60 });
+	jump.PushBack({ 17, 219, 56,60 });
+	jump.PushBack({ 114, 219, 56,60 });
+	jump.PushBack({ 215, 219, 56,60 });
+	jump.speed = 0.05f;
+	jump.loop = false;
 }
 
 
@@ -76,11 +103,11 @@ bool j1Player::Start()
 
 	
 	texture = App->tex->Load("textures/caverman.png");
-	state = IDLE_RIGHT;
-	playerpos.x = 0;
-	playerpos.y = 0;//Get from tiled later
+	state = IDLE;
+	playerpos.x = 200;
+	playerpos.y = 200;//Get from tiled later
 
-	/*jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
+	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
 
 	
 
@@ -88,8 +115,8 @@ bool j1Player::Start()
 	speed.x = 0;
 
 	speed.y = 0;
-	playerCollider = App->collision->AddCollider({ (int)playerpos.x,(int)playerpos.y,20,35 }, COLLIDER_PLAYER, this);
-*/
+	//playerCollider = App->collision->AddCollider({ (int)playerpos.x,(int)playerpos.y,20,35 }, COLLIDER_PLAYER, this);
+
 	return ret;
 }
 
@@ -128,37 +155,46 @@ bool j1Player::PostUpdate()
 	//	speed.x = 0;
 	//}
 
-	//if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && in_ledge == false && ledge_jump_x_disabled == false)
-	//{
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT )
+	{
 
-	//	speed.x = SPEED_X;
-	//	if (jumping == false) {
-	//		state = WALK_RIGHT;
-	//	}
-	//	else {
-	//		state = JUMP_RIGHT;
-	//	}
-	//	playerdir = RIGHT;
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP && in_ledge == false && ledge_jump_x_disabled == false)
-	//{
-	//	if (jumping == false) {
-	//		state = IDLE_RIGHT;
-	//	}
-	//}
+		speed.x = SPEED_X;
+		if (jumping == false) {
+			state = WALK;
+		}
+		else {
+			state = JUMP;
+		}
 
-	//if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && in_ledge == false && ledge_jump_x_disabled == false)
-	//{
-	//	speed.x = -SPEED_X;
-	//	if (jumping == false) {
-	//		state = WALK_LEFT;
-	//	}
-	//	else {
-	//		state = JUMP_LEFT;
-	//	}
-	//	playerdir = LEFT;
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP && in_ledge == false && ledge_jump_x_disabled == false)
+
+		if (player_x_dir == LEFT)
+			run.Reset();
+
+		player_x_dir = RIGHT;
+	}
+	/*if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+	{
+		if (jumping == false) {
+			state = IDLE_RIGHT;
+		}
+	}*/
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT )
+	{
+		speed.x = -SPEED_X;
+		if (jumping == false) {
+			state = WALK;
+		}
+		else {
+			state = JUMP;
+		}
+
+		if (player_x_dir == RIGHT)
+			run.Reset();
+
+		player_x_dir = LEFT;
+	}
+	//if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP )
 	//{
 	//	if (jumping == false) {
 	//		state = IDLE_LEFT;
@@ -166,40 +202,43 @@ bool j1Player::PostUpdate()
 
 	//}
 
-	//if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	//{
-	//	if (playerdir == RIGHT)
-	//		state = JUMP_RIGHT;
-	//	else if (playerdir == LEFT)
-	//		state = JUMP_LEFT;
-	//	Jumping();
-	//	speed.x = SPEED_X;
-	//	if (in_ledge) {
-	//		disable_ledge = SDL_GetTicks();
-	//		ledge_disabled = true;
-	//		ledge_jump_x_disabled = true;
-	//		in_ledge = false;
-	//		on_ledge_left = false;
-	//		on_ledge_right = false;
-	//	}
-	//}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		/*if (playerdir == RIGHT)
+			state = JUMP_RIGHT;
+		else if (playerdir == LEFT)
+			state = JUMP_LEFT;*/
+		state = JUMP;
+		Jumping();
+		speed.x = SPEED_X;
+		/*if (in_ledge) {
+			disable_ledge = SDL_GetTicks();
+			ledge_disabled = true;
+			ledge_jump_x_disabled = true;
+			in_ledge = false;
+			on_ledge_left = false;
+			on_ledge_right = false;
+		}*/
+	}
 
 
 
-	//if (touching_floor == false && in_ledge == false) {
-	//	speed.y += GRAVITY;
+	if (touching_floor == false && playerpos.y < 300) { //change when collisions are implemented
+		speed.y += GRAVITY;
 
-	//}
-	//else// if (playerpos.y >= 400) 
-	//{
+	}
+	else// if (playerpos.y >= 400) 
+	{
 
-	//	speed.y = 0;
-	//	onGround = true;
+		speed.y = 0.0f;
+		onGround = true;
 
-	//	//jump_right.Reset();
-	//	//jump_left.Reset();
-	//	jumping = false;
-	//}
+		//jump_right.Reset();
+		//jump_left.Reset();
+		//jump.Reset();
+		jumping = false;
+		
+	}
 
 
 
@@ -220,11 +259,13 @@ bool j1Player::PostUpdate()
 	//	disable_ledge = 0;
 
 	//}
-	//playerpos.x += speed.x;
-	//playerpos.y += speed.y;
-	//speed.x = 0;
+	playerpos.x += speed.x;
+	playerpos.y += speed.y;
+	speed.x = 0;
 	//playerCollider->SetPos(playerpos.x, playerpos.y);
 	//Draw();
+
+	
 
 	return true;
 }
@@ -232,21 +273,21 @@ bool j1Player::PostUpdate()
 bool j1Player::Jumping() {
 	bool ret = true;
 
-	/*if (onGround)
+	if (onGround)
 	{
-		jump_right.Reset();
-		jump_left.Reset();
+		jump.Reset();
+		
 		jumping = true;
-		speed.y = -2.0f;
+		speed.y = -5.0f;
 		onGround = false;
 		playerpos.y -= 5;
 		touching_floor = false;
 		App->audio->PlayFx(jumpfx);
 	}
 
-	if (speed.y < -1.5f) {
-		speed.y = -1.5f;
-	}*/
+	if (speed.y < -3.2f) {
+		speed.y = -3.2f;
+	}
 
 	return ret;
 }
@@ -274,39 +315,28 @@ bool j1Player::Load(pugi::xml_node& node)
 
 void j1Player::Draw()
 {
-	//switch (state)
-	//{
-	//case IDLE_RIGHT:
-		current_animation = &idle_right;
-	//	break;
+	switch (state)
+	{
+	case IDLE:
+		current_animation = &idle;
+		break;
 
-	//case IDLE_LEFT:
-	//	current_animation = &idle_left;
-	//	break;
+	case WALK:
+		current_animation = &run;
+		break;
 
-	//case WALK_RIGHT:
-	//	current_animation = &walk_right;
-	//	break;
+	case JUMP:
+		current_animation = &jump;
+		if (current_animation->Finished()) {
+			jump.Reset();
+			state = NO_STATE;
+		}
+		break;
 
-	//case WALK_LEFT:
-	//	current_animation = &walk_left;
-	//	break;
+	default:
+		current_animation = &idle;
 
-	//case JUMP_RIGHT:
-	//	current_animation = &jump_right;
-	//	break;
-
-	//case JUMP_LEFT:
-	//	current_animation = &jump_left;
-	//	break;
-	//case LEDGE_RIGHT:
-	//	current_animation = &ledge_right;
-	//	break;
-	//case LEDGE_LEFT:
-	//	current_animation = &ledge_left;
-	//	break;
-
-	//}
+	}
 
 
 	////so jump animation doesnt get stuck if we just jump and not press anything else after
@@ -317,9 +347,18 @@ void j1Player::Draw()
 	//	current_animation = &idle_left;
 	//}
 
-
-	SDL_Rect render = current_animation->GetCurrentFrame();
-	App->render->Blit(texture, playerpos.x, playerpos.y, &render);
+	/*if (current_animation==&jump && onGround)
+	{
+		
+		current_animation = &idle;
+	}*/
+	SDL_Rect r = current_animation->GetCurrentFrame();
+	if (player_x_dir == LEFT) {
+		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL);
+	}
+	else {
+		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()));
+	}
 
 	//if (last_state != last_state_2)
 	//	last_state_2 = last_state;

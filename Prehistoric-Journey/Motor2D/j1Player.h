@@ -8,8 +8,8 @@
 #include	"j1Textures.h"
 #include	"Animation.h"
 
-#define GRAVITY 0.02f 
-#define SPEED_X 1.0f
+#define GRAVITY 0.1f 
+#define SPEED_X 2.5f
 #define SPEED_Y 0.25f
 
 
@@ -20,14 +20,9 @@ struct Mix_Chunk;
 
 
 enum STATE {
-	IDLE_RIGHT,
-	IDLE_LEFT,
-	WALK_RIGHT,
-	WALK_LEFT,
-	JUMP_RIGHT,
-	JUMP_LEFT,
-	LEDGE_RIGHT,
-	LEDGE_LEFT,
+	IDLE,
+	WALK,
+	JUMP,
 	NO_STATE,
 };
 
@@ -70,19 +65,15 @@ private:
 
 	STATE last_state = NO_STATE;
 	STATE last_state_2 = NO_STATE;
-	Animation idle_right;
-	Animation walk_right;
-	Animation jump_right;
-	Animation idle_left;
-	Animation walk_left;
-	Animation jump_left;
-	Animation ledge_right;
-	Animation ledge_left;
+	Animation idle;
+	Animation run;
+	Animation jump;
+	
 
 	uint lastTime = 0u;
 	bool jumping = false;
 	bool onGround = true;
-	X_DIRECTION playerdir = NONE;
+	X_DIRECTION player_x_dir = NONE;
 
 
 	pugi::xml_attribute starting_x;
