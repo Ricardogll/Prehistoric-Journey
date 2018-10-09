@@ -51,32 +51,19 @@ void j1Map::Draw()
 
 					if (layers_item->data->type == LAYER_BG_FRONT) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.1f);
-
-					}else if (layers_item->data->type == LAYER_GROUND) {
+					}
+					else if (layers_item->data->type == LAYER_GROUND) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
 					}
 					else if (layers_item->data->type == LAYER_BG_1) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
 					}
 					else if (layers_item->data->type == LAYER_BG_2) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.7f);
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
 					}
 					else if (layers_item->data->type == LAYER_BG_3) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.6f);
-					}
-					else if (layers_item->data->type == LAYER_BG_4) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
-					}
-					else if (layers_item->data->type == LAYER_BG_5) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.4f);
-					}
-					else if (layers_item->data->type == LAYER_BG_6) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.2f);
-					}
-					else if (layers_item->data->type == LAYER_BG_7) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.1f);
-					}
-					
+						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.3f);
+					}				
 					
 				}
 
@@ -379,20 +366,12 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	if (layer->name == "MainGround")
 		layer->type = LAYER_GROUND;
-	else if (layer->name == "Grass")
-		layer->type = LAYER_BG_1;
 	else if (layer->name == "Forest")
-		layer->type = LAYER_BG_2;
+		layer->type = LAYER_BG_1;
 	else if (layer->name == "Mountains")
-		layer->type = LAYER_BG_3;
-	else if (layer->name == "Islands")
-		layer->type = LAYER_BG_4;
-	else if (layer->name == "Sea")
-		layer->type = LAYER_BG_5;
-	else if (layer->name == "Clouds")
-		layer->type = LAYER_BG_6;
+		layer->type = LAYER_BG_2;
 	else if (layer->name == "Sky")
-		layer->type = LAYER_BG_7;
+		layer->type = LAYER_BG_3;
 	else if (layer->name == "Rocks")
 		layer->type = LAYER_BG_FRONT;
 	else if (layer->name == "Mainground")

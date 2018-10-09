@@ -15,10 +15,6 @@ enum LayerType {
 	LAYER_BG_1,
 	LAYER_BG_2,
 	LAYER_BG_3,
-	LAYER_BG_4,
-	LAYER_BG_5,
-	LAYER_BG_6,
-	LAYER_BG_7,	
 };
 
 
