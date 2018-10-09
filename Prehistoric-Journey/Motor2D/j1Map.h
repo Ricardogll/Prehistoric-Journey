@@ -15,6 +15,7 @@ enum LayerType {
 	LAYER_BG_1,
 	LAYER_BG_2,
 	LAYER_BG_3,
+	LAYER_COLLIDER
 };
 
 
@@ -102,6 +103,8 @@ public:
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
+
+	void setColliders();
 
 private:
 

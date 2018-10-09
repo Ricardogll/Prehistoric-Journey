@@ -32,6 +32,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("Jungle.tmx");
+	App->map->setColliders();
 	return true;
 }
 

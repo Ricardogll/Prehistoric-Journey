@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Collision.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -75,7 +76,41 @@ void j1Map::Draw()
 
 }
 		// TODO 9: Complete the draw function
+void j1Map::setColliders()
+{
+	//p2List_item<TileSet*>* tileset_item = data.tilesets.end;
 
+	//while (tileset_item != NULL)
+	//{
+	//	p2List_item<MapLayer*>* layer_item = data.layers.start;
+
+	//	while (layer_item != NULL)
+	//	{
+	//		for (uint i = 0; i < layer_item->data->width; i++)
+	//		{
+	//			for (uint j = 0; j < layer_item->data->width; j++)
+	//			{
+	//				if (layer_item->data->Get(i, j) != 0)
+	//				{
+	//					int id = layer_item->data->Get(i, j);
+
+	//					if (layer_item->data->type == LAYER_COLLIDER)
+	//					{
+	//						if (id == 26)
+	//						{
+	//							SDL_Rect rect = tileset_item->data->GetTileRect(id);
+	//							iPoint worldcoord = MapToWorld(i, j);
+	//							rect.x = worldcoord.x;
+	//							rect.y = worldcoord.y;
+	//							App->collision->AddCollider(rect, COLLIDER_WALL);
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+}
 
 
 
@@ -378,6 +413,8 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->type = LAYER_GROUND;
 	else if (layer->name == "Background")
 		layer->type = LAYER_BG_1;
+	else if (layer->name == "Collision")
+		layer->type = LAYER_COLLIDER;
 
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
