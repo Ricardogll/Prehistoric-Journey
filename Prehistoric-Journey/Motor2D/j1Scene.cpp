@@ -32,7 +32,12 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("Jungle.tmx");
+<<<<<<< HEAD
 	App->map->setColliders();
+=======
+	App->audio->PlayMusic("audio/theme-1.ogg");
+
+>>>>>>> fa596666c87cbbe0fdb2ad239a8091f46966d92a
 	return true;
 }
 
@@ -45,6 +50,16 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
+		App->audio->RaiseVolumeMusic();
+		App->audio->RaiseVolumeFx();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
+		App->audio->DecreaseVolumeMusic();
+		App->audio->RaiseVolumeFx();
+	}
+
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame();
 
