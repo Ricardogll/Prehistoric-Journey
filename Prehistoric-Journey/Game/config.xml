@@ -26,6 +26,10 @@
     <folder>maps/</folder>
   </map>
   
+  <audio>
+		<volume music="128" fx="128"/> <!-- 128 MAX volume, 0 min volume-->
+	</audio>
+	
   <player>
   <position x="0" y="0"/>
   </player>

@@ -367,7 +367,7 @@ void j1Player::Draw()
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT) {//Render FLIP doesnt work if we move camera
-		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL);
+		App->render->Blit(texture, playerpos.x + App->render->camera.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
 		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()));

@@ -50,6 +50,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	music_volume = config.child("volume").attribute("music").as_uint();
+	fx_volume = config.child("volume").attribute("fx").as_uint();
 	return ret;
 }
 
@@ -170,4 +172,49 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+void j1Audio::RaiseVolumeMusic()
+{
+	/*int vol = config.child("volume").attribute("music").as_int();
+	Mix_VolumeMusic(vol + 10);
+	std::string vol_string = std::to_string(vol + 10);
+	config.child("volume").attribute("music").set_value("1");*/
+	if (music_volume >= 118)
+		music_volume = 128;
+	else
+		music_volume += 10;
+
+	Mix_VolumeMusic(music_volume);
+}
+
+void j1Audio::RaiseVolumeFx()
+{
+	if (fx_volume >= 118)
+		fx_volume = 128;
+	else
+		fx_volume += 10;
+
+	Mix_Volume(-1, fx_volume);
+}
+
+void j1Audio::DecreaseVolumeMusic()
+{
+	if (music_volume <= 10)
+		music_volume = 0;
+	else
+		music_volume -= 10;
+
+	Mix_VolumeMusic(music_volume);
+
+}
+
+void j1Audio::DecreaseVolumeFx()
+{
+	if (fx_volume <= 10)
+		fx_volume = 0;
+	else
+		fx_volume -= 10;
+
+	Mix_Volume(-1, fx_volume);
 }
