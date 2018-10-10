@@ -89,9 +89,9 @@ void j1Collision::DebugDraw()
 			break;
 		case COLLIDER_DEAD:
 			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
-			break;
-		case COLLIDER_WALL:
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			//break;
+		//case COLLIDER_WALL:
+		//	//App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 		}
 	}
 }
