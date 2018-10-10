@@ -241,7 +241,7 @@ bool j1Player::PostUpdate()
 
 		if (just_landed == false) {
 			
-			just_landed == true;
+			just_landed = true;
 
 			if (speed.x != 0.0f)
 				state = RUN;
@@ -367,7 +367,7 @@ void j1Player::Draw()
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT) {//Render FLIP doesnt work if we move camera
-		App->render->Blit(texture, playerpos.x + App->render->camera.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
+		App->render->Blit(texture, (int)playerpos.x + App->render->camera.x, (int)playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
 		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()));
