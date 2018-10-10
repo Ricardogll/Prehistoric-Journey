@@ -7,7 +7,7 @@
   </app>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -27,10 +27,10 @@
   </map>
   
   <audio>
-		<volume music="128" fx="128"/> <!-- 128 MAX volume, 0 min volume-->
-	</audio>
+	<volume music="128" fx="128"/> <!-- 128 MAX volume, 0 min volume-->
+  </audio>
 	
   <player>
-  <position x="0" y="0"/>
+	<position x="0" y="0"/>
   </player>
 </config>

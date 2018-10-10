@@ -48,6 +48,17 @@ bool j1Render::Awake(pugi::xml_node& config)
 		camera.y = 0;
 	}
 
+	//pugi::xml_document data;
+	//pugi::xml_node root;
+
+	//root = data.append_child("game_state");
+	//root = root.append_child(name.GetString());
+	//root = root.append_child("camera");
+	//root.append_attribute("x").set_value("0");
+	//root.append_attribute("y").set_value("0");
+
+	//data.save_file(App->save_game.GetString());
+
 	return ret;
 }
 
@@ -99,11 +110,12 @@ bool j1Render::Load(pugi::xml_node& data)
 // Save Game State
 bool j1Render::Save(pugi::xml_node& data) const
 {
+		
 	pugi::xml_node cam = data.append_child("camera");
-
-	cam.append_attribute("x") = camera.x;
-	cam.append_attribute("y") = camera.y;
-
+	cam.append_attribute("x").set_value(camera.x);
+	cam.append_attribute("y").set_value(camera.y);
+	
+	
 	return true;
 }
 

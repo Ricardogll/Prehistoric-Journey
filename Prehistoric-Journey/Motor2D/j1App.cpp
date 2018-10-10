@@ -114,6 +114,9 @@ bool j1App::Start()
 		item = item->next;
 	}
 
+	load_game = "save_game.xml";
+	save_game="save_game.xml";
+
 	return ret;
 }
 
