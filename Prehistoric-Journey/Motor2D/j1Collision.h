@@ -1,7 +1,7 @@
 #ifndef __j1COLLISION_H__
 #define __j1COLLISION_H__
 
-#define MAX_COLLIDERS 50
+#define MAX_COLLIDERS 5000
 
 #include "j1Module.h"
 #include "j1Player.h"

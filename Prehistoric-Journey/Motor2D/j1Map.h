@@ -25,12 +25,18 @@ struct MapLayer {
 	uint height = 0u;
 	uint* data = nullptr;
 	LayerType type = LAYER_NONE;
+	
+	MapLayer() : data(NULL){}
 
 	~MapLayer() {
 		if (data != nullptr) // Si ponemos != NULL, llamamos a RELEASE. Sino podemos != nullptr y hacer delete
 			delete[] data;
 	}
-	inline uint Get(int x, int y) const;
+
+	inline uint Get(int x, int y) const {
+
+ 		return data[(y * width) + x];
+	}
 };
 	// TODO 6: Short function to get the value of x,y
 
@@ -103,6 +109,7 @@ public:
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y) const;
 
 	void setColliders();
 
@@ -113,6 +120,8 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single laye
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+
+	TileSet* GetTilesetFromTileId(int id) const;
 	
 public:
 

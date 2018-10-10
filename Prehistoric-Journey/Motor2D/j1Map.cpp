@@ -43,9 +43,9 @@ void j1Map::Draw()
 
 		while (layers_item != NULL) {
 
-			for (uint x = 0; x < layers_item->data->width; x++) {
+			for (int x = 0; x < layers_item->data->width; x++) {
 
-				for (uint y = 0; y < layers_item->data->height; y++) {
+				for (int y = 0; y < layers_item->data->height; y++) {
 
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
@@ -56,6 +56,9 @@ void j1Map::Draw()
 					else if (layers_item->data->type == LAYER_GROUND) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
 					}
+					//else if (layers_item->data->type == LAYER_COLLIDER) {
+					//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+					//}
 					else if (layers_item->data->type == LAYER_BG_1) {
 						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
 					}
@@ -75,41 +78,56 @@ void j1Map::Draw()
 	}
 
 }
+
+TileSet* j1Map::GetTilesetFromTileId(int id) const
+{
+	p2List_item<TileSet*>* tile_item = data.tilesets.start;
+
+	for (tile_item; tile_item != NULL; tile_item = tile_item->next)
+	{
+		if (tile_item->next == nullptr || tile_item->next->data->firstgid > id)
+			return tile_item->data;
+	}
+
+}
 		// TODO 9: Complete the draw function
 void j1Map::setColliders()
 {
-	//p2List_item<TileSet*>* tileset_item = data.tilesets.end;
+	p2List_item<TileSet*>* tile_item = this->data.tilesets.start;
 
-	//while (tileset_item != NULL)
-	//{
-	//	p2List_item<MapLayer*>* layer_item = data.layers.start;
+	while (tile_item != NULL)
+	{
+		p2List_item<MapLayer*>* layer_item = this->data.layers.end;
 
-	//	while (layer_item != NULL)
-	//	{
-	//		for (uint i = 0; i < layer_item->data->width; i++)
-	//		{
-	//			for (uint j = 0; j < layer_item->data->width; j++)
-	//			{
-	//				if (layer_item->data->Get(i, j) != 0)
-	//				{
-	//					int id = layer_item->data->Get(i, j);
+		while (layer_item != NULL)
+		{
+			for (int y = 0; y < data.height; y++)
+			{
+				for (int x = 0; x < data.width; x++)
+				{
+					if (layer_item->data->Get(x, y) != 0)
+					{
+						int id = layer_item->data->Get(x, y);
 
-	//					if (layer_item->data->type == LAYER_COLLIDER)
-	//					{
-	//						if (id == 26)
-	//						{
-	//							SDL_Rect rect = tileset_item->data->GetTileRect(id);
-	//							iPoint worldcoord = MapToWorld(i, j);
-	//							rect.x = worldcoord.x;
-	//							rect.y = worldcoord.y;
-	//							App->collision->AddCollider(rect, COLLIDER_WALL);
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+						if (layer_item->data->type == LAYER_COLLIDER)
+						{
+							if (id == 27)
+							{
+								//TileSet* tileset = GetTilesetFromTileId(id);
+								SDL_Rect rect = tile_item->data->GetTileRect(id);
+								iPoint worldcoord = MapToWorld(x, y);
+								rect.x = worldcoord.x;
+								rect.y = worldcoord.y;
+								App->collision->AddCollider(rect, COLLIDER_WALL);
+							}
+						}
+					}
+				}
+			}
+			layer_item = layer_item->next;
+		}
+		tile_item = tile_item->next;
+	}
 }
 
 
@@ -121,6 +139,18 @@ iPoint j1Map::MapToWorld(int x, int y) const
 	ret.x = x * data.tile_width;
 	ret.y = y * data.tile_height;
 
+	return ret;
+}
+
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret(0, 0);
+	// TODO 2: Add orthographic world to map coordinates
+	if (App->map->data.type == MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = x / data.tile_width;
+		ret.y = y / data.tile_height;
+	}
 	return ret;
 }
 
@@ -413,7 +443,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->type = LAYER_GROUND;
 	else if (layer->name == "Background")
 		layer->type = LAYER_BG_1;
-	else if (layer->name == "Collision")
+	else if (layer->name == "Colliders")
 		layer->type = LAYER_COLLIDER;
 
 	layer->width = node.attribute("width").as_uint();
@@ -428,9 +458,4 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->data[i++] = tile_gid.attribute("gid").as_uint();
 	}
 	return true;
-}
-
-inline uint MapLayer::Get(int x, int y) const {
-
-	return data[width * y + x];
 }
