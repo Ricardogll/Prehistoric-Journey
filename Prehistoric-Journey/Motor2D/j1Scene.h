@@ -33,6 +33,8 @@ public:
 	bool CleanUp();
 
 private:
+
+	uint current_map = 0;
 };
 
 #endif // __j1SCENE_H__

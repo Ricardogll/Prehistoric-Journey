@@ -31,13 +31,15 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
+
+	
 	App->map->Load("Jungle.tmx");
-<<<<<<< HEAD
+	current_map = 1;
 	App->map->setColliders();
-=======
+
 	App->audio->PlayMusic("audio/theme-1.ogg");
 
->>>>>>> fa596666c87cbbe0fdb2ad239a8091f46966d92a
+
 	return true;
 }
 
@@ -63,7 +65,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 		App->SaveGame();
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -80,8 +82,16 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		App->map->CleanUp();
-		App->map->Load("Cave.tmx");
+		if (current_map == 1) {
+			App->map->CleanUp();
+			App->map->Load("Cave.tmx");
+			current_map = 2;
+		}
+		else if (current_map == 2) {
+			App->map->CleanUp();
+			App->map->Load("Jungle.tmx");
+			current_map = 1;
+		}
 	}
 
 	//App->render->Blit(img, 0, 0);

@@ -61,7 +61,7 @@ j1Player::j1Player() : j1Module()
 	jump.PushBack({ 502, 148, 56,60 });
 	jump.PushBack({ 17, 219, 56,60 });
 	jump.PushBack({ 114, 219, 56,60 });
-	jump.PushBack({ 215, 219, 56,60 });
+	//jump.PushBack({ 215, 219, 56,60 });
 	jump.speed = 0.05f;
 	jump.loop = false;
 }
@@ -104,8 +104,8 @@ bool j1Player::Start()
 	
 	texture = App->tex->Load("textures/caverman.png");
 	state = IDLE;
-	playerpos.x = 200;
-	playerpos.y = 200;//Get from tiled later
+	player_pos.x = 200;
+	player_pos.y = 200;//Get from tiled later
 
 	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
 
@@ -223,7 +223,7 @@ bool j1Player::PostUpdate()
 
 
 
-	if (touching_floor == false && playerpos.y < 300) { //change when collisions are implemented
+	if (touching_floor == false && player_pos.y < 300) { //change when collisions are implemented
 		speed.y += GRAVITY;
 		just_landed = false;
 
@@ -241,7 +241,7 @@ bool j1Player::PostUpdate()
 
 		if (just_landed == false) {
 			
-			just_landed == true;
+			just_landed = true;
 
 			if (speed.x != 0.0f)
 				state = RUN;
@@ -271,8 +271,8 @@ bool j1Player::PostUpdate()
 	//	disable_ledge = 0;
 
 	//}
-	playerpos.x += speed.x;
-	playerpos.y += speed.y;
+	player_pos.x += speed.x;
+	player_pos.y += speed.y;
 	speed.x = 0;
 	//playerCollider->SetPos(playerpos.x, playerpos.y);
 	//Draw();
@@ -292,7 +292,7 @@ bool j1Player::Jumping() {
 		jumping = true;
 		speed.y = -5.0f;
 		onGround = false;
-		playerpos.y -= 5;
+		player_pos.y -= 5;
 		touching_floor = false;
 		just_landed = false;
 		//App->audio->PlayFx(jumpfx);
@@ -316,14 +316,23 @@ bool j1Player::CleanUp()
 
 bool j1Player::Load(pugi::xml_node& node)
 {
-	bool ret = true;
+	
 
+	player_pos.x = node.child("position").attribute("x").as_int();
+	player_pos.y = node.child("position").attribute("y").as_int();
 
-
-	return ret;
+	return true;
 }
 
+bool j1Player::Save(pugi::xml_node& node) const
+{
+	
+	pugi::xml_node position = node.append_child("position");
+	position.append_attribute("x").set_value(player_pos.x);
+	position.append_attribute("y").set_value(player_pos.y);
 
+	return true;
+}
 
 
 void j1Player::Draw()
@@ -367,10 +376,10 @@ void j1Player::Draw()
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT) {//Render FLIP doesnt work if we move camera
-		App->render->Blit(texture, playerpos.x + App->render->camera.x, playerpos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
+		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
-		App->render->Blit(texture, playerpos.x, playerpos.y, &(current_animation->GetCurrentFrame()));
+		App->render->Blit(texture, player_pos.x, player_pos.y, &(current_animation->GetCurrentFrame()));
 	}
 
 	//if (last_state != last_state_2)

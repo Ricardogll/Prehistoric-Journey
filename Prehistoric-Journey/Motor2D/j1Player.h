@@ -44,7 +44,7 @@ public:
 	bool Awake(pugi::xml_node& config);
 	bool Update(float dt);
 	bool PostUpdate();
-	bool Save(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 	void LoadPosition();
 	void SavePosition();
@@ -87,7 +87,7 @@ private:
 public:
 
 
-	fPoint playerpos;
+	fPoint player_pos;
 	Collider* playerCollider;
 	bool touching_floor = false;
 	uint currentTime = 0;
