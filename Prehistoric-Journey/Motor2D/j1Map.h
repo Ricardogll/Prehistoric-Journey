@@ -124,10 +124,11 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 
 	TileSet* GetTilesetFromTileId(int id) const;
-	
+
 public:
 
 	MapData data;
+	iPoint spawn_pos = {0, 0};
 
 private:
 

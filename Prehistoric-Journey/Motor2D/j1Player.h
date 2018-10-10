@@ -76,6 +76,7 @@ private:
 	X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
 
+	int collision_extra = 3;
 
 	pugi::xml_attribute starting_x;
 	pugi::xml_attribute starting_y;
@@ -89,6 +90,7 @@ public:
 
 	fPoint player_pos;
 	Collider* playerCollider;
+	iPoint collider_offset;
 	bool touching_floor = false;
 	uint currentTime = 0;
 	bool ledge_jump_x_disabled = false;

@@ -7,7 +7,7 @@
 #include "j1Input.h"
 #include "j1Map.h"
 
-//#include "j1Collision.h"
+#include "j1Collision.h"
 #include "j1Audio.h"
 #include "j1Window.h"
 
@@ -104,18 +104,18 @@ bool j1Player::Start()
 	
 	texture = App->tex->Load("textures/caverman.png");
 	state = IDLE;
-	player_pos.x = 200;
-	player_pos.y = 200;//Get from tiled later
+	player_pos.x = App->map->spawn_pos.x;
+	player_pos.y = App->map->spawn_pos.y;
 
 	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
-
 	
+	speed.x = 0.0f;
+	speed.y = 0.0f;
 
+	collider_offset.x = 5;
+	collider_offset.y = 10;
+	playerCollider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 }, COLLIDER_PLAYER, this);
 	
-	speed.x = 0;
-
-	speed.y = 0;
-	//playerCollider = App->collision->AddCollider({ (int)playerpos.x,(int)playerpos.y,20,35 }, COLLIDER_PLAYER, this);
 
 	return ret;
 }
@@ -223,7 +223,7 @@ bool j1Player::PostUpdate()
 
 
 
-	if (touching_floor == false && player_pos.y < 300) { //change when collisions are implemented
+	if (touching_floor == false) { 
 		speed.y += GRAVITY;
 		just_landed = false;
 
@@ -274,7 +274,7 @@ bool j1Player::PostUpdate()
 	player_pos.x += speed.x;
 	player_pos.y += speed.y;
 	speed.x = 0;
-	//playerCollider->SetPos(playerpos.x, playerpos.y);
+	playerCollider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 	//Draw();
 
 	
@@ -298,9 +298,9 @@ bool j1Player::Jumping() {
 		//App->audio->PlayFx(jumpfx);
 	}
 
-	if (speed.y < -3.2f) {
+	/*if (speed.y < -3.2f) {
 		speed.y = -3.2f;
-	}
+	}*/
 
 	return ret;
 }
@@ -375,7 +375,7 @@ void j1Player::Draw()
 		current_animation = &idle;
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
-	if (player_x_dir == LEFT) {//Render FLIP doesnt work if we move camera
+	if (player_x_dir == LEFT) {
 		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
@@ -412,47 +412,56 @@ void j1Player::SavePosition() {
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
-	//if (c2->type == COLLIDER_FLOOR)
-	//{
+	if (c2->type == COLLIDER_WALL)
+	{
+		if (c1->rect.y + c1->rect.h + collision_extra> c2->rect.y  )
+		{
+			player_pos.y -=SPEED_Y;
+			speed.y = 0.0f;
+			touching_floor = true;
+		}
 
+	}
+		/*if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
 
-	//	if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
-
-	//	{
-	//		playerpos.y = playerpos.y + 1;
-	//		speed.y = GRAVITY;
-
-
-
-	//	}
-	//	else if (c1->rect.y + c1->rect.h > c2->rect.y && c1->rect.y + c1->rect.h - 3< c2->rect.y)
-
-	//	{
-
-	//		touching_floor = true;
-	//		if ((c1->rect.x + 5 >= c2->rect.x + c2->rect.w && c1->rect.x - 5 <= c2->rect.x + c2->rect.w)
-	//			|| (c1->rect.x + c1->rect.w - 5 <= c2->rect.x && c1->rect.x + c1->rect.w + 5 >= c2->rect.x)) {
-	//			touching_floor = false;
-
-	//		}
-
-	//	}
-
-
-	//	else if (c1->rect.x + c1->rect.w > c2->rect.x && c1->rect.x + c1->rect.w - 3 < c2->rect.x)
-	//	{
-	//		playerpos.x = playerpos.x - 1;
-
-	//	}
-	//	else if (c1->rect.x < c2->rect.x + c2->rect.w && c1->rect.x + 3 > c2->rect.x + c2->rect.w)
-	//	{
-	//		playerpos.x = playerpos.x + 1;
-
-	//	}
+		{
+			player_pos.y = player_pos.y + 1;
+			speed.y = GRAVITY;
 
 
 
-	//}
+		}
+		else if (c1->rect.y + c1->rect.h > c2->rect.y && c1->rect.y + c1->rect.h - 3< c2->rect.y)
+
+		{
+
+			touching_floor = true;
+			if ((c1->rect.x + 5 >= c2->rect.x + c2->rect.w && c1->rect.x - 5 <= c2->rect.x + c2->rect.w)
+				|| (c1->rect.x + c1->rect.w - 5 <= c2->rect.x && c1->rect.x + c1->rect.w + 5 >= c2->rect.x)) {
+				touching_floor = false;
+
+			}
+
+		}
+
+
+		else if (c1->rect.x + c1->rect.w > c2->rect.x && c1->rect.x + c1->rect.w - 3 < c2->rect.x)
+		{
+			player_pos.x = player_pos.x - 1;
+
+		}
+		else if (c1->rect.x < c2->rect.x + c2->rect.w && c1->rect.x + 3 > c2->rect.x + c2->rect.w)
+		{
+			player_pos.x = player_pos.x + 1;
+
+		}
+
+	}*/
+
+
+
+
+
 	//if (c2->type == COLLIDER_DIE)
 	//{
 	//	playerpos.x = starting_x.as_float();

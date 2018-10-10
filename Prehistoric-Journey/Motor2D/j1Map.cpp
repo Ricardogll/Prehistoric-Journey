@@ -124,6 +124,11 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
+							if (id == 42)
+							{
+								spawn_pos = MapToWorld(x, y);
+
+							}
 						}
 					}
 				}
