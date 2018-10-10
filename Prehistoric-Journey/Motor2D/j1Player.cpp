@@ -414,13 +414,27 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if (c2->type == COLLIDER_WALL)
 	{
-		if (c1->rect.y + c1->rect.h + collision_extra> c2->rect.y  )
+		if (c1->rect.y + c1->rect.h + (int)speed.y + 1> c2->rect.y && touching_floor == false )
 		{
-			player_pos.y -=SPEED_Y;
+			
 			speed.y = 0.0f;
 			touching_floor = true;
 		}
 
+		
+
+		if (c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w) {
+			touching_floor = false;
+		}
+
+		if (c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x) {
+			touching_floor = false;
+		}
+
+		if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x) {
+
+			speed.x = 0.0f;
+		}
 	}
 		/*if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
 
