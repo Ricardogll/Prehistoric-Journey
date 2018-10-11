@@ -546,21 +546,3 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	return true;
 }
 
-/*
-						if (layers_item->data->type == LAYER_BG_FRONT) {
-							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.1f);
-						}
-						else if (layers_item->data->type == LAYER_GROUND) {
-							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
-						}
-						//else if (layers_item->data->type == LAYER_COLLIDER) {
-						//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
-						//}
-						else if (layers_item->data->type == LAYER_BG_1) {
-							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
-						}
-						else if (layers_item->data->type == LAYER_BG_2) {
-							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
-						}
-						else if (layers_item->data->type == LAYER_BG_3) {
-							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.3f);*/

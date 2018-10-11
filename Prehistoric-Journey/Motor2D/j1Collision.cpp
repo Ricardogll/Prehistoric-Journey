@@ -19,9 +19,9 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_LEDGE] = true;
 
-	matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
-	matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
+	//matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
+	//matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
+	//matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
 	
 }
 
