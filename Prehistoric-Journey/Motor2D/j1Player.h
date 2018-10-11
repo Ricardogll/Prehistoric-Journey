@@ -11,7 +11,8 @@
 #define GRAVITY 0.1f 
 #define SPEED_X 2.5f
 #define SPEED_Y 0.25f
-
+#define ACC_X 0.25f
+#define FRICTION 0.25f
 
 struct SDL_texture;
 struct SDL_Rect;
@@ -56,27 +57,31 @@ private:
 
 	SDL_Rect rect_player;
 
-	uint width = 0u;
-	uint height = 0u;
+	/*uint width = 0u;
+	uint height = 0u;*/
 	SDL_Texture* texture = nullptr;
 	fPoint speed;
+	fPoint acceleration;
+	float max_acc_x = 0.5f;
+	float max_speed_x = 2.0f;
+	float jump_force = -5.0f;
 	STATE state = NO_STATE;
 	Animation* current_animation = nullptr;
 
-	STATE last_state = NO_STATE;
-	STATE last_state_2 = NO_STATE;
+	//STATE last_state = NO_STATE;
+	//STATE last_state_2 = NO_STATE;
 	Animation idle;
 	Animation run;
 	Animation jump;
 	
 
-	uint lastTime = 0u;
+	//uint lastTime = 0u;
 	bool jumping = false;
-	bool onGround = true;
+	bool on_ground = false;
 	X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
-
-	int collision_extra = 3;
+	bool key_d_pressed = false;
+	//int collision_extra = 3;
 
 	pugi::xml_attribute starting_x;
 	pugi::xml_attribute starting_y;
@@ -91,14 +96,12 @@ public:
 	fPoint player_pos;
 	Collider* playerCollider;
 	iPoint collider_offset;
-	bool touching_floor = false;
-	uint currentTime = 0;
-	bool ledge_jump_x_disabled = false;
+	//bool touching_floor = false;
+	//uint currentTime = 0;
+	//bool ledge_jump_x_disabled = false;
 	bool player_died = false;
-	bool player_load = false;
+	//bool player_load = false;
 
-	pugi::xml_attribute position_attr_x;
-	pugi::xml_attribute position_attr_y;
 
 };
 

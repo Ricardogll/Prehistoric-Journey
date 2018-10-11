@@ -25,7 +25,7 @@ struct MapLayer {
 	uint height = 0u;
 	uint* data = nullptr;
 	LayerType type = LAYER_NONE;
-	
+	float parallax_vel = 1.0f;
 	MapLayer() : data(NULL){}
 
 	~MapLayer() {
@@ -124,6 +124,8 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 
 	TileSet* GetTilesetFromTileId(int id) const;
+
+	bool RectInsideCamera(int camera_x, int camera_y, uint camera_w, uint camera_h, SDL_Rect &rect);
 
 public:
 

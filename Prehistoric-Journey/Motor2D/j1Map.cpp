@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Collision.h"
+#include "j1Window.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -40,6 +41,11 @@ void j1Map::Draw()
 	p2List_item<TileSet*>* tileset_item = data.tilesets.end;//to print bg first and blit platforms on top of it
 	p2List_item<MapLayer*>* layers_item = data.layers.start;
 
+	/*uint camera_x, camera_y, camera_w, camera_h;
+	App->win->GetWindowSize(camera_w, camera_h);
+	camera_x = App->render->camera.x;
+	camera_y = App->render->camera.y;*/
+	
 	//if (tileset_item->data->Get(i, j) != 0) 
 	while (tileset_item != NULL) {
 
@@ -47,32 +53,55 @@ void j1Map::Draw()
 
 		while (layers_item != NULL) {
 
-			for (int x = 0; x < layers_item->data->width; x++) {
+			uint w, h;
+			
+			App->win->GetWindowSize(w, h);
+
+			iPoint top_left_camera = WorldToMap(-(App->render->camera.x) * layers_item->data->parallax_vel / App->win->GetScale(), 0);
+			iPoint bottom_right_camera = WorldToMap(-(App->render->camera.x) * layers_item->data->parallax_vel + (int)w / App->win->GetScale(), (int)h / App->win->GetScale());
+
+			if (top_left_camera.x < 0)
+				top_left_camera.x = 0;
+
+			if (bottom_right_camera.x > layers_item->data->width)
+				bottom_right_camera.x = layers_item->data->width;
+
+			for(int x = top_left_camera.x; x <= bottom_right_camera.x; x++) {
+				
 
 				for (int y = 0; y < layers_item->data->height; y++) {
 
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
+					/*SDL_Rect tile_pos_world;
+					tile_pos_world.x = world_coords.x;
+					tile_pos_world.y = world_coords.y;
+					tile_pos_world.w = rect.w;
+					tile_pos_world.h = rect.h;
 
-					if (layers_item->data->type == LAYER_BG_FRONT) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.1f);
-					}
-					else if (layers_item->data->type == LAYER_GROUND) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
-					}
-					//else if (layers_item->data->type == LAYER_COLLIDER) {
-					//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+					if (RectInsideCamera(camera_x, camera_y, camera_w, camera_h, rect)) {*/
+
+
+
+						if (layers_item->data->type == LAYER_BG_FRONT) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						}
+						else if (layers_item->data->type == LAYER_GROUND) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						}
+						//else if (layers_item->data->type == LAYER_COLLIDER) {
+						//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						//}
+						else if (layers_item->data->type == LAYER_BG_1) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						}
+						else if (layers_item->data->type == LAYER_BG_2) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						}
+						else if (layers_item->data->type == LAYER_BG_3) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
+						}
 					//}
-					else if (layers_item->data->type == LAYER_BG_1) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
-					}
-					else if (layers_item->data->type == LAYER_BG_2) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
-					}
-					else if (layers_item->data->type == LAYER_BG_3) {
-						App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.3f);
-					}				
-					
 				}
 
 			}
@@ -83,15 +112,43 @@ void j1Map::Draw()
 
 }
 
+bool j1Map::RectInsideCamera(int camera_x, int camera_y, uint camera_w, uint camera_h, SDL_Rect &rect) {
+	bool ret = false;
+	//camera_x = -camera_x;
+	///*if ((rect.x > camera_x && rect.x < camera_x + camera_w)) {
+	//	ret = true;
+	//}*/
+	////if (rect.x < camera_x+camera_w)
+	////	ret = true;
+	//if (rect.x + rect.w > camera_x)
+	//	ret = true;
+
+	return ret;
+}
+
+
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	p2List_item<TileSet*>* tile_item = data.tilesets.start;
+	p2List_item<TileSet*>* item = data.tilesets.start;
+	int gid_prev = 0;
+	int gid_next = 0;
 
-	for (tile_item; tile_item != NULL; tile_item = tile_item->next)
-	{
-		if (tile_item->next == nullptr || tile_item->next->data->firstgid > id)
-			return tile_item->data;
+	for (item; item != NULL; item = item->next) {
+		if (item->prev == NULL)
+			gid_prev = 0;
+		else
+			gid_prev = item->data->firstgid;
+
+		if (item->next == NULL)
+			return item->data;
+		else
+			gid_next = item->next->data->firstgid;
+
+		if (gid_prev <= id && gid_next > id)
+			return item->data;
 	}
+
+	return item->data;
 
 }
 		// TODO 9: Complete the draw function
@@ -115,7 +172,7 @@ void j1Map::setColliders()
 
 						if (layer_item->data->type == LAYER_COLLIDER)
 						{
-							if (id == 27)
+							if (id == 48)
 							{
 								//TileSet* tileset = GetTilesetFromTileId(id);
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
@@ -124,9 +181,18 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
-							if (id == 42)
+							if (id == 77)
 							{
 								spawn_pos = MapToWorld(x, y);
+
+							}
+							if (id == 63)
+							{
+								SDL_Rect rect = tile_item->data->GetTileRect(id);
+								iPoint worldcoord = MapToWorld(x, y);
+								rect.x = worldcoord.x;
+								rect.y = worldcoord.y;
+								App->collision->AddCollider(rect, COLLIDER_LEDGE);
 
 							}
 						}
@@ -440,18 +506,29 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	if (layer->name == "MainGround")
 		layer->type = LAYER_GROUND;
-	else if (layer->name == "Forest")
+	else if (layer->name == "Forest") {
 		layer->type = LAYER_BG_1;
-	else if (layer->name == "Mountains")
+		layer->parallax_vel = 0.8f;
+	}
+	else if (layer->name == "Mountains") {
 		layer->type = LAYER_BG_2;
-	else if (layer->name == "Sky")
+		layer->parallax_vel = 0.5f; // SET VELOCITIES FROM TILED LATER
+	}
+	else if (layer->name == "Sky") {
 		layer->type = LAYER_BG_3;
-	else if (layer->name == "Rocks")
+		layer->parallax_vel = 0.3f;
+	}
+	else if (layer->name == "Rocks") {
 		layer->type = LAYER_BG_FRONT;
+		layer->parallax_vel = 1.1f;
+	}
 	else if (layer->name == "Mainground")
 		layer->type = LAYER_GROUND;
-	else if (layer->name == "Background")
+
+	else if (layer->name == "Background") {
 		layer->type = LAYER_BG_1;
+		layer->parallax_vel = 0.8f;
+	}
 	else if (layer->name == "Colliders")
 		layer->type = LAYER_COLLIDER;
 
@@ -468,3 +545,22 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	return true;
 }
+
+/*
+						if (layers_item->data->type == LAYER_BG_FRONT) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.1f);
+						}
+						else if (layers_item->data->type == LAYER_GROUND) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+						}
+						//else if (layers_item->data->type == LAYER_COLLIDER) {
+						//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 1.0f);
+						//}
+						else if (layers_item->data->type == LAYER_BG_1) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.8f);
+						}
+						else if (layers_item->data->type == LAYER_BG_2) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.5f);
+						}
+						else if (layers_item->data->type == LAYER_BG_3) {
+							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, 0.3f);*/

@@ -109,8 +109,8 @@ bool j1Player::Start()
 
 	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
 	
-	speed.x = 0.0f;
-	speed.y = 0.0f;
+	speed = { 0.0f,0.0f };
+	acceleration = { 0.0f, GRAVITY };//change GRAVITY define for value from xml
 
 	collider_offset.x = 5;
 	collider_offset.y = 10;
@@ -158,7 +158,7 @@ bool j1Player::PostUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT )
 	{
 
-		speed.x = SPEED_X;
+		acceleration.x += ACC_X;
 		if (jumping == false) {
 			state = RUN;
 		}
@@ -171,17 +171,20 @@ bool j1Player::PostUpdate()
 			run.Reset();
 
 		player_x_dir = RIGHT;
+		key_d_pressed = true;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 	{
 		if (jumping == false) {
 			state = IDLE;
 		}
+		acceleration.x = 0.0f;
+		speed.x = 0.0f;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT )
 	{
-		speed.x = -SPEED_X;
+		acceleration.x -= ACC_X;
 		if (jumping == false) {
 			state = RUN;
 		}
@@ -199,17 +202,31 @@ bool j1Player::PostUpdate()
 		if (jumping == false) {
 			state = IDLE;
 		}
+		if (key_d_pressed == false) {
+			acceleration.x = 0.0f;
+			speed.x = 0.0f;
+		}
 
 	}
+	key_d_pressed = false;
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && jumping==false)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
 	{
 		/*if (playerdir == RIGHT)
 			state = JUMP_RIGHT;
 		else if (playerdir == LEFT)
 			state = JUMP_LEFT;*/
+		jump.Reset();
 		state = JUMP;
-		Jumping();
+		speed.y = jump_force;
+		//acceleration.y = GRAVITY;
+		jumping = true;
+		
+		//player_pos.y -= 5;
+		on_ground = false;
+		just_landed = false;
+
+
 		//speed.x = SPEED_X;
 		/*if (in_ledge) {
 			disable_ledge = SDL_GetTicks();
@@ -223,16 +240,24 @@ bool j1Player::PostUpdate()
 
 
 
-	if (touching_floor == false) { 
-		speed.y += GRAVITY;
+	if (on_ground == false) {
+		acceleration.y = GRAVITY;
 		just_landed = false;
 
+		/*if (acceleration.x > 0.0f)
+			acceleration.x -= FRICTION;
+		else if (acceleration.x < 0.0f)
+			acceleration.x += FRICTION;
+
+		if (acceleration.x >= -FRICTION && acceleration.x <= FRICTION) {
+			acceleration.x = 0.0f;
+		}*/
 	}
 	else// if (playerpos.y >= 400) 
 	{
 
-		speed.y = 0.0f;
-		onGround = true;
+		//acceleration.y = 0.0f;
+		on_ground = true;
 
 		//jump_right.Reset();
 		//jump_left.Reset();
@@ -252,31 +277,27 @@ bool j1Player::PostUpdate()
 		
 	}
 
-
-
-	//if (on_ledge_right) {
-
-	//	state = LEDGE_RIGHT;
-	//}
-
-	//if (on_ledge_left) {
-
-	//	state = LEDGE_LEFT;
-	//}
-
-	//if (currentTime > disable_ledge + 50 && disable_ledge != 0) {
-	//	ledge_jump_x_disabled = false;
-	//	ledge_disabled = false;
-	//	LOG("jump x enabled & ledge ON");
-	//	disable_ledge = 0;
-
-	//}
+	
 	player_pos.x += speed.x;
 	player_pos.y += speed.y;
-	speed.x = 0;
+	speed.x += acceleration.x;
+	speed.y += acceleration.y;
+	
+	
+
+	if (speed.x > max_speed_x)
+		speed.x = max_speed_x;
+	if (acceleration.x > max_acc_x)
+		acceleration.x = max_acc_x;
+
+	if (speed.x < -max_speed_x)
+		speed.x = -max_speed_x;
+	if (acceleration.x < -max_acc_x)
+		acceleration.x = -max_acc_x;
+	
+	//speed.x = 0;
 	playerCollider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 	//Draw();
-
 	
 
 	return true;
@@ -285,15 +306,15 @@ bool j1Player::PostUpdate()
 bool j1Player::Jumping() {
 	bool ret = true;
 
-	if (onGround)
+	if (on_ground)
 	{
 		jump.Reset();
 		
 		jumping = true;
 		speed.y = -5.0f;
-		onGround = false;
+		on_ground = false;
 		player_pos.y -= 5;
-		touching_floor = false;
+		on_ground = false;
 		just_landed = false;
 		//App->audio->PlayFx(jumpfx);
 	}
@@ -412,28 +433,31 @@ void j1Player::SavePosition() {
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
-	if (c2->type == COLLIDER_WALL)
+	if (c2->type == COLLIDER_WALL ||c2->type == COLLIDER_LEDGE)
 	{
-		if (c1->rect.y + c1->rect.h + (int)speed.y + 1> c2->rect.y && touching_floor == false )
+		if (c1->rect.y + c1->rect.h + (int)speed.y + 1> c2->rect.y && on_ground == false )
 		{
 			
+			acceleration.y = 0.0f;
 			speed.y = 0.0f;
-			touching_floor = true;
+			on_ground = true;
 		}
 
 		
 
-		if (c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w) {
-			touching_floor = false;
+		if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w ) {
+			on_ground = false;
 		}
 
-		if (c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x) {
-			touching_floor = false;
+		if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x ) {
+			on_ground = false;
 		}
 
-		if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x) {
+		if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x && on_ground && c1->rect.y + c1->rect.h -15 > c2->rect.y) {
 
+			acceleration.x = 0.0f;
 			speed.x = 0.0f;
+
 		}
 	}
 		/*if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
