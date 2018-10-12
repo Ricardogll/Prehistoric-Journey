@@ -32,7 +32,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-private:
+public:
 
 	uint current_map = 0;
 };

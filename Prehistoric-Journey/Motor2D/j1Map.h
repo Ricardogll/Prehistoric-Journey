@@ -8,6 +8,32 @@
 
 // TODO 1: Create a struct for the map layer   **** Lint -> para que te diga warnings (en marketplace de visual studio) (sonar lint?)
 // ----------------------------------------------------
+
+struct Properties
+{
+	struct Property {
+		p2SString name;
+		float value;
+	};
+
+	p2List<Property*> properties;
+
+	~Properties() {
+		p2List_item<Property*>* item = properties.start;
+
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+		properties.clear();
+	}
+
+	float LookForPropertyValue(p2SString name);
+};
+
+
 enum LayerType {
 	LAYER_NONE = -1,
 	LAYER_BG_FRONT,
@@ -26,6 +52,7 @@ struct MapLayer {
 	uint* data = nullptr;
 	LayerType type = LAYER_NONE;
 	float parallax_vel = 1.0f;
+	Properties	properties;
 	MapLayer() : data(NULL){}
 
 	~MapLayer() {
@@ -122,7 +149,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single laye
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-
+	bool LoadLayerProperties(pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
 
 	bool RectInsideCamera(int camera_x, int camera_y, uint camera_w, uint camera_h, SDL_Rect &rect);

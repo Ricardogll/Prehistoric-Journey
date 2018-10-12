@@ -6,6 +6,7 @@
 #include "j1Map.h"
 #include "j1Collision.h"
 #include "j1Window.h"
+#include "j1Scene.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -156,12 +157,10 @@ void j1Map::setColliders()
 {
 	p2List_item<TileSet*>* tile_item = this->data.tilesets.start;
 
-	while (tile_item != NULL)
-	{
+	
 		p2List_item<MapLayer*>* layer_item = this->data.layers.end;
 
-		while (layer_item != NULL)
-		{
+		
 			for (int y = 0; y < data.height; y++)
 			{
 				for (int x = 0; x < data.width; x++)
@@ -172,21 +171,20 @@ void j1Map::setColliders()
 
 						if (layer_item->data->type == LAYER_COLLIDER)
 						{
-							if (id == 48)
+							if ((id == 48 && App->scene->current_map == 1) || (id == 348 && App->scene->current_map == 2))
 							{
-								//TileSet* tileset = GetTilesetFromTileId(id);
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
 								rect.x = worldcoord.x;
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
-							if (id == 77)
+							if ((id == 77 && App->scene->current_map == 1) || (id == 377 && App->scene->current_map == 2))
 							{
 								spawn_pos = MapToWorld(x, y);
 
 							}
-							if (id == 63)
+							if ((id == 63 && App->scene->current_map == 1) || (id == 363 && App->scene->current_map == 2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -198,10 +196,8 @@ void j1Map::setColliders()
 						}
 					}
 				}
-			}
-			layer_item = layer_item->next;
-		}
-		tile_item = tile_item->next;
+			
+		
 	}
 }
 
@@ -501,40 +497,40 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	
 	const int size = layer->height*layer->width;
 	
-	
+	LoadLayerProperties(node, layer->properties);
 	
 	layer->name = node.attribute("name").as_string();
 	if (layer->name == "MainGround")
 		layer->type = LAYER_GROUND;
 	else if (layer->name == "Forest") {
 		layer->type = LAYER_BG_1;
-		layer->parallax_vel = 0.8f;
+		//layer->parallax_vel = 0.8f;
 	}
 	else if (layer->name == "Mountains") {
 		layer->type = LAYER_BG_2;
-		layer->parallax_vel = 0.5f; // SET VELOCITIES FROM TILED LATER
+		//layer->parallax_vel = 0.5f; // 
 	}
 	else if (layer->name == "Sky") {
 		layer->type = LAYER_BG_3;
-		layer->parallax_vel = 0.3f;
+		//layer->parallax_vel = 0.3f;
 	}
 	else if (layer->name == "Rocks") {
 		layer->type = LAYER_BG_FRONT;
-		layer->parallax_vel = 1.1f;
+		//layer->parallax_vel = 1.1f;
 	}
 	else if (layer->name == "Mainground")
 		layer->type = LAYER_GROUND;
 
 	else if (layer->name == "Background") {
 		layer->type = LAYER_BG_1;
-		layer->parallax_vel = 0.8f;
+		//layer->parallax_vel = 0.8f;
 	}
 	else if (layer->name == "Colliders")
 		layer->type = LAYER_COLLIDER;
 
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
-	
+	layer->parallax_vel = layer->properties.LookForPropertyValue("parallax_vel");
 	
 	layer->data = new uint[layer->height * layer->width];
 	memset(layer->data, 0, sizeof(uint)*layer->height * layer->width);
@@ -546,3 +542,45 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	return true;
 }
 
+
+
+bool j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties) {
+
+	bool ret = true;
+
+	pugi::xml_node node_properies = node.child("properties");
+
+	if (node_properies == NULL) {
+		LOG("ERROR Loading Layer Properties");
+		ret = false;
+	}
+	else {
+		pugi::xml_node aux;
+
+		for (aux = node_properies.child("property"); aux; aux = aux.next_sibling("property")) {
+			Properties::Property* prop = new Properties::Property;
+			prop->value = aux.attribute("value").as_float();
+			prop->name = aux.attribute("name").as_string();
+			properties.properties.add(prop);
+
+		}
+	}
+
+	return ret;
+}
+
+float Properties::LookForPropertyValue(p2SString name) {
+
+	p2List_item<Property*>* item = properties.start;
+	while (item != NULL) {
+
+		if (item->data->name == name) {
+			return item->data->value;
+		}
+
+		item = item->next;
+	}
+
+	return 0.0f;
+
+}

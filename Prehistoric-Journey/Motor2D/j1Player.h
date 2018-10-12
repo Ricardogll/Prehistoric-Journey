@@ -51,11 +51,11 @@ public:
 	void SavePosition();
 
 	void Draw();
-	bool Jumping();
+	
 	void OnCollision(Collider* c1, Collider* c2);
 private:
 
-	SDL_Rect rect_player;
+	SDL_Rect player_rect;
 
 	/*uint width = 0u;
 	uint height = 0u;*/
@@ -81,6 +81,7 @@ private:
 	X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
 	bool key_d_pressed = false;
+	bool air_coll_enabled = false;
 	//int collision_extra = 3;
 
 	pugi::xml_attribute starting_x;
