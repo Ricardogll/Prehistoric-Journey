@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Player.h"
+#include "j1Collision.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -84,14 +85,27 @@ bool j1Scene::Update(float dt)
 	{
 		if (current_map == 1) {
 			App->map->CleanUp();
+			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
 			current_map = 2;
+			App->map->setColliders();
+			App->player->player_pos.x = App->map->spawn_pos.x;
+			App->player->player_pos.y = App->map->spawn_pos.y;
 		}
 		else if (current_map == 2) {
 			App->map->CleanUp();
+			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
 			current_map = 1;
+			App->map->setColliders();
+			App->player->player_pos.x = App->map->spawn_pos.x;
+			App->player->player_pos.y = App->map->spawn_pos.y;
 		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		App.
 	}
 
 	//App->render->Blit(img, 0, 0);

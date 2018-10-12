@@ -1,7 +1,7 @@
 #ifndef __j1COLLISION_H__
 #define __j1COLLISION_H__
 
-#define MAX_COLLIDERS 5000
+#define MAX_COLLIDERS 1000
 
 #include "j1Module.h"
 #include "j1Player.h"
@@ -14,8 +14,8 @@ enum COLLIDER_TYPE
 	COLLIDER_PLAYER,
 	COLLIDER_DEAD,
 	COLLIDER_LIANA,
-	COLLIDER_MAX,
-	COLLIDER_LEDGE
+	COLLIDER_LEDGE,
+	COLLIDER_MAX
 };
 
 struct Collider
@@ -51,6 +51,7 @@ public:
 	bool Update(float dt);
 	//update_status PostUpdate();
 	bool CleanUp();
+	bool CleanUpMap();
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();

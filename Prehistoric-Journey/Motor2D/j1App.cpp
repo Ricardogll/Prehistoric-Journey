@@ -9,6 +9,7 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "j1Scene.h"
+#include "j1FadeToBlack.h"
 #include "j1Map.h"
 #include "j1App.h"
 #include "j1Collision.h"
@@ -26,6 +27,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	fade = new j1FadeToBlack();
 	map = new j1Map();
 	collision = new j1Collision();
 	player = new j1Player();
@@ -38,6 +40,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
+	AddModule(fade);
 	AddModule(collision);
 	AddModule(player);
 

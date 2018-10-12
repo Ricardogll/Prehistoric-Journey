@@ -19,9 +19,9 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_LEDGE] = true;
 
-	//matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
-	//matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
-	//matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
+	matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
+	matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
 	
 }
 
@@ -119,6 +119,19 @@ bool j1Collision::CleanUp()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] != nullptr)
+		{
+			delete colliders[i];
+			colliders[i] = nullptr;
+		}
+	}
+	return true;
+}
+
+bool j1Collision::CleanUpMap()
+{
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i] != nullptr && colliders[i]->type != COLLIDER_PLAYER)
 		{
 			delete colliders[i];
 			colliders[i] = nullptr;
