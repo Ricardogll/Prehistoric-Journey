@@ -146,7 +146,7 @@ void j1Map::setColliders()
 
 						if (layer_item->data->type == LAYER_COLLIDER)
 						{
-							if ((id == 48 && App->curr_map == map_1) || (id == 198 && App->curr_map == map_2))
+							if ((id == 48 && App->scene->curr_map == MAP_1) || (id == 198 && App->scene->curr_map == MAP_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -154,7 +154,7 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
-							if ((id == 77 && App->curr_map == map_1) || (id == 227 && App->curr_map == map_2))
+							if ((id == 77 && App->scene->curr_map == MAP_1) || (id == 227 && App->scene->curr_map == MAP_2))
 							{
 								spawn_pos = MapToWorld(x,y);
 								spawn_pos.y += 8;
@@ -162,7 +162,7 @@ void j1Map::setColliders()
 								App->player->last_saved_pos.y = spawn_pos.y;*/
 
 							}
-							if ((id == 63 && App->curr_map == map_1) || (id == 213 && App->curr_map == map_2))
+							if ((id == 63 && App->scene->curr_map == MAP_1) || (id == 213 && App->scene->curr_map == MAP_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -171,7 +171,7 @@ void j1Map::setColliders()
 								App->collision->AddCollider(rect, COLLIDER_LEDGE);
 
 							}
-							if ((id == 75 && App->curr_map == map_1) || (id == 225 && App->curr_map == map_2))
+							if ((id == 75 && App->scene->curr_map == MAP_1) || (id == 225 && App->scene->curr_map == MAP_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -179,7 +179,7 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_LIANA);
 							}
-							if ((id == 76 && App->curr_map == map_1) || (id == 226 && App->curr_map == map_2))
+							if ((id == 76 && App->scene->curr_map == MAP_1) || (id == 226 && App->scene->curr_map == MAP_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -187,7 +187,7 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_LEVEL_END);
 							}
-							if ((id == 49 && App->curr_map == map_1) || (id == 199 && App->curr_map == map_2))
+							if ((id == 49 && App->scene->curr_map == MAP_1) || (id == 199 && App->scene->curr_map == MAP_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);

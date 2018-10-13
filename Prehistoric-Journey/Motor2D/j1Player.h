@@ -7,7 +7,7 @@
 #include	"p2Point.h"
 #include	"j1Textures.h"
 #include	"Animation.h"
-
+//#include	"j1Scene.h"
 
 
 
@@ -15,6 +15,7 @@ struct SDL_texture;
 struct SDL_Rect;
 struct Collider;
 struct Mix_Chunk;
+
 
 
 enum STATE {
@@ -53,6 +54,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	void LoadVariablesXML(pugi::xml_node& player_node);
+	
 private:
 
 	SDL_Rect player_rect = { 0,0 };
@@ -100,7 +102,7 @@ public:
 
 	fPoint last_saved_pos = { 0.0f,0.0f };
 	fPoint player_pos = { 0.0f,0.0f };
-	CurrentMap saved_map = map_1;
+	int saved_map = 1;
 	iPoint collider_offset = { 0,0 };
 	bool player_died = false;
 	bool change_map = false;

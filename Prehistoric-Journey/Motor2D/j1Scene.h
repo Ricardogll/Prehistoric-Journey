@@ -5,6 +5,13 @@
 
 struct SDL_Texture;
 
+enum CurrentMap
+{
+	NO_MAP = 0,
+	MAP_1,
+	MAP_2,
+};
+
 class j1Scene : public j1Module
 {
 public:
@@ -32,6 +39,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+public:
+	CurrentMap curr_map = NO_MAP;
 private:
 	bool is_fade = false;
 

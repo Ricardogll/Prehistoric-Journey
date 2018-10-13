@@ -103,8 +103,9 @@ bool j1Player::Start()
 	player_pos.y = App->map->spawn_pos.y;
 	player_x_dir = RIGHT;
 
-	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
-	
+	last_saved_pos.x = App->map->spawn_pos.x;
+	last_saved_pos.y = App->map->spawn_pos.y;
+
 	speed = { 0.0f,0.0f };
 	acceleration = { 0.0f, GRAVITY };
 
@@ -348,6 +349,9 @@ bool j1Player::CleanUp()
 {
 	LOG("Destroying player");
 	bool ret = true;
+
+	
+
 	return ret;
 }
 
@@ -358,6 +362,7 @@ bool j1Player::Load(pugi::xml_node& node)
 
 	last_saved_pos.x = node.child("position").attribute("x").as_int();
 	last_saved_pos.y = node.child("position").attribute("y").as_int();
+	saved_map = node.child("position").attribute("map").as_int();
 	player_pos.x = last_saved_pos.x;
 	player_pos.y = last_saved_pos.y;
 
@@ -370,9 +375,7 @@ bool j1Player::Save(pugi::xml_node& node) const
 	pugi::xml_node position = node.append_child("position");
 	position.append_attribute("x").set_value(player_pos.x);
 	position.append_attribute("y").set_value(player_pos.y);
-	
-	saved_map = CurrentMap::map_1;
-
+	position.append_attribute("map").set_value(App->scene->curr_map);
 	return true;
 }
 
