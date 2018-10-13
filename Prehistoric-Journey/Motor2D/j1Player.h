@@ -13,6 +13,7 @@
 #define SPEED_Y 0.25f
 #define ACC_X 0.25f
 #define FRICTION 0.25f
+#define LIANA_SPEED 1.0f
 
 struct SDL_texture;
 struct SDL_Rect;
@@ -24,6 +25,7 @@ enum STATE {
 	IDLE,
 	RUN,
 	JUMP,
+	LIANA,
 	NO_STATE,
 };
 
@@ -65,6 +67,7 @@ private:
 	float max_acc_x = 0.5f;
 	float max_speed_x = 2.0f;
 	float jump_force = -5.0f;
+	float jump_force_liana = -4.0f;
 	STATE state = NO_STATE;
 	Animation* current_animation = nullptr;
 
@@ -73,15 +76,18 @@ private:
 	Animation idle;
 	Animation run;
 	Animation jump;
-	
+	Animation climbing;
+	Animation climbing_idle;
 
 	//uint lastTime = 0u;
 	bool jumping = false;
 	bool on_ground = false;
+	bool on_liana = false;
 	X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
 	bool key_d_pressed = false;
-	bool air_coll_enabled = false;
+	bool key_w_pressed = false;
+	bool colliding_with_liana = false;
 	//int collision_extra = 3;
 
 	pugi::xml_attribute starting_x;

@@ -14,15 +14,23 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_LEDGE] = false;
+	matrix[COLLIDER_WALL][COLLIDER_LIANA] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_LEDGE] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_LIANA] = true;
 
 	matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
 	matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
-	
+	matrix[COLLIDER_LEDGE][COLLIDER_LIANA] = false;
+
+	matrix[COLLIDER_LIANA][COLLIDER_WALL] = false;
+	matrix[COLLIDER_LIANA][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_LIANA][COLLIDER_LEDGE] = false;
+	matrix[COLLIDER_LIANA][COLLIDER_LIANA] = false;
+
 }
 
 j1Collision::~j1Collision()
@@ -108,6 +116,8 @@ void j1Collision::DebugDraw()
 			break;
 		case COLLIDER_LEDGE:
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
+		case COLLIDER_LIANA:
+			App->render->DrawQuad(colliders[i]->rect, 255, 248, 220, alpha);
 			
 		}
 

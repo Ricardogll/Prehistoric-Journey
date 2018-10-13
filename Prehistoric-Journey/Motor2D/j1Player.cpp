@@ -64,6 +64,15 @@ j1Player::j1Player() : j1Module()
 	//jump.PushBack({ 215, 219, 56,60 });
 	jump.speed = 0.05f;
 	jump.loop = false;
+
+
+	climbing.PushBack({ 21,431,45,61 });
+	climbing.PushBack({ 118,431,45,61 });
+	climbing.PushBack({ 214,431,45,61 });
+	climbing.PushBack({ 312,431,45,61 });
+	climbing.speed = 0.05f;//make climbing_idle take the last frame from climbing
+	
+
 }
 
 
@@ -154,63 +163,121 @@ bool j1Player::PostUpdate()
 	//	speed.y = 0;
 	//	speed.x = 0;
 	//}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT )
+	key_w_pressed = false;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
+		key_w_pressed = true;
+	}
 
-		acceleration.x += ACC_X;
-		if (jumping == false) {
-			state = RUN;
+	if (colliding_with_liana == false) {
+		
+		on_liana = false;
+	}
+	if (on_liana) {
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			player_pos.x += LIANA_SPEED;
+			player_x_dir = RIGHT;
 		}
-		else {
-			state = JUMP;
-		}
-
-
-		if (player_x_dir == LEFT)
-			run.Reset();
-
-		player_x_dir = RIGHT;
-		key_d_pressed = true;
-	}else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT )
-	{
-		acceleration.x -= ACC_X;
-		if (jumping == false) {
-			state = RUN;
-		}
-		else {
-			state = JUMP;
-		}
-
-		if (player_x_dir == RIGHT) {
-			run.Reset();
-
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			player_pos.x -= LIANA_SPEED;
 			player_x_dir = LEFT;
 		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
-	{
-		if (jumping == false) {
-			state = IDLE;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			player_pos.y += LIANA_SPEED;
 		}
-		acceleration.x = 0.0f;
-		speed.x = 0.0f;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP )
-	{
-		if (jumping == false) {
-			state = IDLE;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			player_pos.y -= LIANA_SPEED;
 		}
-		if (key_d_pressed == false) {
+
+		state = LIANA;
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			jump.Reset();
+			state = JUMP;
+			speed.y = jump_force_liana;
+			
+			jumping = true;
+
+			
+			on_ground = false;
+			just_landed = false;
+			on_liana = false;
+
+			if (player_x_dir == LEFT) {
+				speed.x = -max_speed_x;
+				acceleration.x = -max_acc_x;
+			}
+			if (player_x_dir == RIGHT) {
+				speed.x = max_speed_x;
+				acceleration.x = max_acc_x;
+			}
+		}
+		
+	}
+	else {
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+
+			acceleration.x += ACC_X;
+			if (jumping == false) {
+				state = RUN;
+			}
+			else {
+				state = JUMP;
+			}
+
+
+			if (player_x_dir == LEFT)
+				run.Reset();
+
+			player_x_dir = RIGHT;
+			key_d_pressed = true;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			acceleration.x -= ACC_X;
+			if (jumping == false) {
+				state = RUN;
+			}
+			else {
+				state = JUMP;
+			}
+
+			if (player_x_dir == RIGHT) {
+				run.Reset();
+
+				player_x_dir = LEFT;
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+		{
+			if (jumping == false) {
+				state = IDLE;
+			}
 			acceleration.x = 0.0f;
 			speed.x = 0.0f;
 		}
 
-	}
-	key_d_pressed = false;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+		{
+			if (jumping == false) {
+				state = IDLE;
+			}
+			if (key_d_pressed == false) {
+				acceleration.x = 0.0f;
+				speed.x = 0.0f;
+			}
 
+		}
+		key_d_pressed = false;
+
+	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
 	{
 		/*if (playerdir == RIGHT)
@@ -278,13 +345,15 @@ bool j1Player::PostUpdate()
 		
 	}
 
+	if (on_liana)
+		acceleration.y = 0.0f;
 	
 	player_pos.x += speed.x;
 	player_pos.y += speed.y;
 	speed.x += acceleration.x;
 	speed.y += acceleration.y;
 	
-	
+	colliding_with_liana = false;
 
 	if (speed.x > max_speed_x)
 		speed.x = max_speed_x;
@@ -349,10 +418,11 @@ void j1Player::Draw()
 
 	case JUMP:
 		current_animation = &jump;
-		//if (current_animation->Finished()) {
-			//jump.Reset();
-			//state = NO_STATE;
-		//}
+		
+		break;
+
+	case LIANA:
+		current_animation = &climbing;
 		break;
 
 	default:
@@ -375,7 +445,7 @@ void j1Player::Draw()
 		current_animation = &idle;
 	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
-	if (player_x_dir == LEFT) {
+	if (player_x_dir == LEFT && on_liana==false) {
 		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
@@ -476,7 +546,17 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			}
 		}
 
+		//****LIANAS
+		if (c2->type == COLLIDER_LIANA) {
+			colliding_with_liana = true;
+		}
 
+
+		if (c2->type == COLLIDER_LIANA && key_w_pressed) {
+			acceleration = { 0.0f,0.0f };
+			speed = { 0.0f,0.0f };
+			on_liana = true;
+		}
 
 	}
 		/*if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)

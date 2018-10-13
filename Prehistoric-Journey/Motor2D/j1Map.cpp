@@ -113,19 +113,7 @@ void j1Map::Draw()
 
 }
 
-bool j1Map::RectInsideCamera(int camera_x, int camera_y, uint camera_w, uint camera_h, SDL_Rect &rect) {
-	bool ret = false;
-	//camera_x = -camera_x;
-	///*if ((rect.x > camera_x && rect.x < camera_x + camera_w)) {
-	//	ret = true;
-	//}*/
-	////if (rect.x < camera_x+camera_w)
-	////	ret = true;
-	//if (rect.x + rect.w > camera_x)
-	//	ret = true;
 
-	return ret;
-}
 
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
@@ -192,6 +180,14 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_LEDGE);
 
+							}
+							if ((id == 75 && App->curr_map == map_1) || (id == 375 && App->curr_map == map_2))
+							{
+								SDL_Rect rect = tile_item->data->GetTileRect(id);
+								iPoint worldcoord = MapToWorld(x, y);
+								rect.x = worldcoord.x;
+								rect.y = worldcoord.y;
+								App->collision->AddCollider(rect, COLLIDER_LIANA);
 							}
 						}
 					}

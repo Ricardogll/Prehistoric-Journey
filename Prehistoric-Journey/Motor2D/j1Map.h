@@ -152,7 +152,7 @@ private:
 	bool LoadLayerProperties(pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
 
-	bool RectInsideCamera(int camera_x, int camera_y, uint camera_w, uint camera_h, SDL_Rect &rect);
+	
 
 public:
 
