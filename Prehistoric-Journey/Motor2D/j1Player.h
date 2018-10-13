@@ -80,7 +80,8 @@ private:
 	
 	Collider* player_collider = nullptr;
 
-	uint jumpfx;
+	uint jump_fx;
+	uint lose_fx;
 
 	//****XML variables
 
@@ -97,12 +98,12 @@ private:
 
 public:
 
-
+	fPoint last_saved_pos = { 0.0f,0.0f };
 	fPoint player_pos = { 0.0f,0.0f };
-	
+	CurrentMap saved_map = map_1;
 	iPoint collider_offset = { 0,0 };
 	bool player_died = false;
-	
+	bool change_map = false;
 
 
 };

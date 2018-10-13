@@ -34,13 +34,13 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 
-	if (!is_fade)
+	if (App->curr_map == none)
 	{
 		App->map->Load("Jungle.tmx");
 		App->curr_map = map_1;
 		App->map->setColliders();
 
-		App->audio->PlayMusic("audio/theme-1.ogg");
+		App->audio->PlayMusic("audio/music/theme-1.ogg");
 	}
 
 
@@ -69,7 +69,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -84,8 +84,30 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 10;
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN ||App->player->change_map)
 	{
+		App->player->change_map = false;
+
+		if (App->curr_map == map_1) {
+			App->curr_map = map_1;
+			App->fade->FadeToBlack(this, this, 3.0f);
+			App->player->player_pos.x = App->map->spawn_pos.x;
+			App->player->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+		}
+		else if (App->curr_map == map_2) {
+			App->curr_map = map_1;
+			App->fade->FadeToBlack(this, this, 3.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Jungle.tmx");
+			App->map->setColliders();
+			App->player->player_pos.x = App->map->spawn_pos.x;
+			App->player->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+		}
+
+		/*
 		if (App->curr_map == map_1) {
 			App->curr_map = map_2;
 			App->fade->FadeToBlack(this, this, 3.0f);
@@ -106,10 +128,30 @@ bool j1Scene::Update(float dt)
 			App->map->setColliders();
 			App->player->player_pos.x = App->map->spawn_pos.x;
 			App->player->player_pos.y = App->map->spawn_pos.y;
-		}
+		}*/
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN || App->player->change_map)
+	{
+		App->curr_map = map_2;
+		App->fade->FadeToBlack(this, this, 3.0f);
+		App->map->CleanUp();
+		App->collision->CleanUpMap();
+		App->map->Load("Cave.tmx");
+		App->map->setColliders();
+		App->player->player_pos.x = App->map->spawn_pos.x;
+		App->player->player_pos.y = App->map->spawn_pos.y;
+		is_fade = true;
+		App->player->change_map = false;
+	}
+
+
+	if (App->player->player_died) {
+		App->player->player_died = false;
+		App->fade->FadeToBlack(this, this, 3.0f);
+	}
+
+
 	App->map->Draw();
 	App->player->Draw();
 	

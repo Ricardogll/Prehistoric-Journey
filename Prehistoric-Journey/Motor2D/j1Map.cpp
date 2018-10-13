@@ -156,7 +156,10 @@ void j1Map::setColliders()
 							}
 							if ((id == 77 && App->curr_map == map_1) || (id == 227 && App->curr_map == map_2))
 							{
-								spawn_pos = MapToWorld(x, y);
+								spawn_pos = MapToWorld(x,y);
+								spawn_pos.y += 8;
+								/*App->player->last_saved_pos.x = spawn_pos.x;
+								App->player->last_saved_pos.y = spawn_pos.y;*/
 
 							}
 							if ((id == 63 && App->curr_map == map_1) || (id == 213 && App->curr_map == map_2))
@@ -175,6 +178,22 @@ void j1Map::setColliders()
 								rect.x = worldcoord.x;
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_LIANA);
+							}
+							if ((id == 76 && App->curr_map == map_1) || (id == 226 && App->curr_map == map_2))
+							{
+								SDL_Rect rect = tile_item->data->GetTileRect(id);
+								iPoint worldcoord = MapToWorld(x, y);
+								rect.x = worldcoord.x;
+								rect.y = worldcoord.y;
+								App->collision->AddCollider(rect, COLLIDER_LEVEL_END);
+							}
+							if ((id == 49 && App->curr_map == map_1) || (id == 199 && App->curr_map == map_2))
+							{
+								SDL_Rect rect = tile_item->data->GetTileRect(id);
+								iPoint worldcoord = MapToWorld(x, y);
+								rect.x = worldcoord.x;
+								rect.y = worldcoord.y;
+								App->collision->AddCollider(rect, COLLIDER_DEAD);
 							}
 						}
 					}
