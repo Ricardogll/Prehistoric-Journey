@@ -25,24 +25,11 @@ j1Player::j1Player() : j1Module()
 	idle.PushBack({ 312,8,45,57 });
 	idle.PushBack({ 409,8,45,57 });
 	idle.PushBack({ 506,8,45,57 });
-	//idle.PushBack({ 118,8,45,57 });
+	
 	idle.speed = 0.05f;
 	
 	
-	/*run.PushBack({ 112,76,60,61 });
-	run.PushBack({ 209,76,60,61 });
-	run.PushBack({ 306,76,60,61 });
-	run.PushBack({ 403,76,60,61 });
-	run.PushBack({ 500,76,60,61 });
-	run.PushBack({ 15,148,60,61 });
-	run.PushBack({ 112,148,60,61 });
-	run.PushBack({ 209,148,60,61 });
-	run.PushBack({ 306,148,60,61 });
-	run.PushBack({ 403,148,60,61 });
-	run.PushBack({ 500,148,60,61 });
-	run.PushBack({ 15,148,60,61 });
-	run.PushBack({ 112,219,60,61 });
-	run.PushBack({ 212,219,60,61 });*/
+
 	run.PushBack({ 112,76,60,61 });
 	run.PushBack({ 209,76,60,61 });
 	run.PushBack({ 306,76,60,61 });
@@ -61,7 +48,7 @@ j1Player::j1Player() : j1Module()
 	jump.PushBack({ 502, 148, 56,60 });
 	jump.PushBack({ 17, 219, 56,60 });
 	jump.PushBack({ 114, 219, 56,60 });
-	//jump.PushBack({ 215, 219, 56,60 });
+	
 	jump.speed = 0.05f;
 	jump.loop = false;
 
@@ -70,7 +57,10 @@ j1Player::j1Player() : j1Module()
 	climbing.PushBack({ 118,431,45,61 });
 	climbing.PushBack({ 214,431,45,61 });
 	climbing.PushBack({ 312,431,45,61 });
-	climbing.speed = 0.05f;//make climbing_idle take the last frame from climbing
+	climbing.speed = 0.05f;
+
+	climbing_idle.PushBack({ 21,431,45,61 });
+	climbing_idle.speed = 0.0f;
 	
 
 }
@@ -89,13 +79,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	LOG("Loading Player");
 	bool ret = true;
 
-	/*save_file.load_file("save_game.xml");
-	positionnode = save_file.child("game_state").child("position");
-	position_attr_x = positionnode.child("position").attribute("x");
-	position_attr_y = positionnode.child("position").attribute("y");
-	starting_x = positionnode.child("start").attribute("x");
-	starting_y = positionnode.child("start").attribute("y");*/
-
+	if (config != NULL)
+		LoadVariablesXML(config);
 
 
 
@@ -119,11 +104,11 @@ bool j1Player::Start()
 	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
 	
 	speed = { 0.0f,0.0f };
-	acceleration = { 0.0f, GRAVITY };//change GRAVITY define for value from xml
+	acceleration = { 0.0f, GRAVITY };
 
 	collider_offset.x = 5;
 	collider_offset.y = 10;
-	playerCollider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 }, COLLIDER_PLAYER, this);
+	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 }, COLLIDER_PLAYER, this);
 	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 };
 
 	return ret;
@@ -138,31 +123,7 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	//currentTime = SDL_GetTicks();
 
-	//if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-	//	SavePosition();
-	//}
-
-	//if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-	//	LoadPosition();
-	//	player_load = true;
-	//	state = IDLE_RIGHT;
-	//	touching_floor = false;
-	//	speed.y = 0;
-	//	speed.x = 0;
-
-	//}
-
-	//if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-	//	playerpos.x = starting_x.as_float();
-	//	playerpos.y = starting_y.as_float();
-	//	player_load = true;
-	//	state = IDLE_RIGHT;
-	//	touching_floor = false;
-	//	speed.y = 0;
-	//	speed.x = 0;
-	//}
 	key_w_pressed = false;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
@@ -174,31 +135,50 @@ bool j1Player::PostUpdate()
 		on_liana = false;
 	}
 	if (on_liana) {
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+		{
+			state = LIANA_IDLE;
+		}else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+		{
+			state = LIANA_IDLE;
+		}else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+		{
+			state = LIANA_IDLE;
+		}else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+		{
+			state = LIANA_IDLE;
+		}
+
+
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			player_pos.x += LIANA_SPEED;
 			player_x_dir = RIGHT;
+			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			player_pos.x -= LIANA_SPEED;
 			player_x_dir = LEFT;
+			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
 			player_pos.y += LIANA_SPEED;
+			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
 			player_pos.y -= LIANA_SPEED;
+			state = LIANA;
 		}
 
-		state = LIANA;
+		
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			jump.Reset();
 			state = JUMP;
-			speed.y = jump_force_liana;
+			speed.y = JUMP_FORCE_LIANA;
 			
 			jumping = true;
 
@@ -208,12 +188,12 @@ bool j1Player::PostUpdate()
 			on_liana = false;
 
 			if (player_x_dir == LEFT) {
-				speed.x = -max_speed_x;
-				acceleration.x = -max_acc_x;
+				speed.x = -MAX_SPEED_X;
+				acceleration.x = -MAX_ACC_X;
 			}
 			if (player_x_dir == RIGHT) {
-				speed.x = max_speed_x;
-				acceleration.x = max_acc_x;
+				speed.x = MAX_SPEED_X;
+				acceleration.x = MAX_ACC_X;
 			}
 		}
 		
@@ -223,7 +203,7 @@ bool j1Player::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 
-			acceleration.x += ACC_X;
+			acceleration.x += ACCELERATION_X;
 			if (jumping == false) {
 				state = RUN;
 			}
@@ -240,7 +220,7 @@ bool j1Player::PostUpdate()
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			acceleration.x -= ACC_X;
+			acceleration.x -= ACCELERATION_X;
 			if (jumping == false) {
 				state = RUN;
 			}
@@ -280,30 +260,19 @@ bool j1Player::PostUpdate()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
 	{
-		/*if (playerdir == RIGHT)
-			state = JUMP_RIGHT;
-		else if (playerdir == LEFT)
-			state = JUMP_LEFT;*/
+		
 		jump.Reset();
 		state = JUMP;
-		speed.y = jump_force;
-		//acceleration.y = GRAVITY;
+		speed.y = JUMP_FORCE;
+		
 		jumping = true;
 		
-		//player_pos.y -= 5;
+		
 		on_ground = false;
 		just_landed = false;
 
 
-		//speed.x = SPEED_X;
-		/*if (in_ledge) {
-			disable_ledge = SDL_GetTicks();
-			ledge_disabled = true;
-			ledge_jump_x_disabled = true;
-			in_ledge = false;
-			on_ledge_left = false;
-			on_ledge_right = false;
-		}*/
+	
 	}
 
 
@@ -312,24 +281,15 @@ bool j1Player::PostUpdate()
 		acceleration.y = GRAVITY;
 		just_landed = false;
 
-		/*if (acceleration.x > 0.0f)
-			acceleration.x -= FRICTION;
-		else if (acceleration.x < 0.0f)
-			acceleration.x += FRICTION;
-
-		if (acceleration.x >= -FRICTION && acceleration.x <= FRICTION) {
-			acceleration.x = 0.0f;
-		}*/
+	
 	}
-	else// if (playerpos.y >= 400) 
+	else 
 	{
 
-		//acceleration.y = 0.0f;
+		
 		on_ground = true;
 
-		//jump_right.Reset();
-		//jump_left.Reset();
-		//jump.Reset();
+		
 		jumping = false;
 
 		if (just_landed == false) {
@@ -355,19 +315,19 @@ bool j1Player::PostUpdate()
 	
 	colliding_with_liana = false;
 
-	if (speed.x > max_speed_x)
-		speed.x = max_speed_x;
-	if (acceleration.x > max_acc_x)
-		acceleration.x = max_acc_x;
+	if (speed.x > MAX_SPEED_X)
+		speed.x = MAX_SPEED_X;
+	if (acceleration.x > MAX_ACC_X)
+		acceleration.x = MAX_ACC_X;
 
-	if (speed.x < -max_speed_x)
-		speed.x = -max_speed_x;
-	if (acceleration.x < -max_acc_x)
-		acceleration.x = -max_acc_x;
+	if (speed.x < -MAX_SPEED_X)
+		speed.x = -MAX_SPEED_X;
+	if (acceleration.x < -MAX_ACC_X)
+		acceleration.x = -MAX_ACC_X;
 	
-	//speed.x = 0;
-	playerCollider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
-	//Draw();
+	
+	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
+	
 	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, 38, 48 };
 
 	return true;
@@ -424,26 +384,16 @@ void j1Player::Draw()
 	case LIANA:
 		current_animation = &climbing;
 		break;
-
+	case LIANA_IDLE:
+		current_animation = &climbing_idle;
+		break;
 	default:
 		current_animation = &idle;
 
 	}
 
 
-	////so jump animation doesnt get stuck if we just jump and not press anything else after
-	//if (current_animation->Finished() && current_animation == &jump_right && touching_floor) {
-	//	current_animation = &idle_right;
-	//}
-	//else if (current_animation->Finished() && current_animation == &jump_left && touching_floor) {
-	//	current_animation = &idle_left;
-	//}
 
-	/*if (current_animation==&jump && onGround)
-	{
-		
-		current_animation = &idle;
-	}*/
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT && on_liana==false) {
 		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
@@ -452,11 +402,7 @@ void j1Player::Draw()
 		App->render->Blit(texture, player_pos.x, player_pos.y, &(current_animation->GetCurrentFrame()));
 	}
 
-	//if (last_state != last_state_2)
-	//	last_state_2 = last_state;
-
-	//if (last_state != state)
-	//	last_state = state;
+	
 	
 
 
@@ -464,20 +410,6 @@ void j1Player::Draw()
 
 
 
-
-void j1Player::LoadPosition() {
-
-
-	//playerpos.x = position_attr_x.as_int();
-	//playerpos.y = position_attr_y.as_int();
-
-}
-
-
-void j1Player::SavePosition() {
-	//position_attr_x.set_value(playerpos.x);
-	//position_attr_y.set_value(playerpos.y);
-}
 
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
@@ -504,15 +436,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
 		{
-			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 348 || down_right_gid == 363 || down_right_gid == 362) && (down_left_gid == 48|| down_left_gid == 63 || down_left_gid == 62|| down_left_gid == 348 || down_left_gid == 363 || down_left_gid == 362))
-			{
+			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
 
 				acceleration.y = 0.0f;
 				speed.y = 0.0f;
 				on_ground = true;
 			}
 
-			if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62|| up_right_gid == 348 || up_right_gid == 363 || up_right_gid == 362) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62|| up_left_gid == 348 || up_left_gid == 363 || up_left_gid == 362)) {
+			if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
 				if (speed.y < 0.0f) {
 					speed.y = -speed.y;
 				}
@@ -559,117 +490,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 
 	}
-		/*if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
-
-		{
-			player_pos.y = player_pos.y + 1;
-			speed.y = GRAVITY;
+		
+}
 
 
+void j1Player::LoadVariablesXML(pugi::xml_node& player_node) {
 
-		}
-		else if (c1->rect.y + c1->rect.h > c2->rect.y && c1->rect.y + c1->rect.h - 3< c2->rect.y)
+	pugi::xml_node variables = player_node.child("variables");
 
-		{
-
-			touching_floor = true;
-			if ((c1->rect.x + 5 >= c2->rect.x + c2->rect.w && c1->rect.x - 5 <= c2->rect.x + c2->rect.w)
-				|| (c1->rect.x + c1->rect.w - 5 <= c2->rect.x && c1->rect.x + c1->rect.w + 5 >= c2->rect.x)) {
-				touching_floor = false;
-
-			}
-
-		}
-
-
-		else if (c1->rect.x + c1->rect.w > c2->rect.x && c1->rect.x + c1->rect.w - 3 < c2->rect.x)
-		{
-			player_pos.x = player_pos.x - 1;
-
-		}
-		else if (c1->rect.x < c2->rect.x + c2->rect.w && c1->rect.x + 3 > c2->rect.x + c2->rect.w)
-		{
-			player_pos.x = player_pos.x + 1;
-
-		}
-
-	}*/
-
-
-
-
-
-	//if (c2->type == COLLIDER_DIE)
-	//{
-	//	playerpos.x = starting_x.as_float();
-	//	playerpos.y = starting_y.as_float();
-	//	speed.x = 0;
-	//	speed.y = 0;
-	//	player_died = true;
-
-	//}
-
-	//if (c2->type == COLLIDER_LEDGE && in_ledge == false && ledge_disabled == false)
-	//{
-
-
-	//	//same as FLOOR until...
-	//	if (c1->rect.y < c2->rect.y + c2->rect.h && c1->rect.y + 3 > c2->rect.y + c2->rect.h)
-
-	//	{
-	//		playerpos.y = playerpos.y + 1;
-	//		speed.y = GRAVITY;
-
-
-
-	//	}
-	//	else if (c1->rect.y + c1->rect.h > c2->rect.y && c1->rect.y + c1->rect.h - 3< c2->rect.y)
-
-	//	{
-
-
-	//		touching_floor = true;
-	//		if ((c1->rect.x + 5 >= c2->rect.x + c2->rect.w && c1->rect.x - 5 <= c2->rect.x + c2->rect.w)
-	//			|| (c1->rect.x + c1->rect.w - 5 <= c2->rect.x && c1->rect.x + c1->rect.w + 5 >= c2->rect.x)) {
-	//			touching_floor = false;
-
-	//		}
-
-	//	}
-
-
-	//	else if (c1->rect.x + c1->rect.w > c2->rect.x && c1->rect.x + c1->rect.w - 3 < c2->rect.x)
-	//	{
-	//		playerpos.x = playerpos.x - 1;
-
-	//	}
-	//	else if (c1->rect.x < c2->rect.x + c2->rect.w && c1->rect.x + 3 > c2->rect.x + c2->rect.w)
-	//	{
-	//		playerpos.x = playerpos.x + 1;
-
-	//	}
-
-
-	//	// here.
-	//	//if player y is between ledge y and half of its height, then he will grab
-
-
-	//	if (c2->rect.y < c1->rect.y && c1->rect.y - (c2->rect.h / 2) < c2->rect.y) {
-	//		speed.x = 0;
-	//		ledge_right.Reset();
-	//		ledge_left.Reset();
-
-	//		if (c1->rect.x < c2->rect.x) {
-	//			state = LEDGE_RIGHT;
-	//			on_ledge_right = true;
-	//		}
-	//		else {
-	//			state = LEDGE_LEFT;
-	//			on_ledge_left = true;
-	//		}
-	//		in_ledge = true;
-	//	}
-
-
-	//}
+	GRAVITY = variables.child("GRAVITY").attribute("value").as_float();
+	SPEED_X = variables.child("SPEED_X").attribute("value").as_float();
+	SPEED_Y = variables.child("SPEED_Y").attribute("value").as_float();
+	ACCELERATION_X = variables.child("ACCELERATION_X").attribute("value").as_float();
+	FRICTION = variables.child("FRICTION").attribute("value").as_float();
+	LIANA_SPEED = variables.child("LIANA_SPEED").attribute("value").as_float();
+	MAX_ACC_X = variables.child("MAX_ACC_X").attribute("value").as_float();
+	MAX_SPEED_X = variables.child("MAX_SPEED_X").attribute("value").as_float();
+	JUMP_FORCE = variables.child("JUMP_FORCE").attribute("value").as_float();
+	JUMP_FORCE_LIANA = variables.child("JUMP_FORCE_LIANA").attribute("value").as_float();
 }

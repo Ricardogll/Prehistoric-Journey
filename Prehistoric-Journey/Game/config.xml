@@ -31,6 +31,18 @@
   </audio>
 	
   <player>
-	<position x="0" y="0"/>
+	<variables>
+		<GRAVITY value="0.1"  />
+		<SPEED_X value="2.5"/>
+		<SPEED_Y value="0.25" />
+		<ACCELERATION_X value="0.25" />
+		<FRICTION value="0.25"/>
+		<LIANA_SPEED value="1.0"/>
+		<MAX_ACC_X value="0.5"/>
+		<MAX_SPEED_X value="2.0"/>
+		<JUMP_FORCE value="-5.0"/>
+		<JUMP_FORCE_LIANA value="-4.0"/>
+		
+	</variables>
   </player>
 </config>

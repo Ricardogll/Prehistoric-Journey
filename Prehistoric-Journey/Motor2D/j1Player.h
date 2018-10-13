@@ -8,12 +8,8 @@
 #include	"j1Textures.h"
 #include	"Animation.h"
 
-#define GRAVITY 0.1f 
-#define SPEED_X 2.5f
-#define SPEED_Y 0.25f
-#define ACC_X 0.25f
-#define FRICTION 0.25f
-#define LIANA_SPEED 1.0f
+
+
 
 struct SDL_texture;
 struct SDL_Rect;
@@ -26,6 +22,7 @@ enum STATE {
 	RUN,
 	JUMP,
 	LIANA,
+	LIANA_IDLE,
 	NO_STATE,
 };
 
@@ -49,37 +46,20 @@ public:
 	bool PostUpdate();
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
-	void LoadPosition();
-	void SavePosition();
+	
 
 	void Draw();
 	
 	void OnCollision(Collider* c1, Collider* c2);
+
+	void LoadVariablesXML(pugi::xml_node& player_node);
 private:
 
-	SDL_Rect player_rect;
-
-	/*uint width = 0u;
-	uint height = 0u;*/
-	SDL_Texture* texture = nullptr;
-	fPoint speed;
-	fPoint acceleration;
-	float max_acc_x = 0.5f;
-	float max_speed_x = 2.0f;
-	float jump_force = -5.0f;
-	float jump_force_liana = -4.0f;
+	SDL_Rect player_rect = { 0,0 };
+	fPoint speed = { 0.0f,0.0f };
+	fPoint acceleration{ 0.0f,0.0f };
 	STATE state = NO_STATE;
-	Animation* current_animation = nullptr;
-
-	//STATE last_state = NO_STATE;
-	//STATE last_state_2 = NO_STATE;
-	Animation idle;
-	Animation run;
-	Animation jump;
-	Animation climbing;
-	Animation climbing_idle;
-
-	//uint lastTime = 0u;
+	
 	bool jumping = false;
 	bool on_ground = false;
 	bool on_liana = false;
@@ -88,26 +68,41 @@ private:
 	bool key_d_pressed = false;
 	bool key_w_pressed = false;
 	bool colliding_with_liana = false;
-	//int collision_extra = 3;
-
-	pugi::xml_attribute starting_x;
-	pugi::xml_attribute starting_y;
-	pugi::xml_node positionnode;
-	pugi::xml_document save_file;
-
 	
+	SDL_Texture* texture = nullptr;
+
+	Animation* current_animation = nullptr;
+	Animation idle = Animation();
+	Animation run = Animation();
+	Animation jump = Animation();
+	Animation climbing = Animation();
+	Animation climbing_idle = Animation();
+	
+	Collider* player_collider = nullptr;
+
 	uint jumpfx;
+
+	//****XML variables
+
+	float GRAVITY = 0.0f;
+	float SPEED_X = 0.0f;
+	float SPEED_Y = 0.0f;
+	float ACCELERATION_X = 0.0f;
+	float FRICTION = 0.0f;
+	float LIANA_SPEED = 0.0f;
+	float MAX_ACC_X = 0.0f;
+	float MAX_SPEED_X = 0.0f;
+	float JUMP_FORCE = 0.0f;
+	float JUMP_FORCE_LIANA = 0.0f;
+
 public:
 
 
-	fPoint player_pos;
-	Collider* playerCollider;
-	iPoint collider_offset;
-	//bool touching_floor = false;
-	//uint currentTime = 0;
-	//bool ledge_jump_x_disabled = false;
+	fPoint player_pos = { 0.0f,0.0f };
+	
+	iPoint collider_offset = { 0,0 };
 	bool player_died = false;
-	//bool player_load = false;
+	
 
 
 };

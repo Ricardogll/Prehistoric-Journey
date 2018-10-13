@@ -176,10 +176,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 void j1Audio::RaiseVolumeMusic()
 {
-	/*int vol = config.child("volume").attribute("music").as_int();
-	Mix_VolumeMusic(vol + 10);
-	std::string vol_string = std::to_string(vol + 10);
-	config.child("volume").attribute("music").set_value("1");*/
+	
 	if (music_volume >= 118)
 		music_volume = 128;
 	else

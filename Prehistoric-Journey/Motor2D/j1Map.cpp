@@ -38,16 +38,11 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 5: Prepare the loop to draw all tilesets + Blit
-	p2List_item<TileSet*>* tileset_item = data.tilesets.end;//to print bg first and blit platforms on top of it
+	
+	p2List_item<TileSet*>* tileset_item = data.tilesets.end;//to print bg first and blit platforms on top of it start from the end
 	p2List_item<MapLayer*>* layers_item = data.layers.start;
 
-	/*uint camera_x, camera_y, camera_w, camera_h;
-	App->win->GetWindowSize(camera_w, camera_h);
-	camera_x = App->render->camera.x;
-	camera_y = App->render->camera.y;*/
 	
-	//if (tileset_item->data->Get(i, j) != 0) 
 	while (tileset_item != NULL) {
 
 		layers_item = data.layers.start;
@@ -74,13 +69,7 @@ void j1Map::Draw()
 
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
-					/*SDL_Rect tile_pos_world;
-					tile_pos_world.x = world_coords.x;
-					tile_pos_world.y = world_coords.y;
-					tile_pos_world.w = rect.w;
-					tile_pos_world.h = rect.h;
-
-					if (RectInsideCamera(camera_x, camera_y, camera_w, camera_h, rect)) {*/
+					
 
 
 
@@ -90,9 +79,7 @@ void j1Map::Draw()
 						else if (layers_item->data->type == LAYER_GROUND) {
 							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
 						}
-						//else if (layers_item->data->type == LAYER_COLLIDER) {
-						//	App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
-						//}
+						
 						else if (layers_item->data->type == LAYER_BG_1) {
 							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
 						}
@@ -102,7 +89,7 @@ void j1Map::Draw()
 						else if (layers_item->data->type == LAYER_BG_3) {
 							App->render->Blit(tileset_item->data->texture, world_coords.x, world_coords.y, &rect, layers_item->data->parallax_vel);
 						}
-					//}
+					
 				}
 
 			}
@@ -140,7 +127,7 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	return item->data;
 
 }
-		// TODO 9: Complete the draw function
+		
 void j1Map::setColliders()
 {
 	p2List_item<TileSet*>* tile_item = this->data.tilesets.start;
@@ -159,7 +146,7 @@ void j1Map::setColliders()
 
 						if (layer_item->data->type == LAYER_COLLIDER)
 						{
-							if ((id == 48 && App->curr_map == map_1) || (id == 348 && App->curr_map == map_2))
+							if ((id == 48 && App->curr_map == map_1) || (id == 198 && App->curr_map == map_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -167,12 +154,12 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
-							if ((id == 77 && App->curr_map == map_1) || (id == 377 && App->curr_map == map_2))
+							if ((id == 77 && App->curr_map == map_1) || (id == 227 && App->curr_map == map_2))
 							{
 								spawn_pos = MapToWorld(x, y);
 
 							}
-							if ((id == 63 && App->curr_map == map_1) || (id == 363 && App->curr_map == map_2))
+							if ((id == 63 && App->curr_map == map_1) || (id == 213 && App->curr_map == map_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -181,7 +168,7 @@ void j1Map::setColliders()
 								App->collision->AddCollider(rect, COLLIDER_LEDGE);
 
 							}
-							if ((id == 75 && App->curr_map == map_1) || (id == 375 && App->curr_map == map_2))
+							if ((id == 75 && App->curr_map == map_1) || (id == 225 && App->curr_map == map_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -212,7 +199,7 @@ iPoint j1Map::MapToWorld(int x, int y) const
 iPoint j1Map::WorldToMap(int x, int y) const
 {
 	iPoint ret(0, 0);
-	// TODO 2: Add orthographic world to map coordinates
+	
 	if (App->map->data.type == MAPTYPE_ORTHOGONAL)
 	{
 		ret.x = x / data.tile_width;
@@ -248,7 +235,7 @@ bool j1Map::CleanUp()
 	}
 	data.tilesets.clear();
 
-	// TODO 2: clean up all layer data
+	
 	// Remove all layers
 
 	p2List_item<MapLayer*>* item_layer;
@@ -261,7 +248,7 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
-	// Clean up the pugui tree
+	
 	map_file.reset();
 
 	return true;
@@ -306,7 +293,7 @@ bool j1Map::Load(const char* file_name)
 		data.tilesets.add(set);
 	}
 
-	// TODO 4: Iterate all layers and load each of them
+	
 	// Load layer info ----------------------------------------------
 	pugi::xml_node layer;
 	for (layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
@@ -341,8 +328,7 @@ bool j1Map::Load(const char* file_name)
 			item = item->next;
 		}
 
-		// TODO 4: Add info here about your loaded layers
-		// Adapt this vcode with your own variables
+		
 		
 		p2List_item<MapLayer*>* item_layer = data.layers.start;
 		while(item_layer != NULL)
@@ -487,7 +473,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
+
 bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
 	
@@ -500,26 +486,26 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->type = LAYER_GROUND;
 	else if (layer->name == "Forest") {
 		layer->type = LAYER_BG_1;
-		//layer->parallax_vel = 0.8f;
+		
 	}
 	else if (layer->name == "Mountains") {
 		layer->type = LAYER_BG_2;
-		//layer->parallax_vel = 0.5f; // 
+		
 	}
 	else if (layer->name == "Sky") {
 		layer->type = LAYER_BG_3;
-		//layer->parallax_vel = 0.3f;
+		
 	}
 	else if (layer->name == "Rocks") {
 		layer->type = LAYER_BG_FRONT;
-		//layer->parallax_vel = 1.1f;
+		
 	}
 	else if (layer->name == "Mainground")
 		layer->type = LAYER_GROUND;
 
 	else if (layer->name == "Background") {
 		layer->type = LAYER_BG_1;
-		//layer->parallax_vel = 0.8f;
+		
 	}
 	else if (layer->name == "Colliders")
 		layer->type = LAYER_COLLIDER;
