@@ -10,7 +10,7 @@
 #include "j1Collision.h"
 #include "j1Audio.h"
 #include "j1Window.h"
-
+#include "j1FadeToBlack.h"
 
 
 
@@ -95,11 +95,13 @@ bool j1Player::Start()
 	LOG("starting player");
 	bool ret = true;
 
-	
+	jump_fx = App->audio->LoadFx("audio/fx/jump.wav");
+	lose_fx = App->audio->LoadFx("audio/fx/lose.wav");
 	texture = App->tex->Load("textures/caverman.png");
 	state = IDLE;
 	player_pos.x = App->map->spawn_pos.x;
 	player_pos.y = App->map->spawn_pos.y;
+	player_x_dir = RIGHT;
 
 	//jumpfx = App->audio->LoadFx("audio/fx/jump.wav");
 	
@@ -195,6 +197,8 @@ bool j1Player::PostUpdate()
 				speed.x = MAX_SPEED_X;
 				acceleration.x = MAX_ACC_X;
 			}
+
+			App->audio->PlayFx(jump_fx);
 		}
 		
 	}
@@ -271,7 +275,7 @@ bool j1Player::PostUpdate()
 		on_ground = false;
 		just_landed = false;
 
-
+		App->audio->PlayFx(jump_fx);
 	
 	}
 
@@ -347,8 +351,10 @@ bool j1Player::Load(pugi::xml_node& node)
 {
 	
 
-	player_pos.x = node.child("position").attribute("x").as_int();
-	player_pos.y = node.child("position").attribute("y").as_int();
+	last_saved_pos.x = node.child("position").attribute("x").as_int();
+	last_saved_pos.y = node.child("position").attribute("y").as_int();
+	player_pos.x = last_saved_pos.x;
+	player_pos.y = last_saved_pos.y;
 
 	return true;
 }
@@ -359,6 +365,8 @@ bool j1Player::Save(pugi::xml_node& node) const
 	pugi::xml_node position = node.append_child("position");
 	position.append_attribute("x").set_value(player_pos.x);
 	position.append_attribute("y").set_value(player_pos.y);
+	
+	saved_map = CurrentMap::map_1;
 
 	return true;
 }
@@ -415,82 +423,99 @@ void j1Player::Draw()
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 
+	
 
-	if (App->map->data.layers.end != nullptr) {
-
-
-		MapLayer* layer_coll = App->map->data.layers.end->data;
-		iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
-		iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
-
-		int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
-		int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
-
-		iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
-		iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
-
-		int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
-		int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
+		if (App->map->data.layers.end != nullptr) {
 
 
+			MapLayer* layer_coll = App->map->data.layers.end->data;
+			iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
+			iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
 
-		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
-		{
-			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
+			int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
+			int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
 
-				acceleration.y = 0.0f;
-				speed.y = 0.0f;
-				on_ground = true;
-			}
+			iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
+			iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
 
-			if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
-				if (speed.y < 0.0f) {
-					speed.y = -speed.y;
+			int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
+			int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
+
+
+
+			if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
+			{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
+				if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
+
+					acceleration.y = 0.0f;
+					speed.y = 0.0f;
+					on_ground = true;
 				}
-				acceleration.y = GRAVITY;
-				player_pos.y = c2->rect.y + c2->rect.h + 1;
 
-			}
-			else
-			{
-				if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x  && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) {
-
-					acceleration.x = 0.0f;
-					speed.x = 0.0f;
-					player_pos.x--;
+				if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
+					if (speed.y < 0.0f) {
+						speed.y = -speed.y;
+					}
+					acceleration.y = GRAVITY;
+					player_pos.y = c2->rect.y + c2->rect.h + 1;
 
 				}
-				else if (c1->rect.x + (int)speed.x - 1 < c2->rect.x + c2->rect.w && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+				else
+				{
+					if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x  && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) {
 
-					acceleration.x = 0.0f;
-					speed.x = 0.0f;
-					player_pos.x++;
+						acceleration.x = 0.0f;
+						speed.x = 0.0f;
+						player_pos.x--;
 
+					}
+					else if (c1->rect.x + (int)speed.x - 1 < c2->rect.x + c2->rect.w && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+
+						acceleration.x = 0.0f;
+						speed.x = 0.0f;
+						player_pos.x++;
+
+					}
+				}
+
+				if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w) {
+					on_ground = false;
+				}
+				else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x) {
+					on_ground = false;
 				}
 			}
 
-			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w) {
-				on_ground = false;
+
+			
+
+			//****LIANAS
+			if (c2->type == COLLIDER_LIANA) {
+				colliding_with_liana = true;
 			}
-			else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x) {
-				on_ground = false;
+
+
+			if (c2->type == COLLIDER_LIANA && key_w_pressed) {
+				acceleration = { 0.0f,0.0f };
+				speed = { 0.0f,0.0f };
+				on_liana = true;
+			}
+
+			//****** LEVEL END
+
+			if (c2->type == COLLIDER_LEVEL_END && change_map == false) {
+				change_map = true;
+				
+			}
+
+			if (c2->type == COLLIDER_DEAD && player_died == false) {
+				player_died = true;
+				App->audio->PlayFx(lose_fx);
+				player_pos = last_saved_pos;
+				
 			}
 		}
-
-		//****LIANAS
-		if (c2->type == COLLIDER_LIANA) {
-			colliding_with_liana = true;
-		}
-
-
-		if (c2->type == COLLIDER_LIANA && key_w_pressed) {
-			acceleration = { 0.0f,0.0f };
-			speed = { 0.0f,0.0f };
-			on_liana = true;
-		}
-
-	}
-		
+	
 }
 
 

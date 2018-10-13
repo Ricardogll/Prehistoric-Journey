@@ -15,21 +15,29 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_LEDGE] = false;
 	matrix[COLLIDER_WALL][COLLIDER_LIANA] = false;
+	matrix[COLLIDER_WALL][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_WALL][COLLIDER_LEVEL_END] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_LEDGE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_LIANA] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_LEVEL_END] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
 
 	matrix[COLLIDER_LEDGE][COLLIDER_WALL] = false;
 	matrix[COLLIDER_LEDGE][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_LEDGE][COLLIDER_LEDGE] = false;
 	matrix[COLLIDER_LEDGE][COLLIDER_LIANA] = false;
+	matrix[COLLIDER_LEDGE][COLLIDER_LEVEL_END] = false;
+	matrix[COLLIDER_LEDGE][COLLIDER_DEAD] = false;
 
 	matrix[COLLIDER_LIANA][COLLIDER_WALL] = false;
 	matrix[COLLIDER_LIANA][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_LIANA][COLLIDER_LEDGE] = false;
 	matrix[COLLIDER_LIANA][COLLIDER_LIANA] = false;
+	matrix[COLLIDER_LIANA][COLLIDER_LEVEL_END] = false;
+	matrix[COLLIDER_LIANA][COLLIDER_DEAD] = false;
 
 }
 
@@ -91,7 +99,7 @@ bool j1Collision::Update(float dt)
 
 void j1Collision::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
 
 	if (debug == false)
@@ -109,15 +117,21 @@ void j1Collision::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 		case COLLIDER_DEAD:
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 		case COLLIDER_WALL:
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 55, 55, 55, alpha);
 			break;
 		case COLLIDER_LEDGE:
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
+			break;
 		case COLLIDER_LIANA:
 			App->render->DrawQuad(colliders[i]->rect, 255, 248, 220, alpha);
+			break;
+		case COLLIDER_LEVEL_END:
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
+			break;
+		
 			
 		}
 
