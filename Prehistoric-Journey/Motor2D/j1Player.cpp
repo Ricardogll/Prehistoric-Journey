@@ -434,7 +434,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
 		{
-			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62)&& (down_left_gid == 48|| down_left_gid == 63 || down_left_gid == 62))
+			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 348 || down_right_gid == 363 || down_right_gid == 362) && (down_left_gid == 48|| down_left_gid == 63 || down_left_gid == 62|| down_left_gid == 348 || down_left_gid == 363 || down_left_gid == 362))
 			{
 
 				acceleration.y = 0.0f;
@@ -442,7 +442,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				on_ground = true;
 			}
 
-			if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62)) {
+			if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62|| up_right_gid == 348 || up_right_gid == 363 || up_right_gid == 362) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62|| up_left_gid == 348 || up_left_gid == 363 || up_left_gid == 362)) {
 				if (speed.y < 0.0f) {
 					speed.y = -speed.y;
 				}

@@ -72,11 +72,32 @@ public:
 
 	virtual void OnCollision(Collider*, Collider*) {}
 
+	void Enable()
+	{
+		if (enabled == false)
+		{
+			enabled = true;
+			Start();
+		}
+	}
+
+	void Disable()
+	{
+		if (enabled == true)
+		{
+			enabled = false;
+			CleanUp();
+		}
+	}
+
 public:
 
 	p2SString	name;
 	bool		active;
 
+private:
+
+	bool enabled = true;
 };
 
 #endif // __j1MODULE_H__

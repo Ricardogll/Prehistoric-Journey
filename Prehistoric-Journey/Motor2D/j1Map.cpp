@@ -171,7 +171,7 @@ void j1Map::setColliders()
 
 						if (layer_item->data->type == LAYER_COLLIDER)
 						{
-							if ((id == 48 && App->scene->current_map == 1) || (id == 348 && App->scene->current_map == 2))
+							if ((id == 48 && App->curr_map == map_1) || (id == 348 && App->curr_map == map_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);
@@ -179,12 +179,12 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_WALL);
 							}
-							if ((id == 77 && App->scene->current_map == 1) || (id == 377 && App->scene->current_map == 2))
+							if ((id == 77 && App->curr_map == map_1) || (id == 377 && App->curr_map == map_2))
 							{
 								spawn_pos = MapToWorld(x, y);
 
 							}
-							if ((id == 63 && App->scene->current_map == 1) || (id == 363 && App->scene->current_map == 2))
+							if ((id == 63 && App->curr_map == map_1) || (id == 363 && App->curr_map == map_2))
 							{
 								SDL_Rect rect = tile_item->data->GetTileRect(id);
 								iPoint worldcoord = MapToWorld(x, y);

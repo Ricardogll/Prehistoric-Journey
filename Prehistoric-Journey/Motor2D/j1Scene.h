@@ -32,9 +32,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-public:
+private:
+	bool is_fade = false;
 
-	uint current_map = 0;
 };
 
 #endif // __j1SCENE_H__

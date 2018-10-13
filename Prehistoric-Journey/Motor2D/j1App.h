@@ -5,6 +5,13 @@
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 
+enum current_map
+{
+	none = 0,
+	map_1,
+	map_2,
+};
+
 // Modules
 class j1Window;
 class j1Input;
@@ -89,6 +96,8 @@ public:
 	j1Map*				map;
 	j1Collision*		collision;
 	j1Player*			player;
+
+	current_map			curr_map = none;
 
 private:
 

@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "j1Collision.h"
+#include "j1FadeToBlack.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -33,12 +34,14 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 
-	
-	App->map->Load("Jungle.tmx");
-	current_map = 1;
-	App->map->setColliders();
+	if (!is_fade)
+	{
+		App->map->Load("Jungle.tmx");
+		App->curr_map = map_1;
+		App->map->setColliders();
 
-	App->audio->PlayMusic("audio/theme-1.ogg");
+		App->audio->PlayMusic("audio/theme-1.ogg");
+	}
 
 
 	return true;
@@ -83,29 +86,27 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		if (current_map == 1) {
+		if (App->curr_map == map_1) {
+			App->curr_map = map_2;
+			App->fade->FadeToBlack(this, this, 3.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
-			current_map = 2;
 			App->map->setColliders();
 			App->player->player_pos.x = App->map->spawn_pos.x;
 			App->player->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
 		}
-		else if (current_map == 2) {
+		else if (App->curr_map == map_2) {
+			App->curr_map = map_1;
+			App->fade->FadeToBlack(this, this, 3.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
-			current_map = 1;
 			App->map->setColliders();
 			App->player->player_pos.x = App->map->spawn_pos.x;
 			App->player->player_pos.y = App->map->spawn_pos.y;
 		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		App.
 	}
 
 	//App->render->Blit(img, 0, 0);
