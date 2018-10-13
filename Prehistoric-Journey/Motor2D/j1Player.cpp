@@ -123,6 +123,11 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->render->camera.w / 2;
+	if (App->render->camera.x > 0)
+		App->render->camera.x = 0;
+	if (App->render->camera.x < -5375)
+		App->render->camera.x = -5375;
 
 	key_w_pressed = false;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
