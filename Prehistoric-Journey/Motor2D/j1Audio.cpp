@@ -52,6 +52,10 @@ bool j1Audio::Awake(pugi::xml_node& config)
 
 	music_volume = config.child("volume").attribute("music").as_uint();
 	fx_volume = config.child("volume").attribute("fx").as_uint();
+
+	Mix_Volume(-1, fx_volume);
+	Mix_VolumeMusic(music_volume);
+
 	return ret;
 }
 
