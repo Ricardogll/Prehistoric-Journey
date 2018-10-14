@@ -38,7 +38,9 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 ## Innovation
 
-Camera culling, only printing what the camera sees at the moment.
+- Camera culling, only printing what the camera sees at the moment.
+
+- Volume changing mid-game with keypad plus and minus.
 
 ### Authors
 
