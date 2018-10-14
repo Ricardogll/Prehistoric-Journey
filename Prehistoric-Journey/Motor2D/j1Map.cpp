@@ -62,7 +62,7 @@ void j1Map::Draw()
 			if (bottom_right_camera.x > layers_item->data->width)
 				bottom_right_camera.x = layers_item->data->width;
 
-			for(int x = top_left_camera.x; x <= bottom_right_camera.x; x++) {
+			for(int x = top_left_camera.x + debug_camera_culling; x <= bottom_right_camera.x - debug_camera_culling; x++) {
 				
 
 				for (int y = 0; y < layers_item->data->height; y++) {

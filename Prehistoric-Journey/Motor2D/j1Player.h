@@ -82,8 +82,8 @@ private:
 	
 	Collider* player_collider = nullptr;
 
-	uint jump_fx;
-	uint lose_fx;
+	uint jump_fx = 0u;
+	uint lose_fx = 0u;
 
 	//****XML variables
 

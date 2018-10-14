@@ -43,15 +43,23 @@ bool j1Scene::Start()
 		
 	}
 
-	switch (curr_map) {
-	case MAP_1:
-		App->audio->PlayMusic("audio/music/theme-1.ogg");
-		break;
-	case MAP_2:
-		App->audio->PlayMusic("audio/music/theme-2.ogg");
-		break;
-	
+	if (App->player->player_died == false) {
+		
+
+		switch (curr_map) {
+		case MAP_1:
+			if (App->audio->active)
+				App->audio->PlayMusic("audio/music/theme-1.ogg", 0.5f);
+			break;
+		case MAP_2:
+			App->audio->PlayMusic("audio/music/theme-2.ogg", 0.5f);
+			break;
+
+		}
 	}
+
+	if(App->player->player_died)
+		App->player->player_died = false;
 
 	return true;
 }
@@ -72,10 +80,10 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
 		App->audio->DecreaseVolumeMusic();
-		App->audio->RaiseVolumeFx();
+		App->audio->DecreaseVolumeFx();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
 		
 		if(curr_map == App->player->saved_map)
 			App->LoadGame();
@@ -84,7 +92,7 @@ bool j1Scene::Update(float dt)
 			switch (App->player->saved_map) {
 			case 1:
 				curr_map = MAP_1;
-				App->fade->FadeToBlack(this, this, 3.0f);
+				App->fade->FadeToBlack(this, this, 2.0f);
 				App->map->CleanUp();
 				App->collision->CleanUpMap();
 				App->map->Load("Jungle.tmx");
@@ -95,7 +103,7 @@ bool j1Scene::Update(float dt)
 				break;
 			case 2:
 				curr_map = MAP_2;
-				App->fade->FadeToBlack(this, this, 3.0f);
+				App->fade->FadeToBlack(this, this, 2.0f);
 				App->map->CleanUp();
 				App->collision->CleanUpMap();
 				App->map->Load("Cave.tmx");
@@ -111,10 +119,10 @@ bool j1Scene::Update(float dt)
 
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false)
 		App->SaveGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	/*if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y -= 10;
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
@@ -124,9 +132,9 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x -= 10;
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 10;
+		App->render->camera.x += 10;*/
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN )
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
 	{
 		App->player->change_map = false;
 
@@ -134,7 +142,7 @@ bool j1Scene::Update(float dt)
 		case MAP_1:
 
 			curr_map = MAP_1;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->player->player_pos.x = App->map->spawn_pos.x;
 			App->player->player_pos.y = App->map->spawn_pos.y;
 			is_fade = true;
@@ -143,7 +151,7 @@ bool j1Scene::Update(float dt)
 		case MAP_2:
 			
 			curr_map = MAP_1;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
@@ -157,13 +165,13 @@ bool j1Scene::Update(float dt)
 		
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN )
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && App->fade->IsFading() == false)
 	{
 		switch (curr_map) {
 		case MAP_2:
 
 			curr_map = MAP_2;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->player->player_pos.x = App->map->spawn_pos.x;
 			App->player->player_pos.y = App->map->spawn_pos.y;
 			is_fade = true;
@@ -172,7 +180,7 @@ bool j1Scene::Update(float dt)
 		case MAP_1:
 
 			curr_map = MAP_2;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
@@ -190,7 +198,7 @@ bool j1Scene::Update(float dt)
 		case MAP_2:
 
 			curr_map = MAP_1;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
@@ -203,7 +211,7 @@ bool j1Scene::Update(float dt)
 		case MAP_1:
 
 			curr_map = MAP_2;
-			App->fade->FadeToBlack(this, this, 3.0f);
+			App->fade->FadeToBlack(this, this, 2.0f);
 			App->map->CleanUp();
 			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
@@ -218,8 +226,8 @@ bool j1Scene::Update(float dt)
 	
 
 	if (App->player->player_died) {
-		App->player->player_died = false;
-		App->fade->FadeToBlack(this, this, 3.0f);
+		
+		App->fade->FadeToBlack(this, this, 2.0f);
 	}
 
 

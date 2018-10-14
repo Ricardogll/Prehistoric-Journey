@@ -27,7 +27,7 @@
   </map>
   
   <audio>
-	<volume music="108" fx="128"/> <!-- 128 MAX volume, 0 min volume-->
+	<volume music="60" fx="60"/> <!-- 128 MAX volume, 0 min volume-->
   </audio>
 	
   <player>

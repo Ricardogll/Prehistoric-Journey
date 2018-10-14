@@ -11,7 +11,7 @@ struct Properties
 {
 	struct Property {
 		p2SString name;
-		float value;
+		float value = 0.0f;
 	};
 
 	p2List<Property*> properties;
@@ -73,19 +73,19 @@ struct TileSet
 	
 	SDL_Rect GetTileRect(int id) const;
 
-	p2SString			name;
-	int					firstgid;
-	int					margin;
-	int					spacing;
-	int					tile_width;
-	int					tile_height;
-	SDL_Texture*		texture;
-	int					tex_width;
-	int					tex_height;
-	int					num_tiles_width;
-	int					num_tiles_height;
-	int					offset_x;
-	int					offset_y;
+	p2SString				name;
+	int						firstgid = 0;
+	uint					margin = 0u;
+	uint					spacing = 0u;
+	uint					tile_width = 0u;
+	uint					tile_height = 0u;
+	SDL_Texture*			texture=nullptr;
+	uint					tex_width = 0u;
+	uint					tex_height = 0u;
+	uint					num_tiles_width = 0u;
+	uint					num_tiles_height = 0u;
+	uint					offset_x = 0u;
+	uint					offset_y = 0u;
 
 	~TileSet();
 };
@@ -100,12 +100,12 @@ enum MapTypes
 
 struct MapData
 {
-	int					width;
-	int					height;
-	int					tile_width;
-	int					tile_height;
+	uint					width = 0u;
+	uint					height = 0u;
+	uint					tile_width = 0u;
+	uint					tile_height = 0u;
 	SDL_Color			background_color;
-	MapTypes			type;
+	MapTypes			type = MAPTYPE_UNKNOWN;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
 
@@ -155,12 +155,12 @@ public:
 
 	MapData data;
 	iPoint spawn_pos = {0, 0};
-
+	uint debug_camera_culling = 0u;
 private:
 
 	pugi::xml_document	map_file;
 	p2SString			folder;
-	bool				map_loaded;
+	bool				map_loaded = false;
 };
 
 #endif // __j1MAP_H__
