@@ -40,9 +40,18 @@ bool j1Scene::Start()
 		curr_map = MAP_1;
 		App->map->setColliders();
 
-		App->audio->PlayMusic("audio/music/theme-1.ogg");
+		
 	}
 
+	switch (curr_map) {
+	case MAP_1:
+		App->audio->PlayMusic("audio/music/theme-1.ogg");
+		break;
+	case MAP_2:
+		App->audio->PlayMusic("audio/music/theme-2.ogg");
+		break;
+	
+	}
 
 	return true;
 }
@@ -206,11 +215,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-		if (App->player->god_mode == false)
-			App->player->god_mode = true;
-		else
-			App->player->god_mode = false;
+	
 
 	if (App->player->player_died) {
 		App->player->player_died = false;

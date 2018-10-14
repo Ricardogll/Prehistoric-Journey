@@ -132,6 +132,11 @@ bool j1Player::PostUpdate()
 	if (App->render->camera.x < -5375)
 		App->render->camera.x = -5375;
 
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_UP)
+		god_mode = !god_mode;
+
+
 	key_w_pressed = false;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
@@ -317,6 +322,7 @@ bool j1Player::PostUpdate()
 
 	if(god_mode == true)
 	{
+		acceleration.y = 0.0f;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			acceleration.x += ACCELERATION_X;
@@ -546,7 +552,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			if (c2->type == COLLIDER_DEAD && player_died == false && god_mode == false) {
 				player_died = true;
 				App->audio->PlayFx(lose_fx);
-				App->LoadGame();				
+				player_pos.x = App->map->spawn_pos.x;
+				player_pos.y = App->map->spawn_pos.y;
 			}
 		}
 	
