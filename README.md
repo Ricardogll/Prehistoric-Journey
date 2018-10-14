@@ -22,17 +22,19 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 ### Debug Controls
 
--F1:  Start at the very first level
+- F1:  Start at the very first level
 
--F2:  Start at the second map
+- F2:  Start at the second map
 
--F5:  Save the current state
+- F5:  Save the current state
 
--F6:  Load the previous state
+- F6:  Load the previous state
 
--F9:  Draw colliders
+- F9:  Draw colliders
 
--F10: God Mode
+- F10: God Mode
+
+- F3: To see camera culling in work with 1 less tile
 
 *Note: You won't be able to save or load while the game is changing scenes to avoid errors.*
 
