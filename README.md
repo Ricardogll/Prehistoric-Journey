@@ -34,6 +34,8 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 -F10: God Mode
 
+*Note: You won't be able to save or load while the game is changing scenes to avoid errors.*
+
 ## Innovation
 
 Camera culling, only printing what the camera sees at the moment.
