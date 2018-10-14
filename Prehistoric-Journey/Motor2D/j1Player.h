@@ -106,7 +106,7 @@ public:
 	iPoint collider_offset = { 0,0 };
 	bool player_died = false;
 	bool change_map = false;
-
+	bool god_mode = false;
 
 };
 

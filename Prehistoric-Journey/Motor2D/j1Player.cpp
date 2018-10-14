@@ -315,6 +315,34 @@ bool j1Player::PostUpdate()
 		
 	}
 
+	if(god_mode == true)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			acceleration.x += ACCELERATION_X;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			acceleration.x -= ACCELERATION_X;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			speed.y = 3;
+		}		
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+		{
+			speed.y = 0.0f;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			speed.y = -3;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+		{
+			speed.y = 0.0f;
+		}
+	}
+
 	if (on_liana)
 		acceleration.y = 0.0f;
 	
@@ -512,15 +540,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			//****** LEVEL END
 
 			if (c2->type == COLLIDER_LEVEL_END && change_map == false) {
-				change_map = true;
-				
+				change_map = true;				
 			}
 
-			if (c2->type == COLLIDER_DEAD && player_died == false) {
+			if (c2->type == COLLIDER_DEAD && player_died == false && god_mode == false) {
 				player_died = true;
 				App->audio->PlayFx(lose_fx);
-				player_pos = last_saved_pos;
-				
+				App->LoadGame();				
 			}
 		}
 	

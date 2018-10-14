@@ -206,6 +206,12 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		if (App->player->god_mode == false)
+			App->player->god_mode = true;
+		else
+			App->player->god_mode = false;
+
 	if (App->player->player_died) {
 		App->player->player_died = false;
 		App->fade->FadeToBlack(this, this, 3.0f);
