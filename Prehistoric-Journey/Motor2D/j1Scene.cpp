@@ -85,9 +85,9 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
 		
-		if(curr_map == App->player->saved_map)
+		
 			App->LoadGame();
-		else
+			if (curr_map != App->player->saved_map)
 		{
 			switch (App->player->saved_map) {
 			case 1:
@@ -119,9 +119,10 @@ bool j1Scene::Update(float dt)
 
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false) {
 		App->SaveGame();
-
+		App->player->saved_map = curr_map;
+	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
 	{

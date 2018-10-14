@@ -403,7 +403,7 @@ bool j1Player::Load(pugi::xml_node& node)
 
 	last_saved_pos.x = node.child("position").attribute("x").as_int();
 	last_saved_pos.y = node.child("position").attribute("y").as_int();
-	saved_map = node.child("position").attribute("map").as_int();
+	//saved_map = node.child("position").attribute("map").as_int();
 	player_pos.x = last_saved_pos.x;
 	player_pos.y = last_saved_pos.y;
 
@@ -416,7 +416,7 @@ bool j1Player::Save(pugi::xml_node& node) const
 	pugi::xml_node position = node.append_child("position");
 	position.append_attribute("x").set_value(player_pos.x);
 	position.append_attribute("y").set_value(player_pos.y);
-	position.append_attribute("map").set_value(App->scene->curr_map);
+	//position.append_attribute("map").set_value(App->scene->curr_map);
 	return true;
 }
 
