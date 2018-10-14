@@ -122,18 +122,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false)
 		App->SaveGame();
 
-	/*if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 10;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 10;*/
-
+	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
 	{
 		App->player->change_map = false;
@@ -234,11 +223,11 @@ bool j1Scene::Update(float dt)
 	App->map->Draw();
 	App->player->Draw();
 	
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
+	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 					App->map->data.width, App->map->data.height,
 					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count());
-
+					App->map->data.tilesets.count());*/
+	p2SString title = App->GetTitle();
 	App->win->SetTitle(title.GetString());
 	return true;
 }
