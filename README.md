@@ -40,7 +40,7 @@ Camera culling, only printing what the camera sees at the moment.
 
 ### Authors
 
-- [Ricardo Gutiérrez LLenas](https://github.com/Ricardogll)
+- [Ricardo Gutiérrez Llenas](https://github.com/Ricardogll)
 
 - [Sergio Gómez Roldán](https://github.com/Sersius)
 
