@@ -16,63 +16,14 @@
 
 j1Player::j1Player() : j1Module()
 {
-
-	name.create("player");
-
-	idle.PushBack({ 21,8,45,57 });
-	idle.PushBack({ 118,8,45,57 });
-	idle.PushBack({ 215,8,45,57 });
-	idle.PushBack({ 312,8,45,57 });
-	idle.PushBack({ 409,8,45,57 });
-	idle.PushBack({ 506,8,45,57 });
-	
-	idle.speed = 0.05f;
-	
-	
-
-	run.PushBack({ 112,76,60,61 });
-	run.PushBack({ 209,76,60,61 });
-	run.PushBack({ 306,76,60,61 });
-	run.PushBack({ 112,76,60,61 });
-	run.PushBack({ 403,76,60,61 });
-	run.PushBack({ 500,76,60,61 });
-	run.PushBack({ 15,148,60,61 });
-	run.PushBack({ 112,148,60,61 });
-	run.PushBack({ 500,76,60,61 });
-	run.PushBack({ 403,76,60,61 });
-	run.speed = 0.08f;
-
-
-	jump.PushBack({ 211, 148, 56,60 });
-	jump.PushBack({ 405, 148, 56,60 });
-	jump.PushBack({ 502, 148, 56,60 });
-	jump.PushBack({ 17, 219, 56,60 });
-	jump.PushBack({ 114, 219, 56,60 });
-	
-	jump.speed = 0.05f;
-	jump.loop = false;
-
-
-	climbing.PushBack({ 21,431,45,61 });
-	climbing.PushBack({ 118,431,45,61 });
-	climbing.PushBack({ 214,431,45,61 });
-	climbing.PushBack({ 312,431,45,61 });
-	climbing.speed = 0.05f;
-
-	climbing_idle.PushBack({ 21,431,45,61 });
-	climbing_idle.speed = 0.0f;
-	
+	name.create("player");	
 
 }
-
-
-
 
 j1Player::~j1Player()
 {
 
 }
-
 
 bool j1Player::Awake(pugi::xml_node& config)
 {
@@ -82,8 +33,26 @@ bool j1Player::Awake(pugi::xml_node& config)
 	if (config != NULL)
 		LoadVariablesXML(config);
 
+	pugi::xml_node animations = config.child("animations");
+	SetAnimations(animations.child("idle").child("animation"), idle);
+	idle.speed = animations.child("idle").attribute("speed").as_float();
+	idle.loop = animations.child("idle").attribute("loop").as_bool();
 
+	SetAnimations(animations.child("run").child("animation"), run);
+	run.speed = animations.child("run").attribute("speed").as_float();
+	run.loop = animations.child("run").attribute("loop").as_bool();
 
+	SetAnimations(animations.child("jump").child("animation"), jump);
+	jump.speed = animations.child("jump").attribute("speed").as_float();
+	jump.loop = animations.child("jump").attribute("loop").as_bool();
+
+	SetAnimations(animations.child("climb").child("animation"), climbing);
+	climbing.speed = animations.child("climb").attribute("speed").as_float();
+	climbing.loop = animations.child("climb").attribute("loop").as_bool();
+
+	SetAnimations(animations.child("climbidle").child("animation"), climbing_idle);
+	climbing_idle.speed = animations.child("climbidle").attribute("speed").as_float();
+	climbing_idle.loop = animations.child("climbidle").attribute("loop").as_bool();
 
 	return ret;
 }
@@ -119,18 +88,19 @@ bool j1Player::Start()
 
 bool j1Player::Update(float dt)
 {
-	
+	LOG("%i, %f", App->render->camera.x, player_pos.x);
 
 	return true;
 }
 
 bool j1Player::PostUpdate()
 {
-	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->render->camera.w / 2;
-	if (App->render->camera.x > 0)
-		App->render->camera.x = 0;
-	if (App->render->camera.x < -5375)
-		App->render->camera.x = -5375;
+	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->win->width / 2;
+	if (App->render->camera.x > start_map)
+		App->render->camera.x = start_map;
+	if (App->render->camera.x < limit_map)
+		App->render->camera.x = limit_map;
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -384,8 +354,6 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
-
-
 bool j1Player::CleanUp()
 {
 	LOG("Destroying player");
@@ -583,4 +551,17 @@ void j1Player::LoadVariablesXML(pugi::xml_node& player_node) {
 	MAX_SPEED_X = variables.child("MAX_SPEED_X").attribute("value").as_float();
 	JUMP_FORCE = variables.child("JUMP_FORCE").attribute("value").as_float();
 	JUMP_FORCE_LIANA = variables.child("JUMP_FORCE_LIANA").attribute("value").as_float();
+}
+
+void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
+{
+	SDL_Rect coord;
+	for (; config; config = config.next_sibling("animation"))
+	{
+		coord.x = config.attribute("x").as_uint();
+		coord.y = config.attribute("y").as_uint();
+		coord.w = config.attribute("w").as_uint();
+		coord.h = config.attribute("h").as_uint();
+		animation.PushBack(coord);
+	}
 }

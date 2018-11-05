@@ -42,11 +42,12 @@ public:
 
 	bool Start();
 	bool CleanUp();
-	bool Awake(pugi::xml_node& config);
+	bool Awake(pugi::xml_node&);
 	bool Update(float dt);
 	bool PostUpdate();
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
+
 	
 
 	void Draw();
@@ -54,6 +55,8 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	void LoadVariablesXML(pugi::xml_node& player_node);
+
+	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	
 private:
 
@@ -107,6 +110,8 @@ public:
 	bool player_died = false;
 	bool change_map = false;
 	bool god_mode = false;
+	int limit_map = -5375;
+	int start_map = 0;
 
 };
 

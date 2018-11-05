@@ -31,18 +31,55 @@
   </audio>
 	
   <player>
-	<variables>
-		<GRAVITY value="0.1"  />
-		<SPEED_X value="2.5"/>
-		<SPEED_Y value="0.25" />
-		<ACCELERATION_X value="0.25" />
-		<FRICTION value="0.25"/>
-		<LIANA_SPEED value="1.0"/>
-		<MAX_ACC_X value="0.5"/>
-		<MAX_SPEED_X value="2.0"/>
-		<JUMP_FORCE value="-5.0"/>
-		<JUMP_FORCE_LIANA value="-4.0"/>
-		
-	</variables>
+	   <variables>
+		  <GRAVITY value="0.1"  />
+		  <SPEED_X value="2.5"/>
+		  <SPEED_Y value="0.25" />
+		  <ACCELERATION_X value="0.25" />
+		  <FRICTION value="0.25"/>
+		  <LIANA_SPEED value="1.0"/>
+		  <MAX_ACC_X value="0.5"/>
+		  <MAX_SPEED_X value="2.0"/>
+		  <JUMP_FORCE value="-5.0"/>
+	  	<JUMP_FORCE_LIANA value="-4.0"/>		
+	  </variables>
+    <animations>
+      <idle speed ="0.05" loop="true">
+        <animation x=" 21" y="8" w="45" h="57"/>
+        <animation x="118" y="8" w="45" h="57"/>
+        <animation x="215" y="8" w="45" h="57"/>
+        <animation x="312" y="8" w="45" h="57"/>
+        <animation x="409" y="8" w="45" h="57"/>
+        <animation x="506" y="8" w="45" h="57"/>
+      </idle>
+      <run speed="0.08" loop="true">
+        <animation x="112" y=" 76" w="60" h="61"/>
+        <animation x="209" y=" 76" w="60" h="61"/>
+        <animation x="306" y=" 76" w="60" h="61"/>
+        <animation x="112" y=" 76" w="60" h="61"/>
+        <animation x="403" y=" 76" w="60" h="61"/>
+        <animation x="500" y=" 76" w="60" h="61"/>
+        <animation x=" 15" y="148" w="60" h="61"/>
+        <animation x="112" y="148" w="60" h="61"/>
+        <animation x="500" y=" 76" w="60" h="61"/>
+        <animation x="403" y=" 76" w="60" h="61"/>
+      </run>
+      <jump speed="0.05" loop="false">
+        <animation x="211" y="148" w="56" h="60"/>
+        <animation x="405" y="148" w="56" h="60"/>
+        <animation x="502" y="148" w="56" h="60"/>
+        <animation x=" 17" y="219" w="56" h="60"/>
+        <animation x="114" y="219" w="56" h="60"/>
+      </jump>
+      <climb speed="0.05" loop="true">
+        <animation x=" 21" y="431" w="45" h="61"/>
+        <animation x="118" y="431" w="45" h="61"/>
+        <animation x="214" y="431" w="45" h="61"/>
+        <animation x="312" y="431" w="45" h="61"/>
+      </climb>
+      <climbidle>
+        <animation x="21" y="431" w="45" h="61"/>
+      </climbidle>
+    </animations>
   </player>
 </config>
