@@ -22,10 +22,18 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+
+	pugi::xml_node variables = config.child("music");
+
+	music_map1 = (variables.child("music_map1").attribute("location").as_string());
+	music_map2 = variables.child("music_map2").attribute("location").as_string();
+
+	
+
 
 	return ret;
 }
@@ -49,10 +57,10 @@ bool j1Scene::Start()
 		switch (curr_map) {
 		case MAP_1:
 			if (App->audio->active)
-				App->audio->PlayMusic("audio/music/theme-1.ogg", 0.5f);
+				App->audio->PlayMusic(music_map1.GetString(), 0.5f);
 			break;
 		case MAP_2:
-			App->audio->PlayMusic("audio/music/theme-2.ogg", 0.5f);
+			App->audio->PlayMusic(music_map2.GetString(), 0.5f);
 			break;
 
 		}

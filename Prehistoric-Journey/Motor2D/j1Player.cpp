@@ -64,9 +64,9 @@ bool j1Player::Start()
 	LOG("starting player");
 	bool ret = true;
 
-	jump_fx = App->audio->LoadFx("audio/fx/jump.wav");
-	lose_fx = App->audio->LoadFx("audio/fx/lose.wav");
-	texture = App->tex->Load("textures/caverman.png");
+	jump_fx = App->audio->LoadFx(jump_fx_folder.GetString());
+	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
+	texture = App->tex->Load(player_spritesheet.GetString());
 	state = IDLE;
 	player_pos.x = App->map->spawn_pos.x;
 	player_pos.y = App->map->spawn_pos.y;
@@ -76,19 +76,18 @@ bool j1Player::Start()
 	last_saved_pos.y = App->map->spawn_pos.y;
 
 	speed = { 0.0f,0.0f };
-	acceleration = { 0.0f, GRAVITY };
+	acceleration = { 0.0f, gravity };
 
-	collider_offset.x = 5;
-	collider_offset.y = 10;
-	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 }, COLLIDER_PLAYER, this);
-	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,38,48 };
+	
+	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, this);
+	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
 
 	return ret;
 }
 
 bool j1Player::Update(float dt)
 {
-	LOG("%i, %f", App->render->camera.x, player_pos.x);
+	
 
 	return true;
 }
@@ -142,24 +141,24 @@ bool j1Player::PostUpdate()
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			player_pos.x += LIANA_SPEED;
+			player_pos.x += liana_speed;
 			player_x_dir = RIGHT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			player_pos.x -= LIANA_SPEED;
+			player_pos.x -= liana_speed;
 			player_x_dir = LEFT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			player_pos.y += LIANA_SPEED;
+			player_pos.y += liana_speed;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			player_pos.y -= LIANA_SPEED;
+			player_pos.y -= liana_speed;
 			state = LIANA;
 		}
 
@@ -168,7 +167,7 @@ bool j1Player::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			jump.Reset();
 			state = JUMP;
-			speed.y = JUMP_FORCE_LIANA;
+			speed.y = jump_force_liana;
 			
 			jumping = true;
 
@@ -178,12 +177,12 @@ bool j1Player::PostUpdate()
 			on_liana = false;
 
 			if (player_x_dir == LEFT) {
-				speed.x = -MAX_SPEED_X;
-				acceleration.x = -MAX_ACC_X;
+				speed.x = -max_speed_x;
+				acceleration.x = -max_acc_x;
 			}
 			if (player_x_dir == RIGHT) {
-				speed.x = MAX_SPEED_X;
-				acceleration.x = MAX_ACC_X;
+				speed.x = max_speed_x;
+				acceleration.x = max_acc_x;
 			}
 
 			App->audio->PlayFx(jump_fx);
@@ -195,7 +194,7 @@ bool j1Player::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 
-			acceleration.x += ACCELERATION_X;
+			acceleration.x += acceleration_x;
 			if (jumping == false) {
 				state = RUN;
 			}
@@ -212,7 +211,7 @@ bool j1Player::PostUpdate()
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			acceleration.x -= ACCELERATION_X;
+			acceleration.x -= acceleration_x;
 			if (jumping == false) {
 				state = RUN;
 			}
@@ -255,7 +254,7 @@ bool j1Player::PostUpdate()
 		
 		jump.Reset();
 		state = JUMP;
-		speed.y = JUMP_FORCE;
+		speed.y = jump_force;
 		
 		jumping = true;
 		
@@ -270,7 +269,7 @@ bool j1Player::PostUpdate()
 
 
 	if (on_ground == false) {
-		acceleration.y = GRAVITY;
+		acceleration.y = gravity;
 		just_landed = false;
 
 	
@@ -302,11 +301,11 @@ bool j1Player::PostUpdate()
 		acceleration.y = 0.0f;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			acceleration.x += ACCELERATION_X;
+			acceleration.x += acceleration_x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			acceleration.x -= ACCELERATION_X;
+			acceleration.x -= acceleration_x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
@@ -336,15 +335,15 @@ bool j1Player::PostUpdate()
 	
 	colliding_with_liana = false;
 
-	if (speed.x > MAX_SPEED_X)
-		speed.x = MAX_SPEED_X;
-	if (acceleration.x > MAX_ACC_X)
-		acceleration.x = MAX_ACC_X;
+	if (speed.x > max_speed_x)
+		speed.x = max_speed_x;
+	if (acceleration.x > max_acc_x)
+		acceleration.x = max_acc_x;
 
-	if (speed.x < -MAX_SPEED_X)
-		speed.x = -MAX_SPEED_X;
-	if (acceleration.x < -MAX_ACC_X)
-		acceleration.x = -MAX_ACC_X;
+	if (speed.x < -max_speed_x)
+		speed.x = -max_speed_x;
+	if (acceleration.x < -max_acc_x)
+		acceleration.x = -max_acc_x;
 	
 	
 	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
@@ -437,7 +436,7 @@ void j1Player::Draw()
 
 
 
-void j1Player::OnCollision(Collider* c1, Collider* c2) {
+void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 
 
 	
@@ -473,13 +472,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 					if (speed.y < 0.0f) {
 						speed.y = -speed.y;
 					}
-					acceleration.y = GRAVITY;
+					acceleration.y = gravity;
 					player_pos.y = c2->rect.y + c2->rect.h + 1;
 
 				}
 				else
 				{
-					if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x  && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) {
+					if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x  && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
 
 						acceleration.x = 0.0f;
 						speed.x = 0.0f;
@@ -537,20 +536,34 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 }
 
 
-void j1Player::LoadVariablesXML(pugi::xml_node& player_node) {
+void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 
 	pugi::xml_node variables = player_node.child("variables");
 
-	GRAVITY = variables.child("GRAVITY").attribute("value").as_float();
-	SPEED_X = variables.child("SPEED_X").attribute("value").as_float();
-	SPEED_Y = variables.child("SPEED_Y").attribute("value").as_float();
-	ACCELERATION_X = variables.child("ACCELERATION_X").attribute("value").as_float();
-	FRICTION = variables.child("FRICTION").attribute("value").as_float();
-	LIANA_SPEED = variables.child("LIANA_SPEED").attribute("value").as_float();
-	MAX_ACC_X = variables.child("MAX_ACC_X").attribute("value").as_float();
-	MAX_SPEED_X = variables.child("MAX_SPEED_X").attribute("value").as_float();
-	JUMP_FORCE = variables.child("JUMP_FORCE").attribute("value").as_float();
-	JUMP_FORCE_LIANA = variables.child("JUMP_FORCE_LIANA").attribute("value").as_float();
+	limit_map = variables.child("limit_map").attribute("value").as_int();
+	gravity = variables.child("gravity").attribute("value").as_float();
+	speed_x = variables.child("speed_x").attribute("value").as_float();
+	speed_y = variables.child("speed_y").attribute("value").as_float();
+	acceleration_x = variables.child("acceleration_x").attribute("value").as_float();
+	friction = variables.child("friction").attribute("value").as_float();
+	liana_speed = variables.child("liana_speed").attribute("value").as_float();
+	max_acc_x = variables.child("max_acc_x").attribute("value").as_float();
+	max_speed_x = variables.child("max_speed_x").attribute("value").as_float();
+	jump_force = variables.child("jump_force").attribute("value").as_float();
+	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float();
+	collider_offset.x = variables.child("collider_offset").attribute("x").as_int();
+	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
+	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
+	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
+	//player_spritesheet = (const char*)(variables.child("player_spritesheet").attribute("location").as_string()); //is this correct?
+	player_spritesheet = variables.child("player_spritesheet").attribute("location").as_string();
+	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
+	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
+
+	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());
+	lose_fx = App->audio->LoadFx(variables.child("lose_fx_folder").attribute("location").as_string());
+	texture = App->tex->Load(variables.child("player_spritesheet").attribute("location").as_string());*/
+
 }
 
 void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)

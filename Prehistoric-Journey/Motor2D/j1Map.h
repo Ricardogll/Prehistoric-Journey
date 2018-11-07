@@ -28,7 +28,7 @@ struct Properties
 		properties.clear();
 	}
 
-	float LookForPropertyValue(p2SString name);
+	float LookForPropertyValue(const p2SString& name) const;
 };
 
 
@@ -134,19 +134,19 @@ public:
 	bool Load(const char* path);
 
 	
-	iPoint MapToWorld(int x, int y) const;
-	iPoint WorldToMap(int x, int y) const;
+	iPoint MapToWorld(const int x, const int y) const;
+	iPoint WorldToMap(const int x, const int y) const;
 
 	void setColliders();
 
 private:
 
 	bool LoadMap();
-	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
-	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
+	bool LoadTilesetDetails(const pugi::xml_node& tileset_node, TileSet* set);
+	bool LoadTilesetImage(const pugi::xml_node& tileset_node, TileSet* set);
 	
-	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadLayerProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadLayer(const pugi::xml_node& node, MapLayer* layer);
+	bool LoadLayerProperties(const pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
 
 	

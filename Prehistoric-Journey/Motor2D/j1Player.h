@@ -52,9 +52,9 @@ public:
 
 	void Draw();
 	
-	void OnCollision(Collider* c1, Collider* c2);
+	void OnCollision( Collider* c1,  Collider* c2);
 
-	void LoadVariablesXML(pugi::xml_node& player_node);
+	void LoadVariablesXML(const pugi::xml_node& player_node);
 
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	
@@ -90,27 +90,31 @@ private:
 
 	//****XML variables
 
-	float GRAVITY = 0.0f;
-	float SPEED_X = 0.0f;
-	float SPEED_Y = 0.0f;
-	float ACCELERATION_X = 0.0f;
-	float FRICTION = 0.0f;
-	float LIANA_SPEED = 0.0f;
-	float MAX_ACC_X = 0.0f;
-	float MAX_SPEED_X = 0.0f;
-	float JUMP_FORCE = 0.0f;
-	float JUMP_FORCE_LIANA = 0.0f;
+	float gravity = 0.0f;
+	float speed_x = 0.0f;
+	float speed_y = 0.0f;
+	float acceleration_x = 0.0f;
+	float friction = 0.0f;
+	float liana_speed = 0.0f;
+	float max_acc_x = 0.0f;
+	float max_speed_x = 0.0f;
+	float jump_force = 0.0f;
+	float jump_force_liana = 0.0f;
+	iPoint collider_offset = { 0,0 };
+	iPoint collider_dimensions = { 0,0 };
+	p2SString player_spritesheet;
+	p2SString jump_fx_folder;
+	p2SString lose_fx_folder;
 
 public:
 
 	fPoint last_saved_pos = { 0.0f,0.0f };
 	fPoint player_pos = { 0.0f,0.0f };
 	int saved_map = 1;
-	iPoint collider_offset = { 0,0 };
 	bool player_died = false;
 	bool change_map = false;
 	bool god_mode = false;
-	int limit_map = -5375;
+	int limit_map = 0;
 	int start_map = 0;
 
 };

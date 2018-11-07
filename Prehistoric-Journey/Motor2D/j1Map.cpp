@@ -431,7 +431,7 @@ bool j1Map::LoadMap()
 	return ret;
 }
 
-bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
+bool j1Map::LoadTilesetDetails(const pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
 	set->name.create(tileset_node.attribute("name").as_string());
@@ -456,7 +456,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
+bool j1Map::LoadTilesetImage(const pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
 	pugi::xml_node image = tileset_node.child("image");
@@ -493,7 +493,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 }
 
 
-bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
+bool j1Map::LoadLayer(const pugi::xml_node& node, MapLayer* layer)
 {
 	
 	const int size = layer->height*layer->width;
@@ -545,7 +545,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 
 
-bool j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties) {
+bool j1Map::LoadLayerProperties(const  pugi::xml_node& node, Properties& properties) {
 
 	bool ret = true;
 
@@ -570,7 +570,7 @@ bool j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties) {
 	return ret;
 }
 
-float Properties::LookForPropertyValue(p2SString name) {
+float Properties::LookForPropertyValue(const p2SString& name) const{
 
 	p2List_item<Property*>* item = properties.start;
 	while (item != NULL) {

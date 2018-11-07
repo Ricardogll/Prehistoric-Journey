@@ -26,22 +26,37 @@
     <folder>maps/</folder>
   </map>
   
+  <scene>
+    <music>
+		<music_map1 location="audio/music/theme-1.ogg"/>
+		<music_map2 location="audio/music/theme-2.ogg"/>
+		<music_map3 location="audio/music/theme-1.ogg"/>
+	</music>
+  </scene>
+  
   <audio>
 	<volume music="60" fx="60"/> <!-- 128 MAX volume, 0 min volume-->
   </audio>
 	
   <player>
 	   <variables>
-		  <GRAVITY value="0.1"  />
-		  <SPEED_X value="2.5"/>
-		  <SPEED_Y value="0.25" />
-		  <ACCELERATION_X value="0.25" />
-		  <FRICTION value="0.25"/>
-		  <LIANA_SPEED value="1.0"/>
-		  <MAX_ACC_X value="0.5"/>
-		  <MAX_SPEED_X value="2.0"/>
-		  <JUMP_FORCE value="-5.0"/>
-	  	<JUMP_FORCE_LIANA value="-4.0"/>		
+	      <player_spritesheet location="textures/caverman.png"/>
+		  <jump_fx_folder location="audio/fx/jump.wav"/>
+		  <lose_fx_folder location="audio/fx/lose.wav"/>
+		  <limit_map value="-5375"/>
+		  <gravity value="0.1"  />
+		  <speed_x value="2.5"/>
+		  <speed_y value="0.25" />
+		  <acceleration_x value="0.25" />
+		  <friction value="0.25"/>
+		  <liana_speed value="1.0"/>
+		  <max_acc_x value="0.5"/>
+		  <max_speed_x value="2.0"/>
+		  <jump_force value="-5.0"/>
+		  <jump_force_liana value="-4.0"/>
+		  <collider_offset x="5" y="10"/>
+		  <collider_dimensions x="38" y="48"/>
+		  
 	  </variables>
     <animations>
       <idle speed ="0.05" loop="true">

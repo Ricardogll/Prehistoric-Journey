@@ -22,7 +22,7 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node& config);
 
 	// Called before the first frame
 	bool Start();
@@ -41,8 +41,12 @@ public:
 
 public:
 	CurrentMap curr_map = NO_MAP;
+	p2SString music_map1;
+	p2SString music_map2;
+	
 private:
 	bool is_fade = false;
+	
 
 };
 
