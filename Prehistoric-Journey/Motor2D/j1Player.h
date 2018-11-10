@@ -88,6 +88,8 @@ private:
 	uint jump_fx = 0u;
 	uint lose_fx = 0u;
 
+	float dt_current = 0.0f;
+
 	//****XML variables
 
 	float gravity = 0.0f;

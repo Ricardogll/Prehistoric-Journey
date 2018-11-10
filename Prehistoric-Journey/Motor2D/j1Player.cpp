@@ -87,7 +87,7 @@ bool j1Player::Start()
 
 bool j1Player::Update(float dt)
 {
-	
+	dt_current = dt;
 
 	return true;
 }
@@ -141,24 +141,24 @@ bool j1Player::PostUpdate()
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			player_pos.x += liana_speed;
+			player_pos.x += liana_speed * dt_current;
 			player_x_dir = RIGHT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			player_pos.x -= liana_speed;
+			player_pos.x -= liana_speed * dt_current;
 			player_x_dir = LEFT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			player_pos.y += liana_speed;
+			player_pos.y += liana_speed * dt_current;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			player_pos.y -= liana_speed;
+			player_pos.y -= liana_speed * dt_current;
 			state = LIANA;
 		}
 
@@ -171,7 +171,7 @@ bool j1Player::PostUpdate()
 			
 			jumping = true;
 
-			
+			LOG("LIANAAAAAAAAAAAAAAA JUMP");
 			on_ground = false;
 			just_landed = false;
 			on_liana = false;
@@ -251,7 +251,7 @@ bool j1Player::PostUpdate()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
 	{
-		
+		LOG("JUUUUMPING");
 		jump.Reset();
 		state = JUMP;
 		speed.y = jump_force;
@@ -328,23 +328,28 @@ bool j1Player::PostUpdate()
 	if (on_liana)
 		acceleration.y = 0.0f;
 	
-	player_pos.x += speed.x;
-	player_pos.y += speed.y;
+	player_pos.x += speed.x * dt_current;
+	player_pos.y += speed.y * dt_current;
 	speed.x += acceleration.x;
 	speed.y += acceleration.y;
 	
 	colliding_with_liana = false;
 
-	if (speed.x > max_speed_x)
+	if (speed.x > max_speed_x )
 		speed.x = max_speed_x;
+
 	if (acceleration.x > max_acc_x)
 		acceleration.x = max_acc_x;
 
+
 	if (speed.x < -max_speed_x)
 		speed.x = -max_speed_x;
+
 	if (acceleration.x < -max_acc_x)
 		acceleration.x = -max_acc_x;
 	
+	if (on_ground)
+		LOG("Ground");
 	
 	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 	
@@ -540,17 +545,18 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 
 	pugi::xml_node variables = player_node.child("variables");
 
+	int multiplier = 70;
 	limit_map = variables.child("limit_map").attribute("value").as_int();
-	gravity = variables.child("gravity").attribute("value").as_float();
-	speed_x = variables.child("speed_x").attribute("value").as_float();
-	speed_y = variables.child("speed_y").attribute("value").as_float();
-	acceleration_x = variables.child("acceleration_x").attribute("value").as_float();
-	friction = variables.child("friction").attribute("value").as_float();
-	liana_speed = variables.child("liana_speed").attribute("value").as_float();
-	max_acc_x = variables.child("max_acc_x").attribute("value").as_float();
-	max_speed_x = variables.child("max_speed_x").attribute("value").as_float();
-	jump_force = variables.child("jump_force").attribute("value").as_float();
-	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float();
+	gravity = variables.child("gravity").attribute("value").as_float() * multiplier;
+	speed_x = variables.child("speed_x").attribute("value").as_float() * multiplier;
+	speed_y = variables.child("speed_y").attribute("value").as_float() * multiplier;
+	acceleration_x = variables.child("acceleration_x").attribute("value").as_float() * multiplier;
+	friction = variables.child("friction").attribute("value").as_float() * multiplier;
+	liana_speed = variables.child("liana_speed").attribute("value").as_float() * multiplier;
+	max_acc_x = variables.child("max_acc_x").attribute("value").as_float() * multiplier;
+	max_speed_x = variables.child("max_speed_x").attribute("value").as_float() * multiplier;
+	jump_force = variables.child("jump_force").attribute("value").as_float() * multiplier;
+	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float() * multiplier;
 	collider_offset.x = variables.child("collider_offset").attribute("x").as_int();
 	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
