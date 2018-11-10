@@ -3,6 +3,8 @@
 
 #include "p2List.h"
 #include "j1Module.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 #include "PugiXml\src\pugixml.hpp"
 
 
@@ -18,6 +20,7 @@ class j1FadeToBlack;
 class j1Map;
 class j1Collision;
 class j1Player;
+class j1PathFinding;
 
 class j1App
 {
@@ -81,34 +84,47 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
-	j1FadeToBlack*		fade;
-	j1Map*				map;
-	j1Collision*		collision;
-	j1Player*			player;
+	j1Window*			win = NULL;
+	j1Input*			input = NULL;
+	j1Render*			render = NULL;
+	j1Textures*			tex = NULL;
+	j1Audio*			audio = NULL;
+	j1Scene*			scene = NULL;
+	j1FadeToBlack*		fade = NULL;
+	j1Map*				map = NULL;
+	j1Collision*		collision = NULL;
+	j1Player*			player = NULL;
+	j1PathFinding*		pathfinding = NULL;
 
 	
+	float				dt = 0.0f;
 
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
-	float				dt;
 	int					argc;
 	char**				args;
 
 	p2SString			title;
 	p2SString			organization;
+	uint				frame_cap = 0u;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	p2SString			load_game;
 	mutable p2SString	save_game;
+
+	j1PerfTimer			ptimer;
+	uint64				frame_count = 0u;
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0u;
+	uint32				prev_last_sec_frame_count = 0u;
+	j1PerfTimer			ptimer_test_delay;
+	uint32				current_frame_time = 0u;
+	
 };
 
 extern j1App* App; 

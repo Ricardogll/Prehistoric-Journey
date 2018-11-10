@@ -232,9 +232,9 @@ bool j1Scene::Update(float dt)
 	App->map->Draw();
 	App->player->Draw();
 	
-	
-	p2SString title = App->GetTitle();
-	App->win->SetTitle(title.GetString());
+	//Set game title
+	//p2SString title = App->GetTitle();
+	//App->win->SetTitle(title.GetString());
 	return true;
 }
 
