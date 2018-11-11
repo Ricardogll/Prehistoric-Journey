@@ -234,11 +234,14 @@ void j1App::FinishUpdate()
 
 	
 	
-	while (last_frame_ms > frame_cap)
+	while (last_frame_ms > frame_cap) {
 		last_frame_ms -= frame_cap;
+		LOG("Reduced from %u to %u", last_frame_ms + frame_cap, last_frame_ms);
+	}
 
+	uint wait_time = frame_cap/1000 - ptimer_test_delay.ReadMs();
 	ptimer_test_delay.Start();
-	SDL_Delay(frame_cap - last_frame_ms);
+	SDL_Delay( frame_cap - last_frame_ms);
 	LOG("Shold wait: %i ms. Really waited: %f ms", frame_cap - last_frame_ms, ptimer_test_delay.ReadMs());
 
 	

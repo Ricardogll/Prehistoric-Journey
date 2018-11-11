@@ -93,8 +93,6 @@ private:
 	//****XML variables
 
 	float gravity = 0.0f;
-	float speed_x = 0.0f;
-	float speed_y = 0.0f;
 	float acceleration_x = 0.0f;
 	float friction = 0.0f;
 	float liana_speed = 0.0f;

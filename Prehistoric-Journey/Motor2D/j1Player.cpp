@@ -171,7 +171,7 @@ bool j1Player::PostUpdate()
 			
 			jumping = true;
 
-			LOG("LIANAAAAAAAAAAAAAAA JUMP");
+		
 			on_ground = false;
 			just_landed = false;
 			on_liana = false;
@@ -251,7 +251,7 @@ bool j1Player::PostUpdate()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
 	{
-		LOG("JUUUUMPING");
+		
 		jump.Reset();
 		state = JUMP;
 		speed.y = jump_force;
@@ -348,8 +348,7 @@ bool j1Player::PostUpdate()
 	if (acceleration.x < -max_acc_x)
 		acceleration.x = -max_acc_x;
 	
-	if (on_ground)
-		LOG("Ground");
+	
 	
 	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 	
@@ -499,10 +498,10 @@ void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 					}
 				}
 
-				if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x + 1 >= c2->rect.x + c2->rect.w) {
+				if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w) {
 					on_ground = false;
 				}
-				else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x - 1 <= c2->rect.x) {
+				else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x) {
 					on_ground = false;
 				}
 			}
@@ -545,23 +544,21 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 
 	pugi::xml_node variables = player_node.child("variables");
 
-	int multiplier = 70;
+	
 	limit_map = variables.child("limit_map").attribute("value").as_int();
-	gravity = variables.child("gravity").attribute("value").as_float() * multiplier;
-	speed_x = variables.child("speed_x").attribute("value").as_float() * multiplier;
-	speed_y = variables.child("speed_y").attribute("value").as_float() * multiplier;
-	acceleration_x = variables.child("acceleration_x").attribute("value").as_float() * multiplier;
-	friction = variables.child("friction").attribute("value").as_float() * multiplier;
-	liana_speed = variables.child("liana_speed").attribute("value").as_float() * multiplier;
-	max_acc_x = variables.child("max_acc_x").attribute("value").as_float() * multiplier;
-	max_speed_x = variables.child("max_speed_x").attribute("value").as_float() * multiplier;
-	jump_force = variables.child("jump_force").attribute("value").as_float() * multiplier;
-	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float() * multiplier;
+	gravity = variables.child("gravity").attribute("value").as_float();
+	acceleration_x = variables.child("acceleration_x").attribute("value").as_float();
+	friction = variables.child("friction").attribute("value").as_float();
+	liana_speed = variables.child("liana_speed").attribute("value").as_float();
+	max_acc_x = variables.child("max_acc_x").attribute("value").as_float();
+	max_speed_x = variables.child("max_speed_x").attribute("value").as_float();
+	jump_force = variables.child("jump_force").attribute("value").as_float();
+	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float();
 	collider_offset.x = variables.child("collider_offset").attribute("x").as_int();
 	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
 	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
-	//player_spritesheet = (const char*)(variables.child("player_spritesheet").attribute("location").as_string()); //is this correct?
+	//player_spritesheet = (const char*)(variables.child("player_spritesheet").attribute("location").as_string()); //is this correct? //SALTA A DIFERENTES ALTURAS, PORQUE?!
 	player_spritesheet = variables.child("player_spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
