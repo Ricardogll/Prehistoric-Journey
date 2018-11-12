@@ -124,6 +124,10 @@ private:
 	uint32				prev_last_sec_frame_count = 0u;
 	j1PerfTimer			ptimer_test_delay;
 	uint32				current_frame_time = 0u;
+
+	p2SString			vsync_str;
+	p2SString			fps_cap_str;
+	bool				fps_capped = true;
 	
 };
 

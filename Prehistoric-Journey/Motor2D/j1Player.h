@@ -58,6 +58,8 @@ public:
 
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	
+	void AnimationsApplyDt();
+
 private:
 
 	SDL_Rect player_rect = { 0,0 };
@@ -83,6 +85,14 @@ private:
 	Animation climbing = Animation();
 	Animation climbing_idle = Animation();
 	
+	bool anim_speed_flag = false;
+	float idle_anim_speed = 0.0f;
+	float run_anim_speed = 0.0f;
+	float jump_anim_speed = 0.0f;
+	float climbing_anim_speed = 0.0f;
+	//float climbing_idle_anim_speed = 0.0f;
+
+
 	Collider* player_collider = nullptr;
 
 	uint jump_fx = 0u;
@@ -94,7 +104,6 @@ private:
 
 	float gravity = 0.0f;
 	float acceleration_x = 0.0f;
-	float friction = 0.0f;
 	float liana_speed = 0.0f;
 	float max_acc_x = 0.0f;
 	float max_speed_x = 0.0f;

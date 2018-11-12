@@ -7,7 +7,7 @@
   </app>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
@@ -44,20 +44,19 @@
 		  <jump_fx_folder location="audio/fx/jump.wav"/>
 		  <lose_fx_folder location="audio/fx/lose.wav"/>
 		  <limit_map value="-5375"/>
-		  <gravity value="10"  />
-		  <acceleration_x value="17.5" />
-		  <friction value="17.5"/>
+		  <gravity value="450"  />
+		  <acceleration_x value="100" />
 		  <liana_speed value="120.0"/>
-		  <max_acc_x value="40"/>
-		  <max_speed_x value="225"/>
-		  <jump_force value="-500.0"/>
-		  <jump_force_liana value="-330.0"/>
+		  <max_acc_x value="200"/>
+		  <max_speed_x value="200"/>
+		  <jump_force value="-350.0"/>
+		  <jump_force_liana value="-200.0"/>
 		  <collider_offset x="5" y="10"/>
 		  <collider_dimensions x="38" y="48"/>
 		  
 	  </variables>
     <animations>
-      <idle speed ="0.05" loop="true">
+      <idle speed ="3" loop="true">
         <animation x=" 21" y="8" w="45" h="57"/>
         <animation x="118" y="8" w="45" h="57"/>
         <animation x="215" y="8" w="45" h="57"/>
@@ -65,7 +64,7 @@
         <animation x="409" y="8" w="45" h="57"/>
         <animation x="506" y="8" w="45" h="57"/>
       </idle>
-      <run speed="0.08" loop="true">
+      <run speed="4.8" loop="true">
         <animation x="112" y=" 76" w="60" h="61"/>
         <animation x="209" y=" 76" w="60" h="61"/>
         <animation x="306" y=" 76" w="60" h="61"/>
@@ -77,20 +76,20 @@
         <animation x="500" y=" 76" w="60" h="61"/>
         <animation x="403" y=" 76" w="60" h="61"/>
       </run>
-      <jump speed="0.05" loop="false">
+      <jump speed="3" loop="false">
         <animation x="211" y="148" w="56" h="60"/>
         <animation x="405" y="148" w="56" h="60"/>
         <animation x="502" y="148" w="56" h="60"/>
         <animation x=" 17" y="219" w="56" h="60"/>
         <animation x="114" y="219" w="56" h="60"/>
       </jump>
-      <climb speed="0.05" loop="true">
+      <climb speed="3" loop="true">
         <animation x=" 21" y="431" w="45" h="61"/>
         <animation x="118" y="431" w="45" h="61"/>
         <animation x="214" y="431" w="45" h="61"/>
         <animation x="312" y="431" w="45" h="61"/>
       </climb>
-      <climbidle>
+      <climbidle speed="1" loop="true">
         <animation x="21" y="431" w="45" h="61"/>
       </climbidle>
     </animations>

@@ -213,24 +213,11 @@ void j1App::FinishUpdate()
 	float seconds_since_startup = startup_time.ReadSec();
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
-	uint a = startup_time.Read();
+	//uint32 frame_ms_perf = startup_time.Read();
 
-	dt = (startup_time.Read() - current_frame_time) / 1000.0f;
+	
 
 
-//This makes a random error on sprintf_s that doesnt get the correct dt value so did it a little longer
-
-	/*
-	sprintf_s(title, 500, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Time since startup: %.3f Frame Count: %lu Last dt: %.3f",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count, dt);
-	*/
-
-	int i = 0;
-	static char title[500];
-	i = sprintf_s(title, 500, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Time since startup: %.3f Frame Count: %lu ",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
-	i += sprintf_s(title + i, 500 - i, " Last dt: %.3f", dt);
-	App->win->SetTitle(title);
 
 	
 	
@@ -239,11 +226,50 @@ void j1App::FinishUpdate()
 		LOG("Reduced from %u to %u", last_frame_ms + frame_cap, last_frame_ms);
 	}
 
-	uint wait_time = frame_cap/1000 - ptimer_test_delay.ReadMs();
-	ptimer_test_delay.Start();
-	SDL_Delay( frame_cap - last_frame_ms);
-	LOG("Shold wait: %i ms. Really waited: %f ms", frame_cap - last_frame_ms, ptimer_test_delay.ReadMs());
+	
+	
+	if (fps_capped) {
+		//if (last_frame_ms < frame_cap && App->render->vsync == false) {
+		if (App->render->vsync == false) {
+			ptimer_test_delay.Start();
+			SDL_Delay(frame_cap - last_frame_ms);
+			LOG("Shold wait: %i ms. Really waited: %f ms", frame_cap - last_frame_ms, ptimer_test_delay.ReadMs());
+		}
+	}
 
+	dt = (startup_time.Read() - current_frame_time) / 1000.0f;
+
+
+	//This makes a random error on sprintf_s that doesnt get the correct dt value so did it a little longer
+
+		/*
+		sprintf_s(title, 500, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Time since startup: %.3f Frame Count: %lu Last dt: %.3f",
+			avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count, dt);
+		*/
+
+	if (App->render->vsync)
+		vsync_str = "On";
+	else
+		vsync_str = "Off";
+
+	if (fps_capped)
+		fps_cap_str = "On";
+	else
+		fps_cap_str = "Off";
+
+
+	int i = 0;
+	static char title[500];
+	i = sprintf_s(title, 500, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	i += sprintf_s(title + i, 500 - i, " Last dt: %.3f, ( Fps cap: %s Vsync: %s )", dt, fps_cap_str.GetString(), vsync_str.GetString());
+
+
+	App->win->SetTitle(title);
+
+
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		fps_capped = !fps_capped;
 	
 }
 

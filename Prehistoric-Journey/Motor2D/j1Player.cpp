@@ -76,7 +76,7 @@ bool j1Player::Start()
 	last_saved_pos.y = App->map->spawn_pos.y;
 
 	speed = { 0.0f,0.0f };
-	acceleration = { 0.0f, gravity };
+	acceleration = { 0.0f, 0.0f };
 
 	
 	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, this);
@@ -99,6 +99,9 @@ bool j1Player::PostUpdate()
 		App->render->camera.x = start_map;
 	if (App->render->camera.x < limit_map)
 		App->render->camera.x = limit_map;
+
+
+	AnimationsApplyDt();
 
 
 
@@ -240,10 +243,10 @@ bool j1Player::PostUpdate()
 			if (jumping == false) {
 				state = IDLE;
 			}
-			if (key_d_pressed == false) {
+			//if (key_d_pressed == false) { 
 				acceleration.x = 0.0f;
 				speed.x = 0.0f;
-			}
+			//}
 
 		}
 		key_d_pressed = false;
@@ -296,7 +299,7 @@ bool j1Player::PostUpdate()
 		
 	}
 
-	if(god_mode == true)
+	if(god_mode == true) //CHANGE THIS NUMBERS TO XML AND PUT DT
 	{
 		acceleration.y = 0.0f;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -330,20 +333,20 @@ bool j1Player::PostUpdate()
 	
 	player_pos.x += speed.x * dt_current;
 	player_pos.y += speed.y * dt_current;
-	speed.x += acceleration.x;
-	speed.y += acceleration.y;
+	speed.x += acceleration.x * dt_current;
+	speed.y += acceleration.y * dt_current;
 	
 	colliding_with_liana = false;
 
-	if (speed.x > max_speed_x )
+	if (speed.x > max_speed_x)
 		speed.x = max_speed_x;
 
-	if (acceleration.x > max_acc_x)
+	if (acceleration.x> max_acc_x)
 		acceleration.x = max_acc_x;
 
 
-	if (speed.x < -max_speed_x)
-		speed.x = -max_speed_x;
+	if (speed.x < -max_speed_x )
+		speed.x = -max_speed_x ;
 
 	if (acceleration.x < -max_acc_x)
 		acceleration.x = -max_acc_x;
@@ -531,7 +534,8 @@ void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 				player_died = true;
 				App->audio->PlayFx(lose_fx);
 				speed = { 0.0f,0.0f };
-				
+				acceleration = { 0.0f,0.0f };
+
 				player_pos.x = App->map->spawn_pos.x;
 				player_pos.y = App->map->spawn_pos.y;
 			}
@@ -548,7 +552,6 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	limit_map = variables.child("limit_map").attribute("value").as_int();
 	gravity = variables.child("gravity").attribute("value").as_float();
 	acceleration_x = variables.child("acceleration_x").attribute("value").as_float();
-	friction = variables.child("friction").attribute("value").as_float();
 	liana_speed = variables.child("liana_speed").attribute("value").as_float();
 	max_acc_x = variables.child("max_acc_x").attribute("value").as_float();
 	max_speed_x = variables.child("max_speed_x").attribute("value").as_float();
@@ -580,4 +583,30 @@ void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
 		coord.h = config.attribute("h").as_uint();
 		animation.PushBack(coord);
 	}
+
+	
+
+}
+
+void j1Player::AnimationsApplyDt() {
+
+	if (anim_speed_flag == false) {
+		 idle_anim_speed = idle.speed;
+		 run_anim_speed = run.speed;
+		 jump_anim_speed = jump.speed;
+		 climbing_anim_speed = climbing.speed;
+		 //climbing_idle_anim_speed = climbing_idle.speed;
+
+		 anim_speed_flag = true;
+	}
+	else
+	{
+		idle.speed = idle_anim_speed * dt_current;
+		run.speed = run_anim_speed * dt_current;
+		jump.speed = jump_anim_speed * dt_current;
+		climbing.speed = climbing_anim_speed * dt_current;
+		//climbing_idle.speed = climbing_idle_anim_speed * dt_current;
+	}
+
+
 }
