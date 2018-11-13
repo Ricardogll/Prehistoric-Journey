@@ -54,6 +54,10 @@ bool j1Player::Awake(pugi::xml_node& config)
 	climbing_idle.speed = animations.child("climbidle").attribute("speed").as_float();
 	climbing_idle.loop = animations.child("climbidle").attribute("loop").as_bool();
 
+	SetAnimations(animations.child("attack").child("animation"), attack);
+	attack.speed = animations.child("attack").attribute("speed").as_float();
+	attack.loop = animations.child("attack").attribute("loop").as_bool();
+
 	return ret;
 }
 
@@ -194,7 +198,7 @@ bool j1Player::PostUpdate()
 	}
 	else {
 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && attacking == false)
 		{
 
 			acceleration.x += acceleration_x;
@@ -212,7 +216,7 @@ bool j1Player::PostUpdate()
 			player_x_dir = RIGHT;
 			key_d_pressed = true;
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && attacking == false)
 		{
 			acceleration.x -= acceleration_x;
 			if (jumping == false) {
@@ -249,12 +253,33 @@ bool j1Player::PostUpdate()
 			//}
 
 		}
+
+		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && attacking == false && on_ground == true)
+		{
+			attack.Reset();
+			start_attack = SDL_GetTicks();
+			attacking = true;
+		}
+
+		if (start_attack + 325 < SDL_GetTicks() && attacking == true)
+		{
+			state = IDLE;
+			start_attack = 0;
+			attacking = false;
+		}
+
+		if (attacking == true)
+		{
+			state = ATTACK;
+			acceleration.x = 0.0f;
+			speed.x = 0.0f;
+		}
+
 		key_d_pressed = false;
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
-	{
-		
+	{		
 		jump.Reset();
 		state = JUMP;
 		speed.y = jump_force;
@@ -265,25 +290,18 @@ bool j1Player::PostUpdate()
 		on_ground = false;
 		just_landed = false;
 
-		App->audio->PlayFx(jump_fx);
-	
+		App->audio->PlayFx(jump_fx);	
 	}
 
 
 
 	if (on_ground == false) {
 		acceleration.y = gravity;
-		just_landed = false;
-
-	
+		just_landed = false;	
 	}
 	else 
-	{
-
-		
-		on_ground = true;
-
-		
+	{			
+		on_ground = true;		
 		jumping = false;
 
 		if (just_landed == false) {
@@ -294,9 +312,7 @@ bool j1Player::PostUpdate()
 				state = RUN;
 			else
 				state = IDLE;
-		}
-
-		
+		}		
 	}
 
 	if(god_mode == true) //CHANGE THIS NUMBERS TO XML AND PUT DT
@@ -408,22 +424,25 @@ void j1Player::Draw()
 		break;
 
 	case JUMP:
-		current_animation = &jump;
-		
+		current_animation = &jump;		
 		break;
 
 	case LIANA:
 		current_animation = &climbing;
 		break;
+
 	case LIANA_IDLE:
 		current_animation = &climbing_idle;
 		break;
+
+	case ATTACK:
+		current_animation = &attack;
+		break;
+
 	default:
 		current_animation = &idle;
 
 	}
-
-
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT && on_liana==false) {
@@ -432,21 +451,9 @@ void j1Player::Draw()
 	else {
 		App->render->Blit(texture, player_pos.x, player_pos.y, &(current_animation->GetCurrentFrame()));
 	}
-
-	
-	
-
-
 }
 
-
-
-
-
-void j1Player::OnCollision( Collider* c1,  Collider* c2) {
-
-
-	
+void j1Player::OnCollision( Collider* c1,  Collider* c2) {	
 
 		if (App->map->data.layers.end != nullptr) {
 
@@ -463,8 +470,6 @@ void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 
 			int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
 			int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
-
-
 
 			if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
 			{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
@@ -507,16 +512,12 @@ void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 				else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x) {
 					on_ground = false;
 				}
-			}
-
-
-			
+			}			
 
 			//****LIANAS
 			if (c2->type == COLLIDER_LIANA) {
 				colliding_with_liana = true;
 			}
-
 
 			if (c2->type == COLLIDER_LIANA && key_w_pressed) {
 				acceleration = { 0.0f,0.0f };
@@ -539,15 +540,13 @@ void j1Player::OnCollision( Collider* c1,  Collider* c2) {
 				player_pos.x = App->map->spawn_pos.x;
 				player_pos.y = App->map->spawn_pos.y;
 			}
-		}
-	
+		}	
 }
 
 
 void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 
 	pugi::xml_node variables = player_node.child("variables");
-
 	
 	limit_map = variables.child("limit_map").attribute("value").as_int();
 	gravity = variables.child("gravity").attribute("value").as_float();
@@ -569,7 +568,6 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());
 	lose_fx = App->audio->LoadFx(variables.child("lose_fx_folder").attribute("location").as_string());
 	texture = App->tex->Load(variables.child("player_spritesheet").attribute("location").as_string());*/
-
 }
 
 void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
@@ -583,9 +581,6 @@ void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
 		coord.h = config.attribute("h").as_uint();
 		animation.PushBack(coord);
 	}
-
-	
-
 }
 
 void j1Player::AnimationsApplyDt() {
@@ -596,6 +591,7 @@ void j1Player::AnimationsApplyDt() {
 		 jump_anim_speed = jump.speed;
 		 climbing_anim_speed = climbing.speed;
 		 //climbing_idle_anim_speed = climbing_idle.speed;
+		 attack_anim_speed = attack.speed;
 
 		 anim_speed_flag = true;
 	}
@@ -606,7 +602,6 @@ void j1Player::AnimationsApplyDt() {
 		jump.speed = jump_anim_speed * dt_current;
 		climbing.speed = climbing_anim_speed * dt_current;
 		//climbing_idle.speed = climbing_idle_anim_speed * dt_current;
+		attack.speed = attack_anim_speed * dt_current;
 	}
-
-
 }

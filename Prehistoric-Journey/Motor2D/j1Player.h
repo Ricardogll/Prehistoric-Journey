@@ -24,6 +24,7 @@ enum STATE {
 	JUMP,
 	LIANA,
 	LIANA_IDLE,
+	ATTACK,
 	NO_STATE,
 };
 
@@ -75,6 +76,7 @@ private:
 	bool key_d_pressed = false;
 	bool key_w_pressed = false;
 	bool colliding_with_liana = false;
+	bool attacking = false;
 	
 	SDL_Texture* texture = nullptr;
 
@@ -84,6 +86,7 @@ private:
 	Animation jump = Animation();
 	Animation climbing = Animation();
 	Animation climbing_idle = Animation();
+	Animation attack = Animation();
 	
 	bool anim_speed_flag = false;
 	float idle_anim_speed = 0.0f;
@@ -91,7 +94,8 @@ private:
 	float jump_anim_speed = 0.0f;
 	float climbing_anim_speed = 0.0f;
 	//float climbing_idle_anim_speed = 0.0f;
-
+	float attack_anim_speed = 0.0f;
+	uint32 start_attack = 0;
 
 	Collider* player_collider = nullptr;
 
@@ -127,8 +131,4 @@ public:
 	int start_map = 0;
 
 };
-
-
-
-
 #endif
