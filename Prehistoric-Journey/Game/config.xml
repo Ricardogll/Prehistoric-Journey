@@ -7,7 +7,7 @@
   </app>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -44,12 +44,12 @@
 		  <jump_fx_folder location="audio/fx/jump.wav"/>
 		  <lose_fx_folder location="audio/fx/lose.wav"/>
 		  <limit_map value="-5375"/>
-		  <gravity value="450"  />
-		  <acceleration_x value="100" />
-		  <liana_speed value="120.0"/>
-		  <max_acc_x value="200"/>
-		  <max_speed_x value="200"/>
-		  <jump_force value="-350.0"/>
+		  <gravity value="500"  />
+		  <acceleration_x value="125" />
+		  <liana_speed value="100"/>
+		  <max_acc_x value="150"/>
+		  <max_speed_x value="150"/>
+		  <jump_force value="-325.0"/>
 		  <jump_force_liana value="-200.0"/>
 		  <collider_offset x="5" y="10"/>
 		  <collider_dimensions x="38" y="48"/>
@@ -89,7 +89,7 @@
         <animation x="214" y="431" w="45" h="61"/>
         <animation x="312" y="431" w="45" h="61"/>
       </climb>
-      <climbidle speed="1" loop="true">
+      <climbidle>
         <animation x="21" y="431" w="45" h="61"/>
       </climbidle>
     </animations>
