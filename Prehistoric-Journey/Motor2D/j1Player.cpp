@@ -453,94 +453,105 @@ void j1Player::Draw()
 	}
 }
 
-void j1Player::OnCollision( Collider* c1,  Collider* c2) {	
-
-		if (App->map->data.layers.end != nullptr) {
+void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 
-			MapLayer* layer_coll = App->map->data.layers.end->data;
-			iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
-			iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
 
-			int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
-			int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
 
-			iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
-			iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
+	if (App->map->data.layers.end != nullptr) {
 
-			int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
-			int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
 
-			if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
-			{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
-				if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
+		MapLayer* layer_coll = App->map->data.layers.end->data;
+		iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
+		iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
 
-					acceleration.y = 0.0f;
-					speed.y = 0.0f;
-					on_ground = true;
-				}
+		int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
+		int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
 
-				if (c1->rect.y + (int)speed.y - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
-					if (speed.y < 0.0f) {
-						speed.y = -speed.y;
-					}
-					acceleration.y = gravity;
-					player_pos.y = c2->rect.y + c2->rect.h + 1;
+		iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
+		iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
 
-				}
-				else
-				{
-					if (c1->rect.x + c1->rect.w + (int)speed.x + 1 > c2->rect.x  && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+		int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
+		int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
 
-						acceleration.x = 0.0f;
-						speed.x = 0.0f;
-						player_pos.x--;
 
-					}
-					else if (c1->rect.x + (int)speed.x - 1 < c2->rect.x + c2->rect.w && c1->rect.y + c1->rect.h - 15 > c2->rect.y && player_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
-						acceleration.x = 0.0f;
-						speed.x = 0.0f;
-						player_pos.x++;
+		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
+		{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
+			if (c1->rect.y + c1->rect.h + (int)speed.y * dt_current + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
 
-					}
-				}
-
-				if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w) {
-					on_ground = false;
-				}
-				else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x) {
-					on_ground = false;
-				}
-			}			
-
-			//****LIANAS
-			if (c2->type == COLLIDER_LIANA) {
-				colliding_with_liana = true;
+				acceleration.y = 0.0f;
+				speed.y = 0.0f;
+				on_ground = true;
 			}
 
-			if (c2->type == COLLIDER_LIANA && key_w_pressed) {
-				acceleration = { 0.0f,0.0f };
-				speed = { 0.0f,0.0f };
-				on_liana = true;
+			if (c1->rect.y + (int)speed.y * dt_current - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
+				if (speed.y < 0.0f) {
+					speed.y = -speed.y;
+				}
+				acceleration.y = gravity;
+				player_pos.y = c2->rect.y + c2->rect.h + 1;
+
+			}
+			else
+			{
+
+				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && player_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+
+					acceleration.x = 0.0f;
+					speed.x = 0.0f;
+					player_pos.x++;
+
+				}
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+
+					acceleration.x = 0.0f;
+					speed.x = 0.0f;
+					player_pos.x--;
+
+				}
 			}
 
-			//****** LEVEL END
-
-			if (c2->type == COLLIDER_LEVEL_END && change_map == false) {
-				change_map = true;				
+			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && player_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid == 0)) {
+				on_ground = false;
 			}
-
-			if (c2->type == COLLIDER_DEAD && player_died == false && god_mode == false) {
-				player_died = true;
-				App->audio->PlayFx(lose_fx);
-				speed = { 0.0f,0.0f };
-				acceleration = { 0.0f,0.0f };
-
-				player_pos.x = App->map->spawn_pos.x;
-				player_pos.y = App->map->spawn_pos.y;
+			else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && player_x_dir == LEFT && (down_left_gid == 62 || down_left_gid == 0)) {
+				on_ground = false;
 			}
-		}	
+		}
+
+
+
+
+		//****LIANAS
+		if (c2->type == COLLIDER_LIANA) {
+			colliding_with_liana = true;
+		}
+
+
+		if (c2->type == COLLIDER_LIANA && key_w_pressed) {
+			acceleration = { 0.0f,0.0f };
+			speed = { 0.0f,0.0f };
+			on_liana = true;
+		}
+
+		//****** LEVEL END
+
+		if (c2->type == COLLIDER_LEVEL_END && change_map == false) {
+			change_map = true;
+		}
+
+		if (c2->type == COLLIDER_DEAD && player_died == false && god_mode == false) {
+			player_died = true;
+			App->audio->PlayFx(lose_fx);
+			speed = { 0.0f,0.0f };
+			acceleration = { 0.0f,0.0f };
+
+			player_pos.x = App->map->spawn_pos.x;
+			player_pos.y = App->map->spawn_pos.y;
+		}
+	}
+
 }
 
 

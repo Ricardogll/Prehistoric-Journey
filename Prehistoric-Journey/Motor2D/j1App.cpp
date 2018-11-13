@@ -220,12 +220,12 @@ void j1App::FinishUpdate()
 
 
 	
-	
+	uint32 frames_brefore = last_frame_ms;
 	while (last_frame_ms > frame_cap) {
 		last_frame_ms -= frame_cap;
-		LOG("Reduced from %u to %u", last_frame_ms + frame_cap, last_frame_ms);
+		LOG("Reduced from %u to %u", frames_brefore, last_frame_ms);
 	}
-
+	
 	
 	
 	if (fps_capped) {
