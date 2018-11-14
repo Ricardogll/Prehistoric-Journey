@@ -1,6 +1,6 @@
 #include "p2Defs.h"
 #include "p2Log.h"
-#include "j1Player.h"
+#include "Player.h"
 #include "p2List.h"
 #include "j1App.h"
 #include "j1Render.h"
@@ -14,18 +14,18 @@
 
 
 
-j1Player::j1Player() : j1Module()
+Player::Player(int x, int y, EntityTypes type) : Entity(x, y, type)
 {
-	name.create("player");	
+	
 
 }
 
-j1Player::~j1Player()
+Player::~Player()
 {
 
 }
 
-bool j1Player::Awake(pugi::xml_node& config)
+bool Player::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Player");
 	bool ret = true;
@@ -57,11 +57,12 @@ bool j1Player::Awake(pugi::xml_node& config)
 	SetAnimations(animations.child("attack").child("animation"), attack);
 	attack.speed = animations.child("attack").attribute("speed").as_float();
 	attack.loop = animations.child("attack").attribute("loop").as_bool();
+	Start();
 
 	return ret;
 }
 
-bool j1Player::Start()
+bool Player::Start()
 {
 
 
@@ -83,20 +84,20 @@ bool j1Player::Start()
 	acceleration = { 0.0f, 0.0f };
 
 	
-	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, this);
+	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
 	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
 
 	return ret;
 }
 
-bool j1Player::Update(float dt)
+void Player::Update(float dt)
 {
 	dt_current = dt;
 
-	return true;
+	
 }
 
-bool j1Player::PostUpdate()
+bool Player::PostUpdate()
 {
 	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->win->width / 2;
 	if (App->render->camera.x > start_map)
@@ -376,7 +377,7 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
-bool j1Player::CleanUp()
+bool Player::CleanUp()
 {
 	LOG("Destroying player");
 	bool ret = true;
@@ -387,7 +388,7 @@ bool j1Player::CleanUp()
 }
 
 
-bool j1Player::Load(pugi::xml_node& node)
+bool Player::Load(pugi::xml_node& node)
 {
 	
 
@@ -400,7 +401,7 @@ bool j1Player::Load(pugi::xml_node& node)
 	return true;
 }
 
-bool j1Player::Save(pugi::xml_node& node) const
+bool Player::Save(pugi::xml_node& node) const
 {
 	
 	pugi::xml_node position = node.append_child("position");
@@ -411,7 +412,7 @@ bool j1Player::Save(pugi::xml_node& node) const
 }
 
 
-void j1Player::Draw()
+void Player::Draw()
 {
 	switch (state)
 	{
@@ -453,7 +454,7 @@ void j1Player::Draw()
 	}
 }
 
-void j1Player::OnCollision(Collider* c1, Collider* c2) {
+void Player::OnCollision(Collider* c1, Collider* c2) {
 
 
 
@@ -555,7 +556,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 }
 
 
-void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
+void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 
 	pugi::xml_node variables = player_node.child("variables");
 	
@@ -581,7 +582,7 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	texture = App->tex->Load(variables.child("player_spritesheet").attribute("location").as_string());*/
 }
 
-void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
+void Player::SetAnimations(pugi::xml_node& config, Animation& animation)
 {
 	SDL_Rect coord;
 	for (; config; config = config.next_sibling("animation"))
@@ -594,7 +595,7 @@ void j1Player::SetAnimations(pugi::xml_node& config, Animation& animation)
 	}
 }
 
-void j1Player::AnimationsApplyDt() {
+void Player::AnimationsApplyDt() {
 
 	if (anim_speed_flag == false) {
 		 idle_anim_speed = idle.speed;

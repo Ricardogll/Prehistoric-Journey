@@ -7,6 +7,7 @@
 
 #include "p2Defs.h"
 
+
 #define DYN_ARRAY_BLOCK_SIZE 16
 
 template<class VALUE>
@@ -40,7 +41,7 @@ public:
 	// Operators
 	VALUE& operator[](unsigned int index)
 	{
-		ASSERT(index < num_elements);
+		assert(index < num_elements);
 		return data[index];
 	}
 
