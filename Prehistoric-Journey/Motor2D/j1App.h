@@ -19,8 +19,9 @@ class j1Scene;
 class j1FadeToBlack;
 class j1Map;
 class j1Collision;
-class j1Player;
+//class j1Player;
 class j1PathFinding;
+class j1Entities;
 
 class j1App
 {
@@ -57,10 +58,12 @@ public:
 	void SaveGame() const;
 	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
 
-private:
-
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
+
+private:
+
+	
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
@@ -84,17 +87,18 @@ private:
 public:
 
 	// Modules
-	j1Window*			win = NULL;
-	j1Input*			input = NULL;
-	j1Render*			render = NULL;
-	j1Textures*			tex = NULL;
-	j1Audio*			audio = NULL;
-	j1Scene*			scene = NULL;
-	j1FadeToBlack*		fade = NULL;
-	j1Map*				map = NULL;
-	j1Collision*		collision = NULL;
-	j1Player*			player = NULL;
-	j1PathFinding*		pathfinding = NULL;
+	j1Window*			win = nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Scene*			scene = nullptr;
+	j1FadeToBlack*		fade = nullptr;
+	j1Map*				map = nullptr;
+	j1Collision*		collision = nullptr;
+	//j1Player*			player = nullptr;
+	j1PathFinding*		pathfinding = nullptr;
+	j1Entities*			entities = nullptr;
 
 	
 	float				dt = 0.0f;

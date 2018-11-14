@@ -1,5 +1,5 @@
-#ifndef _j1PLAYER_H_
-#define _j1PLAYER_H_
+#ifndef _PLAYER_H_
+#define _PLAYER_H_
 
 #include	"PugiXml/src/pugixml.hpp"
 #include	"j1Module.h"
@@ -7,14 +7,15 @@
 #include	"p2Point.h"
 #include	"j1Textures.h"
 #include	"Animation.h"
-//#include	"j1Scene.h"
+#include	"Entity.h"
+
 
 
 
 struct SDL_texture;
-struct SDL_Rect;
+struct SDL_Rect;  // dont need this probably, check and delete
 struct Collider;
-struct Mix_Chunk;
+struct Mix_Chunk; // dont need this probably, check and delete
 
 
 
@@ -35,16 +36,16 @@ enum X_DIRECTION {
 };
 
 
-class j1Player :public j1Module
+class Player :public Entity
 {
 public:
-	j1Player();
-	~j1Player();
+	Player(int x, int y, EntityTypes type);
+	~Player();
 
 	bool Start();
 	bool CleanUp();
 	bool Awake(pugi::xml_node&);
-	bool Update(float dt);
+	void Update(float dt);
 	bool PostUpdate();
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
