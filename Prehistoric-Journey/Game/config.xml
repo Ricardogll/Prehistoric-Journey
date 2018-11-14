@@ -7,7 +7,7 @@
   </app>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
@@ -44,6 +44,7 @@
 		  <jump_fx_folder location="audio/fx/jump.wav"/>
 		  <lose_fx_folder location="audio/fx/lose.wav"/>
 		  <limit_map value="-5375"/>
+      <attack_time value="325"/>
 		  <gravity value="500"  />
 		  <acceleration_x value="300" />
 		  <liana_speed value="100"/>
@@ -51,37 +52,38 @@
 		  <max_speed_x value="150"/>
 		  <jump_force value="-325.0"/>
 		  <jump_force_liana value="-225.0"/>
-		  <collider_offset x="5" y="10"/>
+		  <collider_offset x="8" y="10"/>
 		  <collider_dimensions x="38" y="48"/>
 		  
 	  </variables>
     <animations>
       <idle speed ="3" loop="true">
-        <animation x=" 21" y="8" w="45" h="57"/>
-        <animation x="118" y="8" w="45" h="57"/>
-        <animation x="215" y="8" w="45" h="57"/>
-        <animation x="312" y="8" w="45" h="57"/>
-        <animation x="409" y="8" w="45" h="57"/>
-        <animation x="506" y="8" w="45" h="57"/>
+        <animation x="  6" y="7" w="91" h="58"/>
+        <animation x="103" y="7" w="91" h="58"/>
+        <animation x="200" y="7" w="91" h="58"/>
+        <animation x="297" y="7" w="91" h="58"/>
+        <animation x="394" y="7" w="91" h="58"/>
+        <animation x="491" y="7" w="91" h="58"/>
       </idle>
       <run speed="4.8" loop="true">
-        <animation x="112" y=" 76" w="60" h="61"/>
-        <animation x="209" y=" 76" w="60" h="61"/>
-        <animation x="306" y=" 76" w="60" h="61"/>
-        <animation x="112" y=" 76" w="60" h="61"/>
-        <animation x="403" y=" 76" w="60" h="61"/>
-        <animation x="500" y=" 76" w="60" h="61"/>
-        <animation x=" 15" y="148" w="60" h="61"/>
-        <animation x="112" y="148" w="60" h="61"/>
-        <animation x="500" y=" 76" w="60" h="61"/>
-        <animation x="403" y=" 76" w="60" h="61"/>
+        <animation x="108" y=" 76" w="91" h="61"/>
+        <animation x="205" y=" 76" w="91" h="61"/>
+        <animation x="302" y=" 76" w="91" h="61"/>
+        <animation x="108" y=" 76" w="91" h="61"/>
+        <animation x="399" y=" 76" w="91" h="61"/>
+        <animation x="491" y=" 76" w="91" h="61"/>
+        <animation x=" 14" y="148" w="91" h="61"/>
+        <animation x="111" y="148" w="91" h="61"/>
+        <animation x="491" y=" 76" w="91" h="61"/>
+        <animation x="399" y=" 76" w="91" h="61"/>
       </run>
       <jump speed="3" loop="false">
-        <animation x="211" y="148" w="56" h="60"/>
-        <animation x="405" y="148" w="56" h="60"/>
-        <animation x="502" y="148" w="56" h="60"/>
-        <animation x=" 17" y="219" w="56" h="60"/>
-        <animation x="114" y="219" w="56" h="60"/>
+        <animation x="200" y="148" w="91" h="60"/>
+        <animation x="297" y="148" w="91" h="60"/>
+        <animation x="394" y="148" w="91" h="60"/>
+        <animation x="485" y="148" w="91" h="60"/>
+        <animation x="  9" y="219" w="91" h="60"/>
+        <animation x="106" y="219" w="91" h="60"/>
       </jump>
       <climb speed="3" loop="true">
         <animation x=" 21" y="431" w="45" h="61"/>
@@ -93,10 +95,10 @@
         <animation x="21" y="431" w="45" h="61"/>
       </climbidle>
       <attack speed="5" loop="false">
-        <animation x="110" y="291" w="56" h="58"/>
-        <animation x="229" y="291" w="56" h="58"/>
-        <animation x="327" y="291" w="56" h="58"/>
-        <animation x="424" y="291" w="56" h="58"/>
+        <animation x="106" y="291" w="91" h="58"/>
+        <animation x="214" y="291" w="91" h="58"/>
+        <animation x="312" y="291" w="91" h="58"/>
+        <animation x="409" y="291" w="91" h="58"/>
       </attack>
       <hit speed="3" loop="false">
         <animation x="501" y="292" w="52" h="61"/>

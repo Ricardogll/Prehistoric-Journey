@@ -98,7 +98,7 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->win->width / 2;
+	App->render->camera.x = -player_pos.x - player_rect.w / 2 + App->win->width / 2;
 	if (App->render->camera.x > start_map)
 		App->render->camera.x = start_map;
 	if (App->render->camera.x < limit_map)
@@ -171,7 +171,7 @@ bool j1Player::PostUpdate()
 
 		
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && god_mode == false) {
 			jump.Reset();
 			state = JUMP;
 			speed.y = jump_force_liana;
@@ -261,7 +261,7 @@ bool j1Player::PostUpdate()
 			attacking = true;
 		}
 
-		if (start_attack + 325 < SDL_GetTicks() && attacking == true)
+		if (start_attack + attack_time < SDL_GetTicks() && attacking == true)
 		{
 			state = IDLE;
 			start_attack = 0;
@@ -278,7 +278,7 @@ bool j1Player::PostUpdate()
 		key_d_pressed = false;
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground && !god_mode)
 	{		
 		jump.Reset();
 		state = JUMP;
@@ -328,7 +328,7 @@ bool j1Player::PostUpdate()
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			speed.y = 3;
+			speed.y = acceleration_x;
 		}		
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 		{
@@ -336,7 +336,7 @@ bool j1Player::PostUpdate()
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			speed.y = -3;
+			speed.y = -acceleration_x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
 		{
@@ -371,7 +371,7 @@ bool j1Player::PostUpdate()
 	
 	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 	
-	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, 38, 48 };
+	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
 
 	return true;
 }
@@ -446,7 +446,7 @@ void j1Player::Draw()
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	if (player_x_dir == LEFT && on_liana==false) {
-		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
+		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x - player_collider->rect.w, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
 		App->render->Blit(texture, player_pos.x, player_pos.y, &(current_animation->GetCurrentFrame()));
@@ -575,6 +575,7 @@ void j1Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	player_spritesheet = variables.child("player_spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
+	attack_time = variables.child("attack_time").attribute("value").as_int();
 
 	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());
 	lose_fx = App->audio->LoadFx(variables.child("lose_fx_folder").attribute("location").as_string());
