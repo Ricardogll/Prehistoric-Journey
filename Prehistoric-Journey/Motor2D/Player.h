@@ -130,6 +130,7 @@ public:
 	bool god_mode = false;
 	int limit_map = 0;
 	int start_map = 0;
+	int attack_time = 0;
 
 };
 #endif
