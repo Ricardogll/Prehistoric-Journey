@@ -597,7 +597,6 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
 	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
-	//spritesheet = (const char*)(variables.child("spritesheet").attribute("location").as_string()); //is this correct? //SALTA A DIFERENTES ALTURAS, PORQUE?!
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
@@ -642,4 +641,5 @@ void Player::AnimationsApplyDt() {
 		//climbing_idle.speed = climbing_idle_anim_speed * dt_current;
 		attack.speed = attack_anim_speed * dt_current;
 	}
+	LOG("dt = %f", dt_current);
 }

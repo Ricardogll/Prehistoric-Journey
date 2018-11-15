@@ -99,6 +99,7 @@ void Bat::AnimationsApplyDt() {
 		run.speed = run_anim_speed * dt_current;
 		
 	}
+	
 
 }
 
