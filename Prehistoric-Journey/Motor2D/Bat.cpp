@@ -4,7 +4,8 @@
 #include "j1PathFinding.h"
 #include "j1Entities.h"
 #include "p2Log.h"
-
+#include "j1Input.h"//delete this
+#include "p2DynArray.h"
 
 Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 
@@ -34,6 +35,15 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {}
 void Bat::Update(float dt) {
 	dt_current = dt;
 	AnimationsApplyDt();
+
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+
+		App->pathfinding->CreatePath({ 5,5 }, { 6,6 });
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+	}
+
 }
 
 void Bat::Draw() {

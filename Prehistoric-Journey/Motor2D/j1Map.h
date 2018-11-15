@@ -27,7 +27,7 @@ struct Properties
 		}
 		properties.clear();
 	}
-
+	int Get(const char* value, int default_value) const;
 	float LookForPropertyValue(const p2SString& name) const;
 };
 
@@ -138,6 +138,7 @@ public:
 	iPoint WorldToMap(const int x, const int y) const;
 
 	void setColliders();
+	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
 private:
 
@@ -149,6 +150,7 @@ private:
 	bool LoadLayerProperties(const pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
 
+	
 	
 
 public:

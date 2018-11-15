@@ -12,6 +12,7 @@
 #include "j1Collision.h"
 #include "j1FadeToBlack.h"
 #include "j1Entities.h"
+#include "j1PathFinding.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -42,6 +43,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
+	
+
 
 	if (curr_map == NO_MAP)
 	{
@@ -49,7 +52,12 @@ bool j1Scene::Start()
 		curr_map = MAP_1;
 		App->map->setColliders();
 
-		
+		int w, h;//change to differentiate between maps
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
 	}
 
 	if (App->entities->GetPlayer() == nullptr) {
