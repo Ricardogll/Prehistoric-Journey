@@ -223,15 +223,15 @@ void j1App::FinishUpdate()
 
 
 	
-	uint32 frames_brefore = last_frame_ms;
-	while (last_frame_ms > frame_cap) {
-		last_frame_ms -= frame_cap;
-		LOG("Reduced from %u to %u", frames_brefore, last_frame_ms);
-	}
+	//uint32 frames_brefore = last_frame_ms;
+	//while (last_frame_ms > frame_cap) {
+	//	last_frame_ms -= frame_cap;
+	//	LOG("Reduced from %u to %u", frames_brefore, last_frame_ms);
+	//}
 	
 	
 	
-	if (fps_capped) {
+	if (fps_capped && last_frame_ms < frame_cap) {
 		//if (last_frame_ms < frame_cap && App->render->vsync == false) {
 		if (App->render->vsync == false) {
 			ptimer_test_delay.Start();

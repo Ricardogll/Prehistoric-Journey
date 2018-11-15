@@ -32,7 +32,8 @@ Bat::~Bat() {}
 
 void Bat::OnCollision(Collider* c1, Collider* c2) {}
 void Bat::Update(float dt) {
-	
+	dt_current = dt;
+	AnimationsApplyDt();
 }
 
 void Bat::Draw() {
@@ -98,6 +99,7 @@ void Bat::AnimationsApplyDt() {
 		run.speed = run_anim_speed * dt_current;
 		
 	}
+	
 
 }
 
