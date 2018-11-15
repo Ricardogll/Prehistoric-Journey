@@ -62,7 +62,7 @@ private:
 	int now = 0;
 	Collider* colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = false;
+	bool debug = true;
 };
 
 #endif

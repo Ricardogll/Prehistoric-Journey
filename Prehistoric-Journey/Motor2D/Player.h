@@ -39,7 +39,7 @@ enum X_DIRECTION {
 class Player :public Entity
 {
 public:
-	Player(int x, int y, EntityTypes type);
+	Player(int x, int y, pugi::xml_node& config, EntityTypes type);
 	~Player();
 
 	bool Start();
@@ -98,7 +98,7 @@ private:
 	float attack_anim_speed = 0.0f;
 	uint32 start_attack = 0;
 
-	Collider* player_collider = nullptr;
+	//Collider* player_collider = nullptr;
 
 	uint jump_fx = 0u;
 	uint lose_fx = 0u;

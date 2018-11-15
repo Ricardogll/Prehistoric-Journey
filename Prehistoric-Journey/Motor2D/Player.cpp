@@ -14,9 +14,12 @@
 
 
 
-Player::Player(int x, int y, EntityTypes type) : Entity(x, y, type)
+Player::Player(int x, int y, pugi::xml_node& config, EntityTypes type) : Entity(x, y, type)
 {
-	
+	pugi::xml_node node_player = config.child("player");
+
+	Awake(node_player);
+	Start();
 
 }
 
@@ -57,7 +60,7 @@ bool Player::Awake(pugi::xml_node& config)
 	SetAnimations(animations.child("attack").child("animation"), attack);
 	attack.speed = animations.child("attack").attribute("speed").as_float();
 	attack.loop = animations.child("attack").attribute("loop").as_bool();
-	Start();
+	
 
 	return ret;
 }
@@ -84,7 +87,7 @@ bool Player::Start()
 	acceleration = { 0.0f, 0.0f };
 
 	
-	player_collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
+	collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
 	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
 
 	return ret;
@@ -94,12 +97,7 @@ void Player::Update(float dt)
 {
 	dt_current = dt;
 
-	
-}
-
-bool Player::PostUpdate()
-{
-	App->render->camera.x = -player_pos.x - player_rect.w/2 + App->win->width / 2;
+	App->render->camera.x = -player_pos.x - player_rect.w / 2 + App->win->width / 2;
 	if (App->render->camera.x > start_map)
 		App->render->camera.x = start_map;
 	if (App->render->camera.x < limit_map)
@@ -119,7 +117,7 @@ bool Player::PostUpdate()
 		else
 			App->map->debug_camera_culling = 0;
 	}
-		
+
 
 	key_w_pressed = false;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
@@ -128,20 +126,23 @@ bool Player::PostUpdate()
 	}
 
 	if (colliding_with_liana == false) {
-		
+
 		on_liana = false;
 	}
 	if (on_liana) {
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 		{
 			state = LIANA_IDLE;
-		}else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
 		{
 			state = LIANA_IDLE;
-		}else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 		{
 			state = LIANA_IDLE;
-		}else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
 		{
 			state = LIANA_IDLE;
 		}
@@ -170,16 +171,16 @@ bool Player::PostUpdate()
 			state = LIANA;
 		}
 
-		
+
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			jump.Reset();
 			state = JUMP;
 			speed.y = jump_force_liana;
-			
+
 			jumping = true;
 
-		
+
 			on_ground = false;
 			just_landed = false;
 			on_liana = false;
@@ -195,7 +196,7 @@ bool Player::PostUpdate()
 
 			App->audio->PlayFx(jump_fx);
 		}
-		
+
 	}
 	else {
 
@@ -249,8 +250,8 @@ bool Player::PostUpdate()
 				state = IDLE;
 			}
 			//if (key_d_pressed == false) { 
-				acceleration.x = 0.0f;
-				speed.x = 0.0f;
+			acceleration.x = 0.0f;
+			speed.x = 0.0f;
 			//}
 
 		}
@@ -280,43 +281,43 @@ bool Player::PostUpdate()
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground)
-	{		
+	{
 		jump.Reset();
 		state = JUMP;
 		speed.y = jump_force;
-		
+
 		jumping = true;
-		
-		
+
+
 		on_ground = false;
 		just_landed = false;
 
-		App->audio->PlayFx(jump_fx);	
+		App->audio->PlayFx(jump_fx);
 	}
 
 
 
 	if (on_ground == false) {
 		acceleration.y = gravity;
-		just_landed = false;	
+		just_landed = false;
 	}
-	else 
-	{			
-		on_ground = true;		
+	else
+	{
+		on_ground = true;
 		jumping = false;
 
 		if (just_landed == false) {
-			
+
 			just_landed = true;
 
 			if (speed.x != 0.0f)
 				state = RUN;
 			else
 				state = IDLE;
-		}		
+		}
 	}
 
-	if(god_mode == true) //CHANGE THIS NUMBERS TO XML AND PUT DT
+	if (god_mode == true) //CHANGE THIS NUMBERS TO XML AND PUT DT
 	{
 		acceleration.y = 0.0f;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -330,7 +331,7 @@ bool Player::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
 			speed.y = 3;
-		}		
+		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 		{
 			speed.y = 0.0f;
@@ -347,33 +348,39 @@ bool Player::PostUpdate()
 
 	if (on_liana)
 		acceleration.y = 0.0f;
-	
+
 	player_pos.x += speed.x * dt_current;
 	player_pos.y += speed.y * dt_current;
 	speed.x += acceleration.x * dt_current;
 	speed.y += acceleration.y * dt_current;
-	
+
 	colliding_with_liana = false;
 
 	if (speed.x > max_speed_x)
 		speed.x = max_speed_x;
 
-	if (acceleration.x> max_acc_x)
+	if (acceleration.x > max_acc_x)
 		acceleration.x = max_acc_x;
 
 
-	if (speed.x < -max_speed_x )
-		speed.x = -max_speed_x ;
+	if (speed.x < -max_speed_x)
+		speed.x = -max_speed_x;
 
 	if (acceleration.x < -max_acc_x)
 		acceleration.x = -max_acc_x;
-	
-	
-	
-	player_collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
-	
+
+
+
+	collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
+
 	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, 38, 48 };
 
+	
+}
+
+bool Player::PostUpdate()
+{
+	
 	return true;
 }
 

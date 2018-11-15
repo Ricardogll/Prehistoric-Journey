@@ -19,7 +19,9 @@ void Entity::Draw() {
 
 }
 
-void Entity::OnCollision(Collider* collider){
+void Entity::OnCollision(Collider* c1, Collider* c2){
 
+	
+		
 }
 

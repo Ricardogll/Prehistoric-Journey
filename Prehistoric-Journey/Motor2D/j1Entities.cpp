@@ -17,6 +17,10 @@ j1Entities::~j1Entities() {
 
 bool j1Entities::Awake(pugi::xml_node& config) {
 	LOG("Loading entities");
+	entities_node = *(&config);
+	//entities_node = config;
+	
+	
 
 	return true;
 }
@@ -68,11 +72,13 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 	switch (type) {
 
 	case EntityTypes::PLAYER: {
-		Player* player = new Player(x, y, EntityTypes::PLAYER);
-		entities.PushBack(player);
 		pugi::xml_document config_doc;
-		pugi::xml_node* config = &App->LoadConfig(config_doc);	//IMPROVE THIS!! 
-		player->Awake(config->child("player"));
+		pugi::xml_node config = App->LoadConfig(config_doc);	//IMPROVE THIS!! 
+		//player->Awake(config->child("player"));
+
+		Player* player = new Player(x, y, config.child("entities"), EntityTypes::PLAYER);
+		entities.PushBack(player);
+		
 		ret = true;
 		break;
 	}
@@ -112,9 +118,9 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 
 void j1Entities::OnCollision(Collider* c1, Collider* c2)
 {
-	/*for (uint i = 0; i < entities.Count(); ++i)
-		if (entities[i] != nullptr && entities[i]->GetCollider() == c1)
-			entities[i]->OnCollision(c2);*/
+	for (uint i = 0; i < entities.Count(); ++i)
+		if (entities[i] != nullptr && entities[i]->collider == c1)
+			entities[i]->OnCollision(c1, c2);
 }
 
 

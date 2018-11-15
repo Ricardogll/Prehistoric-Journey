@@ -48,7 +48,8 @@ public:
 
 	p2DynArray<Entity*> entities;
 
-
+private:
+	pugi::xml_node entities_node;
 };
 
 
