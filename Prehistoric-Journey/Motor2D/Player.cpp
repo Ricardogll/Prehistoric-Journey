@@ -78,7 +78,7 @@ bool Player::Start()
 	state = IDLE;
 	player_pos.x = App->map->spawn_pos.x;
 	player_pos.y = App->map->spawn_pos.y;
-	player_x_dir = RIGHT;
+	entity_x_dir = RIGHT;
 
 	last_saved_pos.x = App->map->spawn_pos.x;
 	last_saved_pos.y = App->map->spawn_pos.y;
@@ -152,13 +152,13 @@ void Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			player_pos.x += liana_speed * dt_current;
-			player_x_dir = RIGHT;
+			entity_x_dir = RIGHT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			player_pos.x -= liana_speed * dt_current;
-			player_x_dir = LEFT;
+			entity_x_dir = LEFT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
@@ -186,11 +186,11 @@ void Player::Update(float dt)
 			just_landed = false;
 			on_liana = false;
 
-			if (player_x_dir == LEFT) {
+			if (entity_x_dir == LEFT) {
 				speed.x = -max_speed_x;
 				acceleration.x = -max_acc_x;
 			}
-			if (player_x_dir == RIGHT) {
+			if (entity_x_dir == RIGHT) {
 				speed.x = max_speed_x;
 				acceleration.x = max_acc_x;
 			}
@@ -213,10 +213,10 @@ void Player::Update(float dt)
 			}
 
 
-			if (player_x_dir == LEFT)
+			if (entity_x_dir == LEFT)
 				run.Reset();
 
-			player_x_dir = RIGHT;
+			entity_x_dir = RIGHT;
 			key_d_pressed = true;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && attacking == false)
@@ -229,10 +229,10 @@ void Player::Update(float dt)
 				state = JUMP;
 			}
 
-			if (player_x_dir == RIGHT) {
+			if (entity_x_dir == RIGHT) {
 				run.Reset();
 
-				player_x_dir = LEFT;
+				entity_x_dir = LEFT;
 			}
 		}
 
@@ -471,7 +471,7 @@ void Player::Draw()
 	}
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
-	if (player_x_dir == LEFT && on_liana==false) {
+	if (entity_x_dir == LEFT && on_liana==false) {
 		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x - collider->rect.w, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
@@ -522,14 +522,14 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			else
 			{
 
-				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && player_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
 					player_pos.x++;
 
 				}
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && player_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
@@ -538,10 +538,10 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 				}
 			}
 
-			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && player_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid == 0)) {
+			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 211|| down_right_gid == 0)) {
 				on_ground = false;
 			}
-			else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && player_x_dir == LEFT && (down_left_gid == 62 || down_left_gid == 0)) {
+			else	if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && entity_x_dir == LEFT && (down_left_gid == 62 || down_right_gid == 211 || down_left_gid == 0)) {
 				on_ground = false;
 			}
 		}

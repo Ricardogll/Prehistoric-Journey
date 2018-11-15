@@ -8,12 +8,19 @@
 struct SDL_Texture;
 struct Collider;
 
+enum X_DIRECTION {
+	RIGHT,
+	LEFT,
+	NONE,
+};
+
 class Entity {
 
 public:
 	
 	Collider* collider;
 	fPoint position = { 0.0f, 0.0f };
+	X_DIRECTION entity_x_dir = NONE;
 	EntityTypes type = EntityTypes::UNKNOWN;
 	bool to_destroy = false;
 
@@ -22,7 +29,6 @@ public:
 	virtual ~Entity();
 	virtual bool Awake(pugi::xml_node&) { return true; }
 	virtual void Update(float dt) {};
-	virtual bool PostUpdate() { return true; }
 	virtual void Draw();
 	virtual void OnCollision(Collider* c1, Collider* c2);
 	virtual void AnimationsApplyDt() {};

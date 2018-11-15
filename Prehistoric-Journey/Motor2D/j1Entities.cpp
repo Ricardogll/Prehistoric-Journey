@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "p2Log.h"
 #include "Player.h"
+#include "Bat.h"
 //#include
 
 
@@ -30,6 +31,7 @@ bool j1Entities::Start() {
 	bool ret = true;
 
 	SpawnEntity(100, 100, EntityTypes::PLAYER);
+	SpawnEntity(50, 50, EntityTypes::BAT);
 
 	return ret;
 }
@@ -69,12 +71,14 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 
 	bool ret = false;
 	
+	pugi::xml_document config_doc;
+	pugi::xml_node config = App->LoadConfig(config_doc);	//IMPROVE THIS!! 
+	//player->Awake(config->child("player"));
+
 	switch (type) {
 
 	case EntityTypes::PLAYER: {
-		pugi::xml_document config_doc;
-		pugi::xml_node config = App->LoadConfig(config_doc);	//IMPROVE THIS!! 
-		//player->Awake(config->child("player"));
+		
 
 		Player* player = new Player(x, y, config.child("entities"), EntityTypes::PLAYER);
 		entities.PushBack(player);
@@ -102,6 +106,8 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 	}
 	case EntityTypes::BAT: {
 
+		Bat* bat = new Bat(x, y, config.child("entities"), EntityTypes::BAT);
+		entities.PushBack(bat);
 
 		ret = true;
 		break;

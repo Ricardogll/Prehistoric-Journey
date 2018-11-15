@@ -29,11 +29,7 @@ enum STATE {
 	NO_STATE,
 };
 
-enum X_DIRECTION {
-	RIGHT,
-	LEFT,
-	NONE,
-};
+
 
 
 class Player :public Entity
@@ -72,7 +68,7 @@ private:
 	bool jumping = false;
 	bool on_ground = false;
 	bool on_liana = false;
-	X_DIRECTION player_x_dir = NONE;
+	//X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
 	bool key_d_pressed = false;
 	bool key_w_pressed = false;
