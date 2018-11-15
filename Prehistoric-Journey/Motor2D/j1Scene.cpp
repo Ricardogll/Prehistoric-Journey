@@ -8,9 +8,10 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
-//#include "j1Player.h"
+#include "Player.h"
 #include "j1Collision.h"
 #include "j1FadeToBlack.h"
+#include "j1Entities.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -51,23 +52,28 @@ bool j1Scene::Start()
 		
 	}
 
-	//if (App->player->player_died == false) {
-	//	
+	if (App->entities->GetPlayer() == nullptr) {
+		if (App->audio->active)
+			App->audio->PlayMusic(music_map1.GetString(), 0.5f);			
+	}
+	else if (App->entities->GetPlayer()->player_died == false) {
+		
 
-	//	switch (curr_map) {
-	//	case MAP_1:
-	//		if (App->audio->active)
-	//			App->audio->PlayMusic(music_map1.GetString(), 0.5f);
-	//		break;
-	//	case MAP_2:
-	//		App->audio->PlayMusic(music_map2.GetString(), 0.5f);
-	//		break;
+		switch (curr_map) {
+		case MAP_1:
+			if (App->audio->active)
+				App->audio->PlayMusic(music_map1.GetString(), 0.5f);
+			break;
+		case MAP_2:
+			App->audio->PlayMusic(music_map2.GetString(), 0.5f);
+			break;
 
-	//	}
-	//}
+		}
 
-	//if(App->player->player_died)
-	//	App->player->player_died = false;
+	}
+	else if (App->entities->GetPlayer()->player_died)
+		App->entities->GetPlayer()->player_died = false;
+
 
 	return true;
 }
@@ -91,150 +97,146 @@ bool j1Scene::Update(float dt)
 		App->audio->DecreaseVolumeFx();
 	}
 
-	//if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
-	//	
-	//	
-	//		App->LoadGame();
-	//		if (curr_map != App->player->saved_map)
-	//	{
-	//		switch (App->player->saved_map) {
-	//		case 1:
-	//			curr_map = MAP_1;
-	//			App->fade->FadeToBlack(this, this, 2.0f);
-	//			App->map->CleanUp();
-	//			App->collision->CleanUpMap();
-	//			App->map->Load("Jungle.tmx");
-	//			App->map->setColliders();
-	//			App->player->player_pos.x = App->player->last_saved_pos.x;
-	//			App->player->player_pos.y = App->player->last_saved_pos.y;
-	//			is_fade = true;
-	//			break;
-	//		case 2:
-	//			curr_map = MAP_2;
-	//			App->fade->FadeToBlack(this, this, 2.0f);
-	//			App->map->CleanUp();
-	//			App->collision->CleanUpMap();
-	//			App->map->Load("Cave.tmx");
-	//			App->map->setColliders();
-	//			App->player->player_pos.x = App->player->last_saved_pos.x;
-	//			App->player->player_pos.y = App->player->last_saved_pos.y;
-	//			is_fade = true;
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
+		
+		
+			App->LoadGame();
+			if (curr_map != App->entities->GetPlayer()->saved_map)
+			{
+			switch (App->entities->GetPlayer()->saved_map) {
+			case 1:
+				curr_map = MAP_1;
+				App->fade->FadeToBlack(this, this, 2.0f);
+				App->map->CleanUp();
+				App->collision->CleanUpMap();
+				App->map->Load("Jungle.tmx");
+				App->map->setColliders();
+				App->entities->GetPlayer()->player_pos.x = App->entities->GetPlayer()->last_saved_pos.x;
+				App->entities->GetPlayer()->player_pos.y = App->entities->GetPlayer()->last_saved_pos.y;
+				is_fade = true;
+				break;
+			case 2:
+				curr_map = MAP_2;
+				App->fade->FadeToBlack(this, this, 2.0f);
+				App->map->CleanUp();
+				App->collision->CleanUpMap();
+				App->map->Load("Cave.tmx");
+				App->map->setColliders();
+				App->entities->GetPlayer()->player_pos.x = App->entities->GetPlayer()->last_saved_pos.x;
+				App->entities->GetPlayer()->player_pos.y = App->entities->GetPlayer()->last_saved_pos.y;
+				is_fade = true;
+				break;
+			default:
+				break;
+			}
+		}
 
-	//}
+	}
 
-	//if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false) {
-	//	App->SaveGame();
-	//	App->player->saved_map = curr_map;
-	//}
-	//
-	//if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
-	//{
-	//	App->player->change_map = false;
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false) {
+		App->SaveGame();
+		App->entities->GetPlayer()->saved_map = curr_map;
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
+	{
+		App->entities->GetPlayer()->change_map = false;
 
-	//	switch (curr_map) {
-	//	case MAP_1:
+		switch (curr_map) {
+		case MAP_1:
 
-	//		curr_map = MAP_1;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
+			curr_map = MAP_1;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
 
-	//	case MAP_2:
-	//		
-	//		curr_map = MAP_1;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->map->CleanUp();
-	//		App->collision->CleanUpMap();
-	//		App->map->Load("Jungle.tmx");
-	//		App->map->setColliders();
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
-	//	}
+		case MAP_2:
+			
+			curr_map = MAP_1;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Jungle.tmx");
+			App->map->setColliders();
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
+		}
 
-	//	
-	//}
+		
+	}
 
-	//if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && App->fade->IsFading() == false)
-	//{
-	//	switch (curr_map) {
-	//	case MAP_2:
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && App->fade->IsFading() == false)
+	{
+		switch (curr_map) {
+		case MAP_2:
 
-	//		curr_map = MAP_2;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
+			curr_map = MAP_2;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
 
-	//	case MAP_1:
+		case MAP_1:
 
-	//		curr_map = MAP_2;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->map->CleanUp();
-	//		App->collision->CleanUpMap();
-	//		App->map->Load("Cave.tmx");
-	//		App->map->setColliders();
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
-	//	}
-	//}
+			curr_map = MAP_2;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Cave.tmx");
+			App->map->setColliders();
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
+		}
+	}
 
-	//if (App->player->change_map) {
-	//	App->player->change_map = false;
-	//	switch (curr_map) {
-	//	case MAP_2:
+	if (App->entities->GetPlayer()->change_map) {
+		App->entities->GetPlayer()->change_map = false;
+		switch (curr_map) {
+		case MAP_2:
 
-	//		curr_map = MAP_1;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->map->CleanUp();
-	//		App->collision->CleanUpMap();
-	//		App->map->Load("Jungle.tmx");
-	//		App->map->setColliders();
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
+			curr_map = MAP_1;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Jungle.tmx");
+			App->map->setColliders();
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
 
-	//	case MAP_1:
+		case MAP_1:
 
-	//		curr_map = MAP_2;
-	//		App->fade->FadeToBlack(this, this, 2.0f);
-	//		App->map->CleanUp();
-	//		App->collision->CleanUpMap();
-	//		App->map->Load("Cave.tmx");
-	//		App->map->setColliders();
-	//		App->player->player_pos.x = App->map->spawn_pos.x;
-	//		App->player->player_pos.y = App->map->spawn_pos.y;
-	//		is_fade = true;
-	//		break;
-	//	}
-	//}
+			curr_map = MAP_2;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Cave.tmx");
+			App->map->setColliders();
+			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			is_fade = true;
+			break;
+		}
+	}
 
-	//
+	
 
-	//if (App->player->player_died) {
-	//	
-	//	App->fade->FadeToBlack(this, this, 2.0f);
-	//}
+	if (App->entities->GetPlayer()->player_died) {
+		
+		App->fade->FadeToBlack(this, this, 2.0f);
+	}
 
 
 	App->map->Draw();
-	//App->player->Draw();
 	
-	//Set game title
-	//p2SString title = App->GetTitle();
-	//App->win->SetTitle(title.GetString());
 	return true;
 }
 

@@ -123,9 +123,30 @@ void j1Entities::OnCollision(Collider* c1, Collider* c2)
 			entities[i]->OnCollision(c1, c2);
 }
 
+Player* j1Entities::GetPlayer() const {
 
-bool j1Entities::Load(pugi::xml_node&) { return true; }
+	for (uint i = 0; i < entities.Count(); ++i)
+	{
+		if (entities[i] != nullptr)
+		{
+			if (entities[i]->type == EntityTypes::PLAYER)
+				return (Player*)entities[i];
+		}
+	}
 
-bool j1Entities::Save(pugi::xml_node&) const { return true; }
+	return nullptr;
 
+}
 
+bool j1Entities::Load(pugi::xml_node& player_node) {
+
+	if (GetPlayer() != nullptr)
+		GetPlayer()->Load(player_node);
+	return true; 
+}
+
+bool j1Entities::Save(pugi::xml_node& player_node) const {
+	if (GetPlayer() != nullptr)
+		GetPlayer()->Save(player_node);
+	return true;
+}
