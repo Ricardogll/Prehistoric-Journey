@@ -4,6 +4,7 @@
 #include "p2Log.h"
 #include "Player.h"
 #include "Bat.h"
+#include "MiniTrex.h"
 //#include
 
 
@@ -32,6 +33,7 @@ bool j1Entities::Start() {
 
 	SpawnEntity(100, 100, EntityTypes::PLAYER);
 	SpawnEntity(50, 50, EntityTypes::BAT);
+	SpawnEntity(150, 150, EntityTypes::MINI_TREX);
 
 	return ret;
 }
@@ -94,6 +96,8 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 	}
 	case EntityTypes::MINI_TREX: {
 
+		MiniTrex* mini_trex = new MiniTrex(x, y, config.child("entities"), EntityTypes::MINI_TREX);
+		entities.PushBack(mini_trex);
 
 		ret = true;
 		break;
