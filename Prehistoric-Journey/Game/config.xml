@@ -58,7 +58,7 @@
 
     </variables>
     <animations>
-      <idle speed ="3" loop="true">
+      <idle speed ="10" loop="true">
         <animation x="  6" y="7" w="91" h="58"/>
         <animation x="103" y="7" w="91" h="58"/>
         <animation x="200" y="7" w="91" h="58"/>
@@ -66,7 +66,7 @@
         <animation x="394" y="7" w="91" h="58"/>
         <animation x="491" y="7" w="91" h="58"/>
       </idle>
-      <run speed="4.8" loop="true">
+      <run speed="10" loop="true">
         <animation x="108" y=" 76" w="91" h="61"/>
         <animation x="205" y=" 76" w="91" h="61"/>
         <animation x="302" y=" 76" w="91" h="61"/>
@@ -78,7 +78,7 @@
         <animation x="491" y=" 76" w="91" h="61"/>
         <animation x="399" y=" 76" w="91" h="61"/>
       </run>
-      <jump speed="3" loop="false">
+      <jump speed="5" loop="false">
         <animation x="200" y="148" w="91" h="60"/>
         <animation x="297" y="148" w="91" h="60"/>
         <animation x="394" y="148" w="91" h="60"/>
@@ -86,7 +86,7 @@
         <animation x="  9" y="219" w="91" h="60"/>
         <animation x="106" y="219" w="91" h="60"/>
       </jump>
-      <climb speed="3" loop="true">
+      <climb speed="5" loop="true">
         <animation x=" 21" y="431" w="45" h="61"/>
         <animation x="118" y="431" w="45" h="61"/>
         <animation x="214" y="431" w="45" h="61"/>
@@ -95,7 +95,7 @@
       <climbidle>
         <animation x="21" y="431" w="45" h="61"/>
       </climbidle>
-      <attack speed="5" loop="false">
+      <attack speed="10" loop="false">
         <animation x="106" y="291" w="91" h="58"/>
         <animation x="214" y="291" w="91" h="58"/>
         <animation x="312" y="291" w="91" h="58"/>
@@ -143,8 +143,9 @@
         <animation x="387" y="413" w="110" h="19"/>
       </deathidle>
     </pterodactyl>
-    <mini-tyranosaur location="textures/mini-tyranosaur.png">
-      <idle speed="0.05" loop="true">
+    <mini-tyranosaur>
+      <animations>
+      <idle speed="10" loop="true">
         <animation x=" 10" y="15" w="58" h="47"/>
         <animation x=" 90" y="15" w="58" h="47"/>
         <animation x="170" y="15" w="58" h="47"/>
@@ -152,23 +153,23 @@
         <animation x="330" y="15" w="58" h="47"/>
         <animation x="410" y="15" w="58" h="47"/>
       </idle>
-      <walk speed="0.08" loop="true">
+      <walk speed="8" loop="true">
         <animation x=" 10" y="74" w="58" h="50"/>
         <animation x=" 90" y="74" w="58" h="50"/>
         <animation x="170" y="74" w="58" h="50"/>
         <animation x="250" y="74" w="58" h="50"/>
         <animation x="331" y="74" w="58" h="50"/>
       </walk>
-      <attack speed="0.05" loop="false">
+      <attack speed="7" loop="false">
         <animation x="400" y=" 72" w="63" h="52"/>
         <animation x=" 16" y="134" w="63" h="52"/>
         <animation x=" 97" y="134" w="63" h="52"/>
       </attack>
-      <hit speed="0.05" loop="false">
+      <hit speed="12" loop="false">
         <animation x="164" y="124" w="44" h="62"/>
         <animation x="224" y="124" w="44" h="62"/>
       </hit>
-      <death speed="0.08" loop="false">
+      <death speed="4" loop="false">
         <animation x="328" y="130" w="68" h="56"/>
         <animation x="408" y="130" w="68" h="56"/>
         <animation x="  8" y="192" w="68" h="56"/>
@@ -176,26 +177,30 @@
         <animation x="169" y="192" w="68" h="56"/>
         <animation x="246" y="192" w="68" h="56"/>
       </death>
+      </animations>
+      <variables>
+        <spritesheet location="textures/mini-tyranosaur.png"/>
+      </variables>
     </mini-tyranosaur>
     <bat>
 		<animations>
-		  <fly speed="0.08" loop="true">
+		  <fly speed="8" loop="true">
 			<animation x="  4" y="3" w="44" h="51"/>
 			<animation x=" 56" y="3" w="44" h="51"/>
 			<animation x="105" y="3" w="44" h="51"/>
 			<animation x="157" y="3" w="44" h="51"/>
 			<animation x="208" y="3" w="44" h="51"/>
 		  </fly>
-		  <attack speed="0.05" loop="false">
+		  <attack speed="5" loop="false">
 			<animation x="255" y="12" w="43" h="41"/>
 			<animation x="308" y="12" w="43" h="41"/>
 			<animation x="  3" y="70" w="43" h="41"/>
 		  </attack>
-		  <hit speed="0.05" loop="false">
+		  <hit speed="5" loop="false">
 			<animation x=" 52" y="57" w="47" h="42"/>
 			<animation x="102" y="57" w="47" h="42"/>
 		  </hit>
-		  <death speed="0.08" loop="true">
+		  <death speed="5" loop="true">
 			<animation x="160" y="76" w="37" h="33"/>
 			<animation x="210" y="76" w="37" h="33"/>
 			<animation x="261" y="76" w="37" h="33"/>

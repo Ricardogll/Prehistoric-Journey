@@ -38,6 +38,7 @@ public:
 	Animation* current_animation = nullptr;
 	Animation idle = Animation();
 	Animation run = Animation();
+	Animation death = Animation();
 	float idle_anim_speed = 0.0f;
 	float run_anim_speed = 0.0f;
 	SDL_Texture* texture = nullptr;
