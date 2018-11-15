@@ -61,6 +61,9 @@
     <ClCompile Include="Bat.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="MiniTrex.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -142,6 +145,9 @@
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Bat.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniTrex.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>
