@@ -32,7 +32,8 @@ Bat::~Bat() {}
 
 void Bat::OnCollision(Collider* c1, Collider* c2) {}
 void Bat::Update(float dt) {
-	
+	dt_current = dt;
+	AnimationsApplyDt();
 }
 
 void Bat::Draw() {
@@ -101,9 +102,9 @@ void Bat::AnimationsApplyDt() {
 
 }
 
-void Bat::LoadVariablesXML(const pugi::xml_node& player_node) {
+void Bat::LoadVariablesXML(const pugi::xml_node& entity_node) {
 
-	pugi::xml_node variables = player_node.child("variables");
+	pugi::xml_node variables = entity_node.child("variables");
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 
 

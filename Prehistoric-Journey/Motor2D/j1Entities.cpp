@@ -33,7 +33,7 @@ bool j1Entities::Start() {
 
 	SpawnEntity(100, 100, EntityTypes::PLAYER);
 	SpawnEntity(50, 50, EntityTypes::BAT);
-	SpawnEntity(150, 150, EntityTypes::MINI_TREX);
+	SpawnEntity(100, 100, EntityTypes::MINI_TREX);
 
 	return ret;
 }
