@@ -19,15 +19,7 @@ struct Mix_Chunk; // dont need this probably, check and delete
 
 
 
-enum STATE {
-	IDLE,
-	RUN,
-	JUMP,
-	LIANA,
-	LIANA_IDLE,
-	ATTACK,
-	NO_STATE,
-};
+
 
 
 
@@ -54,7 +46,7 @@ public:
 
 	void LoadVariablesXML(const pugi::xml_node& player_node);
 
-	void SetAnimations(pugi::xml_node& config, Animation& animation);
+	//void SetAnimations(pugi::xml_node& config, Animation& animation);
 	
 	void AnimationsApplyDt();
 
@@ -63,7 +55,7 @@ private:
 	SDL_Rect player_rect = { 0,0 };
 	fPoint speed = { 0.0f,0.0f };
 	fPoint acceleration{ 0.0f,0.0f };
-	STATE state = NO_STATE;
+	
 	
 	bool jumping = false;
 	bool on_ground = false;
@@ -75,19 +67,17 @@ private:
 	bool colliding_with_liana = false;
 	bool attacking = false;
 	
-	SDL_Texture* texture = nullptr;
+	
 
-	Animation* current_animation = nullptr;
-	Animation idle = Animation();
-	Animation run = Animation();
+	
+	
 	Animation jump = Animation();
 	Animation climbing = Animation();
 	Animation climbing_idle = Animation();
 	Animation attack = Animation();
 	
-	bool anim_speed_flag = false;
-	float idle_anim_speed = 0.0f;
-	float run_anim_speed = 0.0f;
+	
+	
 	float jump_anim_speed = 0.0f;
 	float climbing_anim_speed = 0.0f;
 	//float climbing_idle_anim_speed = 0.0f;
@@ -99,7 +89,7 @@ private:
 	uint jump_fx = 0u;
 	uint lose_fx = 0u;
 
-	float dt_current = 0.0f;
+	
 
 	//****XML variables
 
@@ -112,7 +102,7 @@ private:
 	float jump_force_liana = 0.0f;
 	iPoint collider_offset = { 0,0 };
 	iPoint collider_dimensions = { 0,0 };
-	p2SString player_spritesheet;
+	
 	p2SString jump_fx_folder;
 	p2SString lose_fx_folder;
 

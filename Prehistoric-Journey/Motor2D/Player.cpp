@@ -33,34 +33,34 @@ bool Player::Awake(pugi::xml_node& config)
 	LOG("Loading Player");
 	bool ret = true;
 
-	if (config != NULL)
+	if (config != NULL) {
 		LoadVariablesXML(config);
 
-	pugi::xml_node animations = config.child("animations");
-	SetAnimations(animations.child("idle").child("animation"), idle);
-	idle.speed = animations.child("idle").attribute("speed").as_float();
-	idle.loop = animations.child("idle").attribute("loop").as_bool();
+		pugi::xml_node animations = config.child("animations");
+		SetAnimations(animations.child("idle").child("animation"), idle);
+		idle.speed = animations.child("idle").attribute("speed").as_float();
+		idle.loop = animations.child("idle").attribute("loop").as_bool();
 
-	SetAnimations(animations.child("run").child("animation"), run);
-	run.speed = animations.child("run").attribute("speed").as_float();
-	run.loop = animations.child("run").attribute("loop").as_bool();
+		SetAnimations(animations.child("run").child("animation"), run);
+		run.speed = animations.child("run").attribute("speed").as_float();
+		run.loop = animations.child("run").attribute("loop").as_bool();
 
-	SetAnimations(animations.child("jump").child("animation"), jump);
-	jump.speed = animations.child("jump").attribute("speed").as_float();
-	jump.loop = animations.child("jump").attribute("loop").as_bool();
+		SetAnimations(animations.child("jump").child("animation"), jump);
+		jump.speed = animations.child("jump").attribute("speed").as_float();
+		jump.loop = animations.child("jump").attribute("loop").as_bool();
 
-	SetAnimations(animations.child("climb").child("animation"), climbing);
-	climbing.speed = animations.child("climb").attribute("speed").as_float();
-	climbing.loop = animations.child("climb").attribute("loop").as_bool();
+		SetAnimations(animations.child("climb").child("animation"), climbing);
+		climbing.speed = animations.child("climb").attribute("speed").as_float();
+		climbing.loop = animations.child("climb").attribute("loop").as_bool();
 
-	SetAnimations(animations.child("climbidle").child("animation"), climbing_idle);
-	climbing_idle.speed = animations.child("climbidle").attribute("speed").as_float();
-	climbing_idle.loop = animations.child("climbidle").attribute("loop").as_bool();
+		SetAnimations(animations.child("climbidle").child("animation"), climbing_idle);
+		climbing_idle.speed = animations.child("climbidle").attribute("speed").as_float();
+		climbing_idle.loop = animations.child("climbidle").attribute("loop").as_bool();
 
-	SetAnimations(animations.child("attack").child("animation"), attack);
-	attack.speed = animations.child("attack").attribute("speed").as_float();
-	attack.loop = animations.child("attack").attribute("loop").as_bool();
-	
+		SetAnimations(animations.child("attack").child("animation"), attack);
+		attack.speed = animations.child("attack").attribute("speed").as_float();
+		attack.loop = animations.child("attack").attribute("loop").as_bool();
+	}
 
 	return ret;
 }
@@ -74,7 +74,7 @@ bool Player::Start()
 
 	jump_fx = App->audio->LoadFx(jump_fx_folder.GetString());
 	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
-	texture = App->tex->Load(player_spritesheet.GetString());
+	texture = App->tex->Load(spritesheet.GetString());
 	state = IDLE;
 	player_pos.x = App->map->spawn_pos.x;
 	player_pos.y = App->map->spawn_pos.y;
@@ -470,7 +470,7 @@ void Player::Draw()
 
 	}
 
-	SDL_Rect r = current_animation->GetCurrentFrame();
+	//SDL_Rect r = current_animation->GetCurrentFrame();
 	if (entity_x_dir == LEFT && on_liana==false) {
 		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x - collider->rect.w, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
@@ -597,29 +597,29 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
 	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
-	//player_spritesheet = (const char*)(variables.child("player_spritesheet").attribute("location").as_string()); //is this correct? //SALTA A DIFERENTES ALTURAS, PORQUE?!
-	player_spritesheet = variables.child("player_spritesheet").attribute("location").as_string();
+	//spritesheet = (const char*)(variables.child("spritesheet").attribute("location").as_string()); //is this correct? //SALTA A DIFERENTES ALTURAS, PORQUE?!
+	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
 	attack_time = variables.child("attack_time").attribute("value").as_int();
 
 	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());
 	lose_fx = App->audio->LoadFx(variables.child("lose_fx_folder").attribute("location").as_string());
-	texture = App->tex->Load(variables.child("player_spritesheet").attribute("location").as_string());*/
+	texture = App->tex->Load(variables.child("spritesheet").attribute("location").as_string());*/
 }
 
-void Player::SetAnimations(pugi::xml_node& config, Animation& animation)
-{
-	SDL_Rect coord;
-	for (; config; config = config.next_sibling("animation"))
-	{
-		coord.x = config.attribute("x").as_uint();
-		coord.y = config.attribute("y").as_uint();
-		coord.w = config.attribute("w").as_uint();
-		coord.h = config.attribute("h").as_uint();
-		animation.PushBack(coord);
-	}
-}
+//void Player::SetAnimations(pugi::xml_node& config, Animation& animation)
+//{
+//	SDL_Rect coord;
+//	for (; config; config = config.next_sibling("animation"))
+//	{
+//		coord.x = config.attribute("x").as_uint();
+//		coord.y = config.attribute("y").as_uint();
+//		coord.w = config.attribute("w").as_uint();
+//		coord.h = config.attribute("h").as_uint();
+//		animation.PushBack(coord);
+//	}
+//}
 
 void Player::AnimationsApplyDt() {
 

@@ -19,6 +19,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 	void AnimationsApplyDt();
+	void LoadVariablesXML(const pugi::xml_node& player_node);
 
 
 private:
