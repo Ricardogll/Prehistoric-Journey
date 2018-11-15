@@ -6,7 +6,7 @@
 #include "p2DynArray.h"
 
 class Entity;
-
+class Player;
 struct SDL_Texture;
 
 enum class EntityTypes
@@ -39,6 +39,8 @@ public:
 	bool SpawnEntity(int x, int y, EntityTypes type);
 
 	void OnCollision(Collider* c1, Collider* c2);
+
+	Player* GetPlayer() const;
 
 	bool Load(pugi::xml_node&);
 
