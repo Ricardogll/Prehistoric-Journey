@@ -60,6 +60,10 @@ bool Player::Awake(pugi::xml_node& config)
 		SetAnimations(animations.child("attack").child("animation"), attack);
 		attack.speed = animations.child("attack").attribute("speed").as_float();
 		attack.loop = animations.child("attack").attribute("loop").as_bool();
+
+		SetAnimations(animations.child("death").child("animation"), death);
+		death.speed = animations.child("death").attribute("speed").as_float();
+		death.loop = animations.child("death").attribute("loop").as_bool();
 	}
 
 	return ret;

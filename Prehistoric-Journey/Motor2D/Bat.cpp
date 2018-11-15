@@ -22,6 +22,10 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 		run.speed = animations.child("fly").attribute("speed").as_float();
 		run.loop = animations.child("fly").attribute("loop").as_bool();
 
+		SetAnimations(animations.child("death").child("animation"), death);
+		death.speed = animations.child("death").attribute("speed").as_float();
+		death.loop = animations.child("death").attribute("loop").as_bool();
+
 		texture = App->tex->Load(spritesheet.GetString());
 	}
 	state = IDLE;

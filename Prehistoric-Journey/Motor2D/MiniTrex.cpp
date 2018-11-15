@@ -21,6 +21,14 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 		idle.speed = animations.child("idle").attribute("speed").as_float();
 		idle.loop = animations.child("idle").attribute("loop").as_bool();
 
+		SetAnimations(animations.child("walk").child("animation"), run);
+		run.speed = animations.child("walk").attribute("speed").as_float();
+		run.loop = animations.child("walk").attribute("loop").as_bool();
+
+		SetAnimations(animations.child("death").child("animation"), death);
+		death.speed = animations.child("death").attribute("speed").as_float();
+		death.loop = animations.child("death").attribute("loop").as_bool();
+
 		texture = App->tex->Load(spritesheet.GetString());
 	}
 	state = IDLE;
