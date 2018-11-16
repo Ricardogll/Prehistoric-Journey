@@ -44,8 +44,10 @@ void Bat::Update(float dt) {
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
 
-		App->pathfinding->CreatePath({ 5,5 }, { 6,6 });
-		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+		App->pathfinding->CreatePath({ 0,1 }, { 0,2 });
+	/*	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();//FOLLOW HERE
+		if(path)
+			for(path;path->Count();)*/
 	}
 
 }

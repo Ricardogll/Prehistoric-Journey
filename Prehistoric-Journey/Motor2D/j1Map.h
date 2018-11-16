@@ -5,7 +5,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
-
+#include "j1PerfTimer.h"
 
 struct Properties
 {
@@ -39,7 +39,8 @@ enum LayerType {
 	LAYER_BG_1,
 	LAYER_BG_2,
 	LAYER_BG_3,
-	LAYER_COLLIDER
+	LAYER_COLLIDER,
+	LAYER_NAVIGATION
 };
 
 
@@ -158,8 +159,9 @@ public:
 	MapData data;
 	iPoint spawn_pos = {0, 0};
 	uint debug_camera_culling = 0u;
-private:
 
+private:
+	j1PerfTimer ptimer;
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded = false;

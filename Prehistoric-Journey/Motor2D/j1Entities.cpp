@@ -19,8 +19,8 @@ j1Entities::~j1Entities() {
 
 bool j1Entities::Awake(pugi::xml_node& config) {
 	LOG("Loading entities");
-	entities_node = *(&config);
-	//entities_node = config;
+	
+	entities_node = config;
 	
 	
 

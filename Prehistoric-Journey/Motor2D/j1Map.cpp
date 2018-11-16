@@ -35,6 +35,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 void j1Map::Draw()
 {
+	ptimer.Start();
 	if (map_loaded == false)
 		return;
 
@@ -70,7 +71,8 @@ void j1Map::Draw()
 					SDL_Rect rect = tileset_item->data->GetTileRect(layers_item->data->Get(x, y));
 					iPoint world_coords = MapToWorld(x, y);
 					
-
+					if (layers_item->data->type == LAYER_COLLIDER)
+						continue;
 
 
 						if (layers_item->data->type == LAYER_BG_FRONT) {
@@ -97,7 +99,8 @@ void j1Map::Draw()
 		}
 		tileset_item = tileset_item->prev;
 	}
-
+	
+	LOG("Time printing map %f ", ptimer.ReadMs());
 }
 
 
@@ -195,6 +198,15 @@ void j1Map::setColliders()
 								rect.y = worldcoord.y;
 								App->collision->AddCollider(rect, COLLIDER_DEAD);
 							}
+						}
+						else if (layer_item->data->type == LAYER_NAVIGATION) {
+
+							if (id != 0) {
+
+
+							}
+
+
 						}
 					}
 				}
@@ -526,8 +538,13 @@ bool j1Map::LoadLayer(const pugi::xml_node& node, MapLayer* layer)
 		layer->type = LAYER_BG_1;
 		
 	}
-	else if (layer->name == "Colliders")
+	else if (layer->name == "Colliders") {
 		layer->type = LAYER_COLLIDER;
+
+	}
+	else if (layer->name == "Navigation") {
+		layer->type = LAYER_NAVIGATION;
+	}
 
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
@@ -606,6 +623,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	bool ret = false;
 	p2List_item<MapLayer*>* item;
 	item = data.layers.start;
+	
 
 	for (item = data.layers.start; item != NULL; item = item->next)
 	{
@@ -631,6 +649,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
 					
 				}
+				
 			}
 		}
 
