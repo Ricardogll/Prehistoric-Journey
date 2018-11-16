@@ -187,7 +187,7 @@ int PathNode::CalculateF(const iPoint& destination)
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	BROFILER_CATEGORY("A*", Profiler::Color::Gold)
-	if (!IsWalkable(origin) || !IsWalkable(destination)) {
+	if ((!IsWalkable(origin) || !IsWalkable(destination)) || origin == destination) {
 		return -1;
 		LOG("Path not found");
 	}

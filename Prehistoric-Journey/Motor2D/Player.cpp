@@ -645,5 +645,5 @@ void Player::AnimationsApplyDt() {
 		//climbing_idle.speed = climbing_idle_anim_speed * dt_current;
 		attack.speed = attack_anim_speed * dt_current;
 	}
-	LOG("dt = %f", dt_current);
+	
 }

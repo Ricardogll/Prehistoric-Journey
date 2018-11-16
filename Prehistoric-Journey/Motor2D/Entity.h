@@ -47,7 +47,9 @@ public:
 	bool to_destroy = false;
 	bool anim_speed_flag = false;
 	float dt_current = 0.0f;
-	float moving_speed = 0.0f;
+	float moving_speed = 150.0f;
+	const p2DynArray<iPoint>* path;
+	const iPoint* next_node_path = nullptr;
 
 public:
 	Entity(int x, int y, EntityTypes type);
@@ -60,7 +62,7 @@ public:
 	virtual bool Load(pugi::xml_node&)	{ return true; }
 	virtual bool Save(pugi::xml_node&) const{ return true; }
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
-	fPoint SpeedNeededFromTo(fPoint position, fPoint player_position);
+	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 };
 
 

@@ -38,6 +38,7 @@ Bat::~Bat() {}
 
 void Bat::OnCollision(Collider* c1, Collider* c2) {}
 void Bat::Update(float dt) {
+
 	dt_current = dt;
 	AnimationsApplyDt();
 	
@@ -45,19 +46,37 @@ void Bat::Update(float dt) {
 	float dist = position.DistanceNoSqrt(player_pos);
 
 	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
-		App->pathfinding->CreatePath( App->map->WorldToMap(position.x,position.y), App->map->WorldToMap(player_pos.x, player_pos.y));
+		//make timer so it happens once every 0.5sec or so
+		if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != - 1) {
+			path = App->pathfinding->GetLastPath();
+			next_node_path = path->At(0);
+
+			if(iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
+				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
+			else
+				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
+		}
+		else {
+			path = nullptr;
+		}
+
+		if (path) {
+			const iPoint* aux;
+			for (int i = 0; i < path->Count(); i++) {
+
+				aux = path->At(i);
+			}
+		}
+
+
 	}
-	
-	
-	/*	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();//FOLLOW HERE
-		if(path)
-			for(path;path->Count();)*/
-	
-
-
+	else {
+		speed = { 0.0f,0.0f };
+	}
 
 	position.x += speed.x * dt_current;
 	position.y += speed.y * dt_current;
+	
 }
 
 void Bat::Draw() {
