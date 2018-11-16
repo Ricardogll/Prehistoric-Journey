@@ -31,25 +31,33 @@ class Entity {
 public:
 	
 	Collider* collider;
+	iPoint collider_dimensions = { 0,0 };
+	iPoint collider_offset = { 0,0 };
+
 	fPoint position = { 0.0f, 0.0f };
 	fPoint speed = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
+	float moving_speed = 150.0f;
+
 	STATE state = NO_STATE;
 	EntityTypes type = EntityTypes::UNKNOWN;
+	
 	Animation* current_animation = nullptr;
 	Animation idle = Animation();
 	Animation run = Animation();
 	Animation death = Animation();
 	float idle_anim_speed = 0.0f;
 	float run_anim_speed = 0.0f;
+	bool anim_speed_flag = false;
+
 	SDL_Texture* texture = nullptr;
 	p2SString spritesheet;
-	bool to_destroy = false;
-	bool anim_speed_flag = false;
-	float dt_current = 0.0f;
-	float moving_speed = 150.0f;
+		
 	const p2DynArray<iPoint>* path;
-	const iPoint* next_node_path = nullptr;
+
+	bool to_destroy = false;
+	float dt_current = 0.0f;
+	
 
 public:
 	Entity(int x, int y, EntityTypes type);

@@ -32,7 +32,9 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 	}
 	state = IDLE;
 	entity_x_dir = RIGHT;
-
+	collider_dimensions = { 26,26 };
+	collider_offset = { 13,20 };
+	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 }
 Bat::~Bat() {}
 
@@ -49,7 +51,7 @@ void Bat::Update(float dt) {
 		//make timer so it happens once every 0.5sec or so
 		if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != - 1) {
 			path = App->pathfinding->GetLastPath();
-			next_node_path = path->At(0);
+			
 
 			if(iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
 				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
@@ -60,15 +62,6 @@ void Bat::Update(float dt) {
 			path = nullptr;
 		}
 
-		if (path) {
-			const iPoint* aux;
-			for (int i = 0; i < path->Count(); i++) {
-
-				aux = path->At(i);
-			}
-		}
-
-
 	}
 	else {
 		speed = { 0.0f,0.0f };
@@ -77,6 +70,8 @@ void Bat::Update(float dt) {
 	position.x += speed.x * dt_current;
 	position.y += speed.y * dt_current;
 	
+
+	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 }
 
 void Bat::Draw() {

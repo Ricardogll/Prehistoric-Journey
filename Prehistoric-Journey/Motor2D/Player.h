@@ -99,8 +99,8 @@ private:
 	float max_speed_x = 0.0f;
 	float jump_force = 0.0f;
 	float jump_force_liana = 0.0f;
-	iPoint collider_offset = { 0,0 };
-	iPoint collider_dimensions = { 0,0 };
+	
+	
 	
 	p2SString jump_fx_folder;
 	p2SString lose_fx_folder;

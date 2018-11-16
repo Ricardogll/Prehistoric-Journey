@@ -384,13 +384,6 @@ void Player::Update(float dt)
 
 	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 
-	player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, 38, 48 };
-
-
-
-
-	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
-
 	player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
 
 
@@ -571,7 +564,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			change_map = true;
 		}
 
-		if (c2->type == COLLIDER_DEAD && player_died == false && god_mode == false) {
+		if ((c2->type == COLLIDER_DEAD || c2->type == COLLIDER_ENEMY) && player_died == false && god_mode == false) {
 			player_died = true;
 			App->audio->PlayFx(lose_fx);
 			speed = { 0.0f,0.0f };
