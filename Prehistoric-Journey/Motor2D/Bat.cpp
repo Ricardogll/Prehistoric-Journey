@@ -32,8 +32,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 	}
 	state = IDLE;
 	entity_x_dir = RIGHT;
-	collider_dimensions = { 26,26 };
-	collider_offset = { 13,20 };
+	
 	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 }
 Bat::~Bat() {}
@@ -141,10 +140,3 @@ void Bat::AnimationsApplyDt() {
 
 }
 
-void Bat::LoadVariablesXML(const pugi::xml_node& entity_node) {
-
-	pugi::xml_node variables = entity_node.child("variables");
-	spritesheet = variables.child("spritesheet").attribute("location").as_string();
-
-
-}

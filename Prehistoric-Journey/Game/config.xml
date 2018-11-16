@@ -211,6 +211,8 @@
 	    </animations>
 		<variables>
 			<spritesheet location="textures/bat.png"/>
+			<collider_offset x="13" y="20" />
+			<collider_dimensions x="26" y="26" />
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">

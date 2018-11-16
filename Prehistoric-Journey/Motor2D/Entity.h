@@ -38,6 +38,7 @@ public:
 	fPoint speed = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
 	float moving_speed = 150.0f;
+	float gravity = 0.0f;
 
 	STATE state = NO_STATE;
 	EntityTypes type = EntityTypes::UNKNOWN;
@@ -71,6 +72,7 @@ public:
 	virtual bool Save(pugi::xml_node&) const{ return true; }
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
+	void LoadVariablesXML(const pugi::xml_node& entity_node);
 };
 
 
