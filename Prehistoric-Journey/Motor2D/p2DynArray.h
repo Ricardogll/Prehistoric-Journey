@@ -247,7 +247,7 @@ public:
 
 	bool Delete(unsigned int index) {
 
-		for (int i = 0; i < num_elements; i++) {
+		for (uint i = 0; i < num_elements; i++) {
 			if (i == index) {
 
 				for (i; i <= num_elements; i++) {

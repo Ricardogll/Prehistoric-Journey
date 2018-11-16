@@ -72,3 +72,59 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 	}
 	return fPoint(0.0f, 0.0f);
 }
+
+ //bool Entity::Load(pugi::xml_node& entity_node) {
+	// 
+	// switch (type) {
+
+	// case EntityTypes::BAT:
+	//	 last_saved_pos.x = entity_node.child("position").attribute("x").as_int();
+	//	 last_saved_pos.y = entity_node.child("position").attribute("y").as_int();
+	//	 break;
+
+	// case EntityTypes::MINI_TREX:
+	//	
+	//	 break;
+
+	// case EntityTypes::PLAYER:
+	// default:
+	//	 return true;
+	// }
+
+	// last_saved_pos.x = entity_node.child("position").attribute("x").as_int();
+	// last_saved_pos.y = entity_node.child("position").attribute("y").as_int();
+	// position.x = last_saved_pos.x;
+	// position.y = last_saved_pos.y;
+	// 
+	// return true;
+ //}
+
+
+ bool Entity::Save(pugi::xml_node& entity_node) const { 
+	 
+	 pugi::xml_node aux;
+
+	 switch (type) {
+
+	 case EntityTypes::BAT:
+		  aux = entity_node.append_child("bat");
+		 break;
+
+	 case EntityTypes::MINI_TREX:
+		  aux = entity_node.append_child("minitrex");
+		 break;
+
+	 case EntityTypes::PLAYER:
+	 default:
+		 return true;
+	 }
+
+	 aux = aux.append_child("position");
+	 aux.append_attribute("x").set_value(position.x);
+	 aux.append_attribute("y").set_value(position.y);
+
+	 
+	 
+	 
+	 return true; 
+ }

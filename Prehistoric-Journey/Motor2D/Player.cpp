@@ -414,8 +414,8 @@ bool Player::Load(pugi::xml_node& node)
 {
 	
 
-	last_saved_pos.x = node.child("position").attribute("x").as_int();
-	last_saved_pos.y = node.child("position").attribute("y").as_int();
+	last_saved_pos.x = node.child("player_position").attribute("x").as_int();
+	last_saved_pos.y = node.child("player_position").attribute("y").as_int();
 	//saved_map = node.child("position").attribute("map").as_int();
 	position.x = last_saved_pos.x;
 	position.y = last_saved_pos.y;
@@ -426,7 +426,7 @@ bool Player::Load(pugi::xml_node& node)
 bool Player::Save(pugi::xml_node& node) const
 {
 	
-	pugi::xml_node position_node = node.append_child("position");
+	pugi::xml_node position_node = node.append_child("player_position");
 	position_node.append_attribute("x").set_value(position.x);
 	position_node.append_attribute("y").set_value(position.y);
 	//position.append_attribute("map").set_value(App->scene->curr_map);

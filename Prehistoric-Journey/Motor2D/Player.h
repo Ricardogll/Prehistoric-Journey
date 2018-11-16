@@ -107,7 +107,7 @@ private:
 
 public:
 
-	fPoint last_saved_pos = { 0.0f,0.0f };
+
 	fPoint position = { 0.0f,0.0f };
 	int saved_map = 1;
 	bool player_died = false;

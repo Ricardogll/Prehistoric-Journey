@@ -61,6 +61,7 @@ public:
 	float dt_current = 0.0f;
 
 	iPoint starting_pos = { 0,0 };
+	iPoint last_saved_pos = { 0,0 };
 	
 
 public:
@@ -71,8 +72,8 @@ public:
 	virtual void Draw();
 	virtual void OnCollision(Collider* c1, Collider* c2);
 	virtual void AnimationsApplyDt() {};
-	virtual bool Load(pugi::xml_node&)	{ return true; }
-	virtual bool Save(pugi::xml_node&) const{ return true; }
+	
+	virtual bool Save(pugi::xml_node& entity_node) const;
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);

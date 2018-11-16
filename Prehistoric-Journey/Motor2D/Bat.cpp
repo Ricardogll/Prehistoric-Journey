@@ -36,6 +36,34 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 
 	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 }
+
+Bat::Bat(int x, int y, EntityTypes type) :Entity(x, y, type) { //DO CONSTRUCTOR THAT DOESNT NEED XML_NODE AND CALL IT IN ENTITIES WHEN CREATING NEW BAT
+
+	//pugi::xml_node node_entity = config.child("bat");
+
+	//if (node_entity != NULL) {
+	//	LoadVariablesXML(node_entity);
+
+	//	pugi::xml_node animations = node_entity.child("animations");
+	//	
+
+	//	SetAnimations(animations.child("fly").child("animation"), run);
+	//	run.speed = animations.child("fly").attribute("speed").as_float();
+	//	run.loop = animations.child("fly").attribute("loop").as_bool();
+
+	//	SetAnimations(animations.child("death").child("animation"), death);
+	//	death.speed = animations.child("death").attribute("speed").as_float();
+	//	death.loop = animations.child("death").attribute("loop").as_bool();
+
+	//	texture = App->tex->Load(spritesheet.GetString());
+	//}
+	//state = IDLE;
+	//entity_x_dir = RIGHT;
+	//last_pos = position;
+
+	//collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+}
+
 Bat::~Bat() {}
 
 void Bat::OnCollision(Collider* c1, Collider* c2) {}
@@ -107,8 +135,7 @@ void Bat::Draw() {
 }
 
 
-bool Bat::Load(pugi::xml_node&) { return true; }
-bool Bat::Save(pugi::xml_node&) const { return true; }
+
 
 void Bat::AnimationsApplyDt() {
 

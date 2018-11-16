@@ -22,7 +22,7 @@ j1Entities::~j1Entities() {
 bool j1Entities::Awake(pugi::xml_node& config) {
 	LOG("Loading entities");
 	
-	entities_node = config;
+	entities_node.append_copy(config);
 	
 	
 
@@ -44,7 +44,7 @@ bool j1Entities::PreUpdate() {
 	//do deletes if to_destroy
 	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::DeepPink)
 		
-		for (int i = 0; i < entities.Count(); i++) {
+		for (uint i = 0u; i < entities.Count(); i++) {
 			
 			if (entities[i]->to_destroy) {
 				delete(entities[i]);
@@ -62,14 +62,14 @@ bool j1Entities::PreUpdate() {
 bool j1Entities::Update(float dt) {
 	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
 
-	for (int i = 0; i < entities.Count(); i++) {
+	for (uint i = 0u; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
 			entities[i]->Update(dt);
 		}
 	}
-	for (int i = 0; i < entities.Count(); i++) {
+	for (uint i = 0u; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
-			entities[i]->Draw();//put each entity sprite here?
+			entities[i]->Draw();
 		}
 	}
 
@@ -79,7 +79,7 @@ bool j1Entities::Update(float dt) {
 bool j1Entities::CleanUp() {
 	LOG("CleanUp entities");
 
-	for (int i = 0; i < entities.Count(); i++) {
+	for (uint i = 0u; i < entities.Count(); i++) {
 
 		if (entities[i] != nullptr) {
 			delete(entities[i]);
@@ -176,15 +176,40 @@ Player* j1Entities::GetPlayer() const {
 
 }
 
-bool j1Entities::Load(pugi::xml_node& player_node) {
+bool j1Entities::Load(pugi::xml_node& entity_node) {
 
-	if (GetPlayer() != nullptr)
-		GetPlayer()->Load(player_node);
+
+	//for (uint i = 0; i < entities.Count(); i++) {
+	//	if (entities[i] != nullptr) {
+	//		entities[i]->Load(entity_node);
+	//	}
+	//}
+
+	for (uint i = 0; i < entities.Count(); i++) {
+		if (entities[i] != nullptr && entities[i]->type != EntityTypes::PLAYER) {
+			entities[i]->to_destroy = true;
+		}
+	}
+
+	GetPlayer()->Load(entity_node);
+	for (pugi::xml_node aux = entity_node.child("bat"); aux; aux = aux.next_sibling("bat")) {
+		//Bat* bat = new Bat(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), config.child("entities"), EntityTypes::BAT);
+
+	}
+
+
 	return true; 
 }
 
-bool j1Entities::Save(pugi::xml_node& player_node) const {
-	if (GetPlayer() != nullptr)
-		GetPlayer()->Save(player_node);
+bool j1Entities::Save(pugi::xml_node& entity_node) const {
+	/*if (GetPlayer() != nullptr)
+		GetPlayer()->Save(entity_node);*/
+
+	for (uint i = 0; i < entities.Count(); i++) {
+		if (entities[i] != nullptr) {
+			entities[i]->Save(entity_node);
+		}
+	}
+
 	return true;
 }

@@ -42,9 +42,9 @@ public:
 
 	Player* GetPlayer() const;
 
-	bool Load(pugi::xml_node&);
+	bool Load(pugi::xml_node& entity_node);
 
-	bool Save(pugi::xml_node&) const;
+	bool Save(pugi::xml_node& entity_node) const;
 	
 public:
 
