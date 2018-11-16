@@ -34,7 +34,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 	entity_x_dir = RIGHT;
 	last_pos = position;
 
-	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 }
 
 Bat::Bat(int x, int y, EntityTypes type) :Entity(x, y, type) { //DO CONSTRUCTOR THAT DOESNT NEED XML_NODE AND CALL IT IN ENTITIES WHEN CREATING NEW BAT
@@ -126,7 +126,7 @@ void Bat::Draw() {
 	current_animation = &run;
 
 	if (entity_x_dir == LEFT ) {
-		App->render->Blit(texture, (int)position.x + App->render->camera.x , (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0, 0);
+		App->render->Blit(texture, (int)position.x + App->render->camera.x, (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0, 0);
 	}
 	else {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));

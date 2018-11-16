@@ -7,7 +7,7 @@
   </app>
 
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -180,6 +180,8 @@
       </animations>
       <variables>
         <spritesheet location="textures/mini-tyranosaur.png"/>
+        <collider_offset x="10" y="0" />
+        <collider_dimensions x="50" y="40" />
       </variables>
     </mini-tyranosaur>
     <bat>
