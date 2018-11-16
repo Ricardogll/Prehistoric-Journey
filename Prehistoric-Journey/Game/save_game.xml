@@ -6,11 +6,12 @@
 	<audio />
 	<map />
 	<scene />
+	<entities>
+		<position x="332.669617" y="1170.69836" />
+	</entities>
 	<fade />
 	<:anonymous />
-	<player>
-		<position x="192" y="520" />
-	</player>
+	<pathfinding />
 	<renderer>
 		<camera x="0" y="0" />
 	</renderer>
