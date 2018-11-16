@@ -53,7 +53,6 @@ public:
 private:
 
 	SDL_Rect player_rect = { 0,0 };
-	fPoint speed = { 0.0f,0.0f };
 	fPoint acceleration{ 0.0f,0.0f };
 	
 	
@@ -109,7 +108,7 @@ private:
 public:
 
 	fPoint last_saved_pos = { 0.0f,0.0f };
-	fPoint player_pos = { 0.0f,0.0f };
+	fPoint position = { 0.0f,0.0f };
 	int saved_map = 1;
 	bool player_died = false;
 	bool change_map = false;

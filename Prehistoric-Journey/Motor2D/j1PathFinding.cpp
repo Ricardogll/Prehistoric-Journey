@@ -46,7 +46,7 @@ bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 // Utility: returns true is the tile is walkable
 bool j1PathFinding::IsWalkable(const iPoint& pos) const
 {
-	uchar t = GetTileAt(pos);
+ 	uchar t = GetTileAt(pos);
 	return t != INVALID_WALK_CODE && t > 0;
 }
 
@@ -141,7 +141,7 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
-	/*//Diagonals
+	//Diagonals
 	cell.create(pos.x + 1, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
@@ -157,7 +157,7 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	cell.create(pos.x - 1, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
-	*/
+	
 
 	return list_to_fill.list.count();
 }
@@ -192,9 +192,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		LOG("Path not found");
 	}
 	else {
-		// TODO 2: Create two lists: open, close
-		// Add the origin tile to open
-		// Iterate while we have tile in the open list
+		
 
 		open.list.clear();
 		closed.list.clear();
@@ -209,8 +207,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		uint neighbours_last_size = 0u;
 
 		while (p2List_item<PathNode>* item = open.GetNodeLowestScore()) {
-			// TODO 3: Move the lowest score cell from open list to the closed list
-			//const PathNode* parent = new PathNode(item->)
+		
 			curr = item->data;
 
 
@@ -236,35 +233,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 					neighbours.list[i].CalculateF(destination);
 					open.list.add(neighbours.list[i]);
 				}
-				else
-				{
-					//if (repeated_node->data.g > neighbours.list[i].g) {
 
-						//open.list[open.list.find(repeated_node->data)].parent = neighbours.list[i].parent;
-
-						//repeated_node->data.parent = neighbours.list[i].parent;
-					//}
-
-				}
-
-
-
-				/*open_pos = open.list.find(neighbours.list[i]);
-
-				if (open_pos != -1) {
-
-					neighbours.list[i].CalculateF(destination);
-					open.list.add(neighbours.list[i]);
-
-				}
-				else
-				{
-					if (open.list[open_pos].g > neighbours.list[i].g) {
-						open.list[open_pos].parent = neighbours.list[i].parent;
-					}
-
-
-				}*/
 
 
 				if (neighbours.list[i].pos == destination) {
@@ -274,10 +243,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			}
 
 
-
-			// TODO 4: If we just added the destination, we are done!
-			// Backtrack to create the final path
-			// Use the Pathnode::parent and Flip() the path when you are finish
 			if (curr.pos == destination) {
 				last_path.Clear();
 
@@ -288,19 +253,14 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				last_path.PushBack(item_path->data.pos);
 				last_path.Flip();
 
-				break;
+				return last_path.Count();
 			}
-			// TODO 5: Fill a list of all adjancent nodes
-
-			// TODO 6: Iterate adjancent nodes:
-			// ignore nodes in the closed list
-			// If it is NOT found, calculate its F and add it to the open list
-			// If it is already in the open list, check if it is a better path (compare G)
-			// If it is a better path, Update the parent
+			
 
 			neighbours.list.clear();
 		}
 	}
 
+	return -1;
 }
 

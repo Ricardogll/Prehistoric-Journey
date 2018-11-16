@@ -80,8 +80,8 @@ bool Player::Start()
 	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
 	texture = App->tex->Load(spritesheet.GetString());
 	state = IDLE;
-	player_pos.x = App->map->spawn_pos.x;
-	player_pos.y = App->map->spawn_pos.y;
+	position.x = App->map->spawn_pos.x;
+	position.y = App->map->spawn_pos.y;
 	entity_x_dir = RIGHT;
 
 	last_saved_pos.x = App->map->spawn_pos.x;
@@ -91,8 +91,8 @@ bool Player::Start()
 	acceleration = { 0.0f, 0.0f };
 
 	
-	collider = App->collision->AddCollider({ (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
-	player_rect = { (int)player_pos.x + collider_offset.x,(int)player_pos.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
+	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x,(int)position.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
+	player_rect = { (int)position.x + collider_offset.x,(int)position.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
 
 	return ret;
 }
@@ -102,7 +102,7 @@ void Player::Update(float dt)
 	dt_current = dt;
 
 
-	App->render->camera.x = -player_pos.x - player_rect.w / 2 + App->win->width / 2;
+	App->render->camera.x = -position.x - player_rect.w / 2 + App->win->width / 2;
 	if (App->render->camera.x > start_map)
 		App->render->camera.x = start_map;
 	if (App->render->camera.x < limit_map)
@@ -155,24 +155,24 @@ void Player::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			player_pos.x += liana_speed * dt_current;
+			position.x += liana_speed * dt_current;
 			entity_x_dir = RIGHT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			player_pos.x -= liana_speed * dt_current;
+			position.x -= liana_speed * dt_current;
 			entity_x_dir = LEFT;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			player_pos.y += liana_speed * dt_current;
+			position.y += liana_speed * dt_current;
 			state = LIANA;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			player_pos.y -= liana_speed * dt_current;
+			position.y -= liana_speed * dt_current;
 			state = LIANA;
 		}
 
@@ -359,8 +359,8 @@ void Player::Update(float dt)
 	if (on_liana)
 		acceleration.y = 0.0f;
 
-	player_pos.x += speed.x * dt_current;
-	player_pos.y += speed.y * dt_current;
+	position.x += speed.x * dt_current;
+	position.y += speed.y * dt_current;
 	speed.x += acceleration.x * dt_current;
 	speed.y += acceleration.y * dt_current;
 
@@ -382,16 +382,16 @@ void Player::Update(float dt)
 
 
 
-	collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
+	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 
-	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, 38, 48 };
-
-
+	player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, 38, 48 };
 
 
-	collider->SetPos(player_pos.x + collider_offset.x, player_pos.y + collider_offset.y);
 
-	player_rect = { (int)player_pos.x + collider_offset.x, (int)player_pos.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
+
+	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+
+	player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
 
 
 
@@ -424,8 +424,8 @@ bool Player::Load(pugi::xml_node& node)
 	last_saved_pos.x = node.child("position").attribute("x").as_int();
 	last_saved_pos.y = node.child("position").attribute("y").as_int();
 	//saved_map = node.child("position").attribute("map").as_int();
-	player_pos.x = last_saved_pos.x;
-	player_pos.y = last_saved_pos.y;
+	position.x = last_saved_pos.x;
+	position.y = last_saved_pos.y;
 
 	return true;
 }
@@ -433,9 +433,9 @@ bool Player::Load(pugi::xml_node& node)
 bool Player::Save(pugi::xml_node& node) const
 {
 	
-	pugi::xml_node position = node.append_child("position");
-	position.append_attribute("x").set_value(player_pos.x);
-	position.append_attribute("y").set_value(player_pos.y);
+	pugi::xml_node position_node = node.append_child("position");
+	position_node.append_attribute("x").set_value(position.x);
+	position_node.append_attribute("y").set_value(position.y);
 	//position.append_attribute("map").set_value(App->scene->curr_map);
 	return true;
 }
@@ -476,10 +476,10 @@ void Player::Draw()
 
 	//SDL_Rect r = current_animation->GetCurrentFrame();
 	if (entity_x_dir == LEFT && on_liana==false) {
-		App->render->Blit(texture, (int)player_pos.x + App->render->camera.x - collider->rect.w, (int)player_pos.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
+		App->render->Blit(texture, (int)position.x + App->render->camera.x - collider->rect.w, (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
-		App->render->Blit(texture, player_pos.x, player_pos.y, &(current_animation->GetCurrentFrame()));
+		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 }
 
@@ -520,7 +520,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 					speed.y = -speed.y;
 				}
 				acceleration.y = gravity;
-				player_pos.y = c2->rect.y + c2->rect.h + 1;
+				position.y = c2->rect.y + c2->rect.h + 1;
 
 			}
 			else
@@ -530,14 +530,14 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					player_pos.x++;
+					position.x++;
 
 				}
 				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					player_pos.x--;
+					position.x--;
 
 				}
 			}
@@ -577,8 +577,8 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			speed = { 0.0f,0.0f };
 			acceleration = { 0.0f,0.0f };
 
-			player_pos.x = App->map->spawn_pos.x;
-			player_pos.y = App->map->spawn_pos.y;
+			position.x = App->map->spawn_pos.x;
+			position.y = App->map->spawn_pos.y;
 		}
 	}
 

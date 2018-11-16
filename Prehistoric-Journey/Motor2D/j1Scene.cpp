@@ -122,8 +122,8 @@ bool j1Scene::Update(float dt)
 				App->collision->CleanUpMap();
 				App->map->Load("Jungle.tmx");
 				App->map->setColliders();
-				App->entities->GetPlayer()->player_pos.x = App->entities->GetPlayer()->last_saved_pos.x;
-				App->entities->GetPlayer()->player_pos.y = App->entities->GetPlayer()->last_saved_pos.y;
+				App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
+				App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
 				is_fade = true;
 				break;
 			case 2:
@@ -133,8 +133,8 @@ bool j1Scene::Update(float dt)
 				App->collision->CleanUpMap();
 				App->map->Load("Cave.tmx");
 				App->map->setColliders();
-				App->entities->GetPlayer()->player_pos.x = App->entities->GetPlayer()->last_saved_pos.x;
-				App->entities->GetPlayer()->player_pos.y = App->entities->GetPlayer()->last_saved_pos.y;
+				App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
+				App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
 				is_fade = true;
 				break;
 			default:
@@ -158,8 +158,8 @@ bool j1Scene::Update(float dt)
 
 			curr_map = MAP_1;
 			App->fade->FadeToBlack(this, this, 2.0f);
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 
@@ -171,8 +171,8 @@ bool j1Scene::Update(float dt)
 			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
 			App->map->setColliders();
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 		}
@@ -187,8 +187,8 @@ bool j1Scene::Update(float dt)
 
 			curr_map = MAP_2;
 			App->fade->FadeToBlack(this, this, 2.0f);
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 
@@ -200,8 +200,8 @@ bool j1Scene::Update(float dt)
 			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
 			App->map->setColliders();
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 		}
@@ -218,8 +218,8 @@ bool j1Scene::Update(float dt)
 			App->collision->CleanUpMap();
 			App->map->Load("Jungle.tmx");
 			App->map->setColliders();
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 
@@ -231,8 +231,8 @@ bool j1Scene::Update(float dt)
 			App->collision->CleanUpMap();
 			App->map->Load("Cave.tmx");
 			App->map->setColliders();
-			App->entities->GetPlayer()->player_pos.x = App->map->spawn_pos.x;
-			App->entities->GetPlayer()->player_pos.y = App->map->spawn_pos.y;
+			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
 			break;
 		}

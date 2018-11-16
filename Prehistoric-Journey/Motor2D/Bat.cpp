@@ -6,6 +6,8 @@
 #include "p2Log.h"
 #include "j1Input.h"//delete this
 #include "p2DynArray.h"
+#include "Player.h"
+#include "j1Map.h"
 
 Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 
@@ -39,17 +41,24 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {}
 void Bat::Update(float dt) {
 	dt_current = dt;
 	AnimationsApplyDt();
+	
+	fPoint player_pos = App->entities->GetPlayer()->position;
+	float dist = position.DistanceNoSqrt(player_pos);
 
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-
-		App->pathfinding->CreatePath({ 0,1 }, { 0,2 });
+	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
+		App->pathfinding->CreatePath( App->map->WorldToMap(position.x,position.y), App->map->WorldToMap(player_pos.x, player_pos.y));
+	}
+	
+	
 	/*	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();//FOLLOW HERE
 		if(path)
 			for(path;path->Count();)*/
-	}
+	
 
+
+
+	position.x += speed.x * dt_current;
+	position.y += speed.y * dt_current;
 }
 
 void Bat::Draw() {

@@ -32,6 +32,7 @@ public:
 	
 	Collider* collider;
 	fPoint position = { 0.0f, 0.0f };
+	fPoint speed = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
 	STATE state = NO_STATE;
 	EntityTypes type = EntityTypes::UNKNOWN;

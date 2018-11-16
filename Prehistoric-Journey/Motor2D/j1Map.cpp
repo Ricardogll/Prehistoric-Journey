@@ -633,7 +633,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 			continue;
 
 		uchar* map = new uchar[layer->width*layer->height];
-		memset(map, 1, layer->width*layer->height);
+		memset(map, 0, layer->width*layer->height);
 
 		for (int y = 0; y < data.height; ++y)
 		{
@@ -646,7 +646,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 
 				if (tileset != NULL)
 				{
-					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
+					map[i] = (tile_id - tileset->firstgid) > 0 ? 1 : 0 ;
 					
 				}
 				
