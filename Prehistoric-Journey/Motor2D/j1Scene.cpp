@@ -13,6 +13,7 @@
 #include "j1FadeToBlack.h"
 #include "j1Entities.h"
 #include "j1PathFinding.h"
+#include "Brofiler/Brofiler.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -89,12 +90,14 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Scene", Profiler::Color::DeepPink)
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Scene", Profiler::Color::MediumSpringGreen)
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->RaiseVolumeMusic();
 		App->audio->RaiseVolumeFx();
@@ -251,6 +254,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
