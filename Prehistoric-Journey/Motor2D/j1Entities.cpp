@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Bat.h"
 #include "MiniTrex.h"
+#include "Brofiler/Brofiler.h"
 //#include
 
 
@@ -40,12 +41,12 @@ bool j1Entities::Start() {
 
 bool j1Entities::PreUpdate() {
 	//do deletes if to_destroy
-
+	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::DeepPink)
 	return true;
 }
 
 bool j1Entities::Update(float dt) {
-
+	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
 	for (int i = 0; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
 			entities[i]->Update(dt);
