@@ -6,7 +6,8 @@
 #include "Bat.h"
 #include "MiniTrex.h"
 #include "Brofiler/Brofiler.h"
-//#include
+
+
 
 
 j1Entities::j1Entities() {
@@ -32,7 +33,7 @@ bool j1Entities::Start() {
 
 	bool ret = true;
 
-	SpawnEntity(100, 100, EntityTypes::PLAYER);
+	SpawnEntity(0, 0, EntityTypes::PLAYER);
 	SpawnEntity(150, 30, EntityTypes::BAT);
 	SpawnEntity(100, 100, EntityTypes::MINI_TREX);
 
@@ -42,11 +43,25 @@ bool j1Entities::Start() {
 bool j1Entities::PreUpdate() {
 	//do deletes if to_destroy
 	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::DeepPink)
+		
+		for (int i = 0; i < entities.Count(); i++) {
+			
+			if (entities[i]->to_destroy) {
+				delete(entities[i]);
+
+				entities[i] = nullptr;
+
+				if (!entities.Delete(i)) 
+					return false;
+
+			}
+		}
 	return true;
 }
 
 bool j1Entities::Update(float dt) {
 	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
+
 	for (int i = 0; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
 			entities[i]->Update(dt);
@@ -64,7 +79,19 @@ bool j1Entities::Update(float dt) {
 bool j1Entities::CleanUp() {
 	LOG("CleanUp entities");
 
-	//do deletes
+	for (int i = 0; i < entities.Count(); i++) {
+
+		if (entities[i] != nullptr) {
+			delete(entities[i]);
+
+			entities[i] = nullptr;
+
+			if (!entities.Delete(i))
+				return false;
+
+		}
+	}
+	entities.Clear();
 
 	return true;
 }
