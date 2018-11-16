@@ -4,7 +4,6 @@
 #include "j1PathFinding.h"
 #include "j1Entities.h"
 #include "p2Log.h"
-#include "j1Input.h"//delete this
 #include "p2DynArray.h"
 #include "Player.h"
 #include "j1Map.h"

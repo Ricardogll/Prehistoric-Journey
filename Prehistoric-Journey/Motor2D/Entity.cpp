@@ -38,3 +38,17 @@ void Entity::SetAnimations(pugi::xml_node& config, Animation& animation)
 	}
 }
 
+fPoint Entity::SpeedNeededFromTo(fPoint from, fPoint to)
+{
+
+	fPoint distance = to - from;
+	double mod = sqrt(distance.x*distance.x + distance.y*distance.y);
+
+	distance.x /= mod;
+	distance.y /= mod;
+
+	distance.x *= moving_speed;
+	distance.y *= moving_speed;
+
+	return distance;
+}
