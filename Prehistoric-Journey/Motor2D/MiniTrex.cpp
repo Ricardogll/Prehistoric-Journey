@@ -33,6 +33,9 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 	}
 	state = IDLE;
 	entity_x_dir = RIGHT;
+
+	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+
 }
 MiniTrex::~MiniTrex() {}
 
@@ -42,7 +45,7 @@ void MiniTrex::Update(float dt) {
 	AnimationsApplyDt();
 }
 void MiniTrex::Draw() {
-	/*switch (state)
+	switch (state)
 	{
 	case IDLE:
 		current_animation = &idle;
@@ -52,26 +55,10 @@ void MiniTrex::Draw() {
 		current_animation = &run;
 		break;
 
-	case JUMP:
-
-		break;
-
-	case LIANA:
-
-		break;
-
-	case LIANA_IDLE:
-
-		break;
-
-	case ATTACK:
-
-		break;
-
 	default:
 		current_animation = &idle;
 
-	}*/
+	}
 
 	current_animation = &idle;
 
@@ -99,11 +86,4 @@ void MiniTrex::AnimationsApplyDt() {
 		run.speed = run_anim_speed * dt_current;
 
 	}
-}
-
-void MiniTrex::LoadVariablesXML(const pugi::xml_node& entity_node) {
-
-	pugi::xml_node variables = entity_node.child("variables");
-	spritesheet = variables.child("spritesheet").attribute("location").as_string();
-
 }
