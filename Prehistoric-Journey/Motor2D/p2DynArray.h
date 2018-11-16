@@ -245,6 +245,25 @@ public:
 			SWAP(*start++, *end--);
 	}
 
+	bool Delete(unsigned int index) {
+
+		for (int i = 0; i < num_elements; i++) {
+			if (i == index) {
+
+				for (i; i <= num_elements; i++) {
+					data[i] = data[i + 1];
+				}
+
+				data[num_elements - 1] = 0;
+				num_elements--;
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 private:
 
 	// Private Utils
@@ -265,6 +284,8 @@ private:
 			delete[] tmp;
 		}
 	}
+
+
 };
 
 #endif // __P2DYNARRAY_H__

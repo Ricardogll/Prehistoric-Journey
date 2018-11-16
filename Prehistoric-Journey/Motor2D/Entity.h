@@ -59,6 +59,8 @@ public:
 
 	bool to_destroy = false;
 	float dt_current = 0.0f;
+
+	iPoint starting_pos = { 0,0 };
 	
 
 public:
