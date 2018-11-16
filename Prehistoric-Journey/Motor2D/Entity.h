@@ -36,6 +36,7 @@ public:
 
 	fPoint position = { 0.0f, 0.0f };
 	fPoint speed = { 0.0f,0.0f };
+	fPoint last_pos = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
 	float moving_speed = 150.0f;
 	float gravity = 0.0f;
