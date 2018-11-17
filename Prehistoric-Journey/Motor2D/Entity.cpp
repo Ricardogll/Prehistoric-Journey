@@ -26,17 +26,6 @@ void Entity::OnCollision(Collider* c1, Collider* c2){
 		
 }
 
-
-bool Entity::InsideCamera(fPoint& position) const {
-
-	bool ret = false;
-
-	if ((int)position.x > App->render->camera.x && (int)position.x < App->render->camera.x + App->render->camera.w)
-	    ret = true;
-
-	return ret;
-}
-
 void Entity::SetAnimations(pugi::xml_node& config, Animation& animation)
 {
 	SDL_Rect coord;

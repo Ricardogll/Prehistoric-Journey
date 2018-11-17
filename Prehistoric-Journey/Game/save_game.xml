@@ -7,7 +7,19 @@
 	<map />
 	<scene />
 	<entities>
-		<position x="332.669617" y="1170.69836" />
+		<player_position x="490.586121" y="519.070435" />
+		<bat>
+			<position x="441.894012" y="549.744324" />
+		</bat>
+		<bat>
+			<position x="900" y="300" />
+		</bat>
+		<minitrex>
+			<position x="1120" y="436.75" />
+		</minitrex>
+		<minitrex>
+			<position x="370.44809" y="529.5" />
+		</minitrex>
 	</entities>
 	<fade />
 	<:anonymous />

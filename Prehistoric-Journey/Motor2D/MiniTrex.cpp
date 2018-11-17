@@ -40,7 +40,6 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 	state = IDLE;
 	entity_x_dir = RIGHT;
 
-	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 	//soundtimer.Start();
 }
 MiniTrex::~MiniTrex() {}
@@ -54,8 +53,8 @@ void MiniTrex::Update(float dt) {
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
-	if (soundtimer.Read() > 4000 && InsideCamera(position) == true) {
-		App->audio->PlayFx(idle_sound, 1);
+	if (soundtimer.Read() > 4000 && dist < 275000) {
+		App->audio->PlayFx(idle_sound, 0);
 		soundtimer.Start();
 	}
 	LOG("TIMER %u", soundtimer.Read());
