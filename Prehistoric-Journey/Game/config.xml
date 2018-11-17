@@ -183,6 +183,7 @@
         <collider_offset x="10" y="0" />
         <collider_dimensions x="50" y="40" />
 		<wait_pf value="250"/>
+		<gravity value="500"/>
       </variables>
     </mini-tyranosaur>
     <bat>
@@ -217,6 +218,8 @@
 			<collider_offset x="13" y="20" />
 			<collider_dimensions x="26" y="26" />
 			<wait_pf value="250"/>
+			<gravity value="150"/>
+
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">
