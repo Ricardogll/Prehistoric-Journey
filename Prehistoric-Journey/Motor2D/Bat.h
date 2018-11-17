@@ -11,7 +11,7 @@ class Bat :public Entity {
 
 public:
 	Bat(int x, int y, pugi::xml_node& config, EntityTypes type);
-	Bat(int x, int y, EntityTypes type);
+	
 	~Bat();
 
 	void OnCollision(Collider* c1, Collider* c2);

@@ -182,6 +182,7 @@
         <spritesheet location="textures/mini-tyranosaur.png"/>
         <collider_offset x="10" y="0" />
         <collider_dimensions x="50" y="40" />
+		<wait_pf value="250"/>
       </variables>
     </mini-tyranosaur>
     <bat>
@@ -215,7 +216,7 @@
 			<spritesheet location="textures/bat.png"/>
 			<collider_offset x="13" y="20" />
 			<collider_dimensions x="26" y="26" />
-      <wait_pf value="250"/>
+			<wait_pf value="250"/>
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">

@@ -330,7 +330,7 @@ void Player::Update(float dt)
 		}
 	}
 
-	if (god_mode == true) //CHANGE THIS NUMBERS TO XML AND PUT DT
+	if (god_mode == true)
 	{
 		acceleration.y = 0.0f;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)

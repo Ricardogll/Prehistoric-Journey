@@ -4,7 +4,8 @@
 #include "j1PathFinding.h"
 #include "j1Entities.h"
 #include "p2Log.h"
-
+#include "j1Map.h"
+#include "Player.h"
 
 MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 	pugi::xml_node node_entity = config.child("mini-tyranosaur");
@@ -40,9 +41,49 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 MiniTrex::~MiniTrex() {}
 
 void MiniTrex::OnCollision(Collider* c1, Collider* c2) {}
+
+
 void MiniTrex::Update(float dt) {
 	dt_current = dt;
 	AnimationsApplyDt();
+
+	fPoint player_pos = App->entities->GetPlayer()->position;
+	float dist = position.DistanceNoSqrt(player_pos);
+
+	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
+		//make timer so it happens once every 0.5sec or so
+
+		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
+			if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != -1) {
+				path = App->pathfinding->GetLastPath();
+				timer_pathfinding = SDL_GetTicks();
+
+				if (iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
+					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
+				else {
+					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
+					if (last_pos.x < position.x)
+						entity_x_dir = RIGHT;
+					else if (last_pos.x > position.x)
+						entity_x_dir = LEFT;
+
+				}
+			}
+			else {
+				path = nullptr;
+			}
+		}
+	}
+	else {
+		speed = { 0.0f,0.0f };
+	}
+
+	speed.y = 0.0f;
+	last_pos = position;
+	position.x += speed.x * dt_current;
+	position.y += speed.y * dt_current;
+
+	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 }
 void MiniTrex::Draw() {
 	switch (state)
@@ -69,6 +110,8 @@ void MiniTrex::Draw() {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 }
+
+
 bool MiniTrex::Load(pugi::xml_node&) { return true; }
 bool MiniTrex::Save(pugi::xml_node&) const { return true; }
 void MiniTrex::AnimationsApplyDt() {
