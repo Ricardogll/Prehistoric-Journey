@@ -44,7 +44,7 @@ Bat::~Bat() {}
 
 
 void Bat::Update(float dt) {
-
+	
 	prev_pos = position;
 
 	dt_current = dt;
@@ -206,9 +206,12 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 				}
 			}
 
-			if (c2->type == COLLIDER_PLAYER_ATTACK)
-				state = DEATH;
+			
 		}
 
+	}
+	if (c2->type == COLLIDER_PLAYER_ATTACK) {
+		state = DEATH;
+		App->collision->EraseCollider(collider);
 	}
 }

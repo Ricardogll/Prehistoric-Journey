@@ -34,7 +34,7 @@ bool j1Entities::Start() {
 	bool ret = true;
 
 	SpawnEntity(0, 0, EntityTypes::PLAYER);
-	SpawnEntity(150, 200, EntityTypes::BAT);
+	//SpawnEntity(150, 200, EntityTypes::BAT);
 	SpawnEntity(900, 300, EntityTypes::BAT);
 	SpawnEntity(35*32, 12*32, EntityTypes::MINI_TREX);
 	SpawnEntity(200,200, EntityTypes::MINI_TREX);
@@ -195,14 +195,18 @@ bool j1Entities::Load(pugi::xml_node& entity_node) {
 	if(GetPlayer())
 		GetPlayer()->Load(entity_node);
 
-	 
+	bool dead_aux = false;
 	for (pugi::xml_node aux = entity_node.child("mini-tyranosaur"); aux; aux = aux.next_sibling("mini-tyranosaur")) {
-		SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::MINI_TREX);
+		dead_aux = aux.child("position").attribute("dead").as_bool();
+		if(!dead_aux)
+			SpawnEntity(aux.child("position").attribute("x").as_int(), -15+aux.child("position").attribute("y").as_int(), EntityTypes::MINI_TREX);
 	}
 
 
 	for (pugi::xml_node aux = entity_node.child("bat"); aux; aux = aux.next_sibling("bat")) {
-		SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::BAT);
+		dead_aux = aux.child("position").attribute("dead").as_bool();
+		if (!dead_aux)
+			SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::BAT);
 	}
 
 	return true; 

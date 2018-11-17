@@ -83,6 +83,8 @@ public:
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);
+
+	bool OnScreen(int x);
 };
 
 

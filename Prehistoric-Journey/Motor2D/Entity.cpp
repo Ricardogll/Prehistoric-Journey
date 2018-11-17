@@ -8,11 +8,14 @@ Entity::Entity(int x, int y, EntityTypes type) :position(x, y), type(type) {}
 
 Entity::~Entity() {
 	
-	//delete coll
+	
 	if (collider != nullptr) {
 		App->collision->EraseCollider(collider);
 		collider = nullptr;
 	}
+	App->tex->UnLoad(texture);
+
+
 }
 
 void Entity::Draw() {
@@ -112,7 +115,7 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 		 break;
 
 	 case EntityTypes::MINI_TREX:
-		  aux = entity_node.append_child("minitrex");
+		  aux = entity_node.append_child("mini-tyranosaur");
 		 break;
 
 	 case EntityTypes::PLAYER:
@@ -124,8 +127,17 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 	 aux.append_attribute("x").set_value(position.x);
 	 aux.append_attribute("y").set_value(position.y);
 
+	 bool dead_aux = true;
 	 
+	 if (state != DEATH)
+		 dead_aux = false;
 	 
+	 aux.append_attribute("dead").set_value(dead_aux);
 	 
 	 return true; 
+ }
+
+ bool Entity::OnScreen(int x)  {
+
+	 return (-App->render->camera.x <= x && -App->render->camera.x + App->render->camera.w >= x);
  }
