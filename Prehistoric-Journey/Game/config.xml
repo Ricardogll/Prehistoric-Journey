@@ -40,6 +40,14 @@
     <!-- 128 MAX volume, 0 min volume-->
   </audio>
 <entities>
+	<spawns>
+		<bat x="50" y="50" />
+		<bat x="100" y="100" />
+		<mini_rex x="50" y="0" />
+		<mini_rex x="100" y="50" />
+	
+	
+	</spawns>
   <player>
     <variables>
       <spritesheet location="textures/caverman.png"/>
