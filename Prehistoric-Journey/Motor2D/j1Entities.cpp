@@ -20,10 +20,10 @@ j1Entities::~j1Entities() {
 }
 
 bool j1Entities::Awake(pugi::xml_node& config) {
-	LOG("Loading entities");
-	
-	entities_node.append_copy(config);
-	
+		
+	/*pugi::xml_document	config_file;
+	node = &App->LoadConfig(config_file);
+	node = node->child("entities");*/
 	
 
 	return true;
@@ -34,7 +34,8 @@ bool j1Entities::Start() {
 	bool ret = true;
 
 	SpawnEntity(0, 0, EntityTypes::PLAYER);
-	SpawnEntity(150, 30, EntityTypes::BAT);
+	SpawnEntity(150, 200, EntityTypes::BAT);
+	SpawnEntity(900, 300, EntityTypes::BAT);
 	SpawnEntity(100, 100, EntityTypes::MINI_TREX);
 
 	return ret;
@@ -102,8 +103,8 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 	bool ret = false;
 	
 	pugi::xml_document config_doc;
-	pugi::xml_node config = App->LoadConfig(config_doc);	//IMPROVE THIS!! 
-	//player->Awake(config->child("player"));
+	pugi::xml_node config = App->LoadConfig(config_doc);	
+
 
 	switch (type) {
 
@@ -190,13 +191,18 @@ bool j1Entities::Load(pugi::xml_node& entity_node) {
 			entities[i]->to_destroy = true;
 		}
 	}
+	if(GetPlayer())
+		GetPlayer()->Load(entity_node);
 
-	GetPlayer()->Load(entity_node);
-	for (pugi::xml_node aux = entity_node.child("bat"); aux; aux = aux.next_sibling("bat")) {
-		//Bat* bat = new Bat(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), config.child("entities"), EntityTypes::BAT);
-
+	 
+	for (pugi::xml_node aux = entity_node.child("mini-tyranosaur"); aux; aux = aux.next_sibling("mini-tyranosaur")) {
+		SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::MINI_TREX);
 	}
 
+
+	for (pugi::xml_node aux = entity_node.child("bat"); aux; aux = aux.next_sibling("bat")) {
+		SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::BAT);
+	}
 
 	return true; 
 }
