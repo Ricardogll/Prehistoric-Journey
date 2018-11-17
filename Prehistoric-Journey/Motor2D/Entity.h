@@ -89,10 +89,7 @@ public:
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);
 
-
 	bool OnScreen(int x);
-
-
-
+};
 
 #endif  // __ENTITY_H__

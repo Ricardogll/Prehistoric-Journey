@@ -179,18 +179,18 @@
         <animation x="224" y="124" w="44" h="62"/>
       </hit>
       <death speed="4" loop="false">
-        <animation x="328" y="130" w="68" h="56"/>
-        <animation x="408" y="130" w="68" h="56"/>
-        <animation x="  8" y="192" w="68" h="56"/>
-        <animation x=" 89" y="192" w="68" h="56"/>
-        <animation x="169" y="192" w="68" h="56"/>
-        <animation x="246" y="192" w="68" h="56"/>
+        <animation x="328" y="150" w="68" h="56"/>
+        <animation x="408" y="150" w="68" h="56"/>
+        <animation x="  8" y="212" w="68" h="56"/>
+        <animation x=" 89" y="212" w="68" h="56"/>
+        <animation x="169" y="212" w="68" h="56"/>
+        <animation x="246" y="212" w="68" h="56"/>
       </death>
       </animations>
       <variables>
         <spritesheet location="textures/mini-tyranosaur.png"/>
         <collider_offset x="10" y="0" />
-        <collider_dimensions x="50" y="40" />
+        <collider_dimensions x="50" y="48" />
         <sounds idle_location="audio/fx/dinosaur.wav"/>
 		<wait_pf value="250"/>
 		<gravity value="250"/>

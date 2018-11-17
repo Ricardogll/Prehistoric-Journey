@@ -29,8 +29,6 @@ void Entity::OnCollision(Collider* c1, Collider* c2){
 		
 }
 
-
-
 void Entity::SetAnimations(pugi::xml_node& config, Animation& animation)
 {
 	SDL_Rect coord;
@@ -138,11 +136,10 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 	 aux.append_attribute("dead").set_value(dead_aux);
 	 
 	 return true; 
- }
 
+ }
 
  bool Entity::OnScreen(int x)  {
 
 	 return (-App->render->camera.x <= x && -App->render->camera.x + App->render->camera.w >= x);
  }
-

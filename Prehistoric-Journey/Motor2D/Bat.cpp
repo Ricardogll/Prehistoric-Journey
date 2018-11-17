@@ -7,6 +7,7 @@
 #include "p2DynArray.h"
 #include "Player.h"
 #include "j1Map.h"
+#include <time.h>
 
 Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 
@@ -38,10 +39,6 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 }
 
 Bat::~Bat() {}
-
-
-
-
 
 void Bat::Update(float dt) {
 	
@@ -78,11 +75,33 @@ void Bat::Update(float dt) {
 			}
 		}
 	}
-	else if (state != DEATH) {
-		speed = { 0.0f,0.0f };
+	else if (state == DEATH){
+		speed = { 0.0f, gravity };
 	}
 	else {
-		speed = { 0.0f, gravity };
+		srand(time(NULL));
+
+		iPoint new_pos;
+
+		new_pos.x = rand() % 10;
+		new_pos.x = (new_pos.x < 5) ? 1 : -1;
+
+		new_pos.y = rand() % 10;
+		new_pos.y = (new_pos.y < 5) ? 1 : -1;
+
+		iPoint next_pos = App->map->WorldToMap(position.x, position.y);
+
+		next_pos = { next_pos.x + new_pos.x, next_pos.y + new_pos.y};
+
+		if (App->pathfinding->IsWalkable(next_pos)) {
+			speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
+			if (last_pos.x < position.x)
+				entity_x_dir = RIGHT;
+			else if (last_pos.x > position.x)
+				entity_x_dir = LEFT;
+		}
+		else
+			speed = { 0.0f,0.0f };
 	}
 
 	last_pos = position;
@@ -208,7 +227,7 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 
 			
 		}
-
+		
 	}
 	if (c2->type == COLLIDER_PLAYER_ATTACK) {
 		state = DEATH;
