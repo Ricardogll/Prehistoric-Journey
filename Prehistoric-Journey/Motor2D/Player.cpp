@@ -90,9 +90,8 @@ bool Player::Start()
 	speed = { 0.0f,0.0f };
 	acceleration = { 0.0f, 0.0f };
 
-	
-	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x,(int)position.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y }, COLLIDER_PLAYER, (j1Module*)App->entities);
 	player_rect = { (int)position.x + collider_offset.x,(int)position.y + collider_offset.y,collider_dimensions.x,collider_dimensions.y };
+	collider = App->collision->AddCollider(player_rect, COLLIDER_PLAYER, (j1Module*)App->entities);
 
 	return ret;
 }
@@ -264,6 +263,11 @@ void Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && attacking == false && on_ground == true)
 		{
 			attack.Reset();
+			if(entity_x_dir == RIGHT)
+				attack_player_rect = { (int)position.x + collider_offset.x + collider->rect.w, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
+			else
+				attack_player_rect = { (int)position.x + collider_offset.x - collider->rect.w, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
+			player_attack = App->collision->AddCollider(attack_player_rect, COLLIDER_PLAYER_ATTACK, (j1Module*)App->entities);
 			start_attack = SDL_GetTicks();
 			attacking = true;
 		}
@@ -271,6 +275,7 @@ void Player::Update(float dt)
 		if (start_attack + attack_time < SDL_GetTicks() && attacking == true)
 		{
 			state = IDLE;
+			App->collision->EraseCollider(player_attack);
 			start_attack = 0;
 			attacking = false;
 		}
@@ -383,7 +388,7 @@ void Player::Update(float dt)
 
 
 	collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
-
+	//player_attack->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 	player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
 
 

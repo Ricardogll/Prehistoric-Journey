@@ -91,7 +91,6 @@ void Bat::Update(float dt) {
 						entity_x_dir = RIGHT;
 					else if (last_pos.x > position.x)
 						entity_x_dir = LEFT;
-
 				}
 			}
 			else {
