@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "Animation.h"
 #include "p2DynArray.h"
+#include "p2List.h"
 
 class Entity;
 class Player;
@@ -18,6 +19,23 @@ enum class EntityTypes
 	BAT,
 	UNKNOWN
 };
+
+struct ToCreate
+{
+	int x = 0;
+	int y = 0;
+	EntityTypes type=EntityTypes::UNKNOWN;
+
+	ToCreate() {}
+	ToCreate(int x, int y, EntityTypes type) :x(x), y(y), type(type) {}
+	void Set(int x, int y, EntityTypes type) {
+		this->x = x;
+		this->y = y;
+		this->type = type;
+	}
+
+};
+
 
 class j1Entities : public j1Module
 {
@@ -49,6 +67,7 @@ public:
 public:
 
 	p2DynArray<Entity*> entities;
+	p2List<ToCreate> to_create;
 
 private:
 	
