@@ -24,6 +24,7 @@
 
   <map>
     <folder>maps/</folder>
+	<spawn_pos_offset value="8" />
   </map>
 
   <scene>
@@ -184,7 +185,7 @@
         <collider_dimensions x="50" y="40" />
         <sounds idle_location="audio/fx/dinosaur.wav"/>
 		<wait_pf value="250"/>
-		<gravity value="500"/>
+		<gravity value="250"/>
       </variables>
     </mini-tyranosaur>
     <bat>

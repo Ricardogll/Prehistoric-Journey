@@ -23,6 +23,7 @@ public:
 
 
 private:
+	fPoint prev_pos = { 0.0f,0.0f };
 
 };
 

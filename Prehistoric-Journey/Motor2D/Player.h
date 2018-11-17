@@ -55,11 +55,10 @@ private:
 	SDL_Rect player_rect = { 0,0 };
 	SDL_Rect attack_player_rect = { 0,0 };
 	Collider* player_attack;
-	fPoint acceleration{ 0.0f,0.0f };
+	fPoint acceleration = { 0.0f,0.0f };
 	
 	
 	bool jumping = false;
-	bool on_ground = false;
 	bool on_liana = false;
 	//X_DIRECTION player_x_dir = NONE;
 	bool just_landed = true;
