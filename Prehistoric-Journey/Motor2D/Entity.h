@@ -23,6 +23,7 @@ enum STATE {
 	LIANA,
 	LIANA_IDLE,
 	ATTACK,
+	DEATH,
 	NO_STATE,
 };
 
@@ -50,6 +51,7 @@ public:
 	Animation death = Animation();
 	float idle_anim_speed = 0.0f;
 	float run_anim_speed = 0.0f;
+	float death_anim_speed = 0.0f;
 	bool anim_speed_flag = false;
 
 	SDL_Texture* texture = nullptr;

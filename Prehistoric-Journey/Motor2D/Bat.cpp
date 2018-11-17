@@ -30,7 +30,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 
 		texture = App->tex->Load(spritesheet.GetString());
 	}
-	state = IDLE;
+	state = RUN;
 	entity_x_dir = RIGHT;
 	last_pos = position;
 
@@ -66,7 +66,12 @@ Bat::Bat(int x, int y, EntityTypes type) :Entity(x, y, type) { //DO CONSTRUCTOR 
 
 Bat::~Bat() {}
 
-void Bat::OnCollision(Collider* c1, Collider* c2) {}
+void Bat::OnCollision(Collider* c1, Collider* c2) {
+
+	if (c2->type == COLLIDER_PLAYER_ATTACK)
+		state = DEATH;
+}
+
 void Bat::Update(float dt) {
 
 	dt_current = dt;
@@ -75,7 +80,7 @@ void Bat::Update(float dt) {
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
-	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
+	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000 && state != DEATH) { // put this in xml as pathfinding_radius or something
 		//make timer so it happens once every 0.5sec or so
 		
 		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
@@ -98,8 +103,11 @@ void Bat::Update(float dt) {
 			}
 		}
 	}
-	else {
+	else if (state == RUN) {
 		speed = { 0.0f,0.0f };
+	}
+	else {
+		speed = { 0.0f, gravity };
 	}
 
 	last_pos = position;
@@ -117,14 +125,13 @@ void Bat::Draw() {
 		current_animation = &run;
 		break;
 
-	case ATTACK:		
+	case DEATH:
+		current_animation = &death;
 		break;
 
 	default:
 		current_animation = &run;
 	}
-
-	current_animation = &run;
 
 	if (entity_x_dir == LEFT ) {
 		App->render->Blit(texture, (int)position.x + App->render->camera.x, (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0, 0);
@@ -143,7 +150,7 @@ void Bat::AnimationsApplyDt() {
 	if (anim_speed_flag == false) {
 		idle_anim_speed = idle.speed;
 		run_anim_speed = run.speed;
-		
+		death_anim_speed = death.speed;
 
 		anim_speed_flag = true;
 	}
@@ -151,7 +158,7 @@ void Bat::AnimationsApplyDt() {
 	{
 		idle.speed = idle_anim_speed * dt_current;
 		run.speed = run_anim_speed * dt_current;
-		
+		death.speed = death_anim_speed * dt_current;
 	}
 	
 
