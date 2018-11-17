@@ -73,6 +73,8 @@ public:
 	
 	uint idle_sound = 0u;
 
+	j1Timer soundtimer;
+
 public:
 	Entity(int x, int y, EntityTypes type);
 	virtual ~Entity();
@@ -86,8 +88,8 @@ public:
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);
+
+	bool OnScreen(int x);
 };
-
-
 
 #endif  // __ENTITY_H__
