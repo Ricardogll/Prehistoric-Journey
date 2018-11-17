@@ -51,10 +51,10 @@
       <liana_speed value="100"/>
       <max_acc_x value="150"/>
       <max_speed_x value="150"/>
-      <jump_force value="-325.0"/>
-      <jump_force_liana value="-225.0"/>
-      <collider_offset x="8" y="10"/>
-      <collider_dimensions x="38" y="48"/>
+      <jump_force value="-345.0"/>
+      <jump_force_liana value="-250.0"/>
+      <collider_offset x="16" y="10"/>
+      <collider_dimensions x="42" y="48"/>
 
     </variables>
     <animations>
@@ -87,13 +87,13 @@
         <animation x="106" y="219" w="91" h="60"/>
       </jump>
       <climb speed="5" loop="true">
-        <animation x=" 21" y="431" w="45" h="61"/>
-        <animation x="118" y="431" w="45" h="61"/>
-        <animation x="214" y="431" w="45" h="61"/>
-        <animation x="312" y="431" w="45" h="61"/>
+        <animation x="  8" y="431" w="91" h="61"/>
+        <animation x="105" y="431" w="91" h="61"/>
+        <animation x="201" y="431" w="91" h="61"/>
+        <animation x="299" y="431" w="91" h="61"/>
       </climb>
       <climbidle>
-        <animation x="21" y="431" w="45" h="61"/>
+        <animation x="8" y="431" w="91" h="61"/>
       </climbidle>
       <attack speed="10" loop="false">
         <animation x="106" y="291" w="91" h="58"/>
@@ -215,6 +215,7 @@
 			<spritesheet location="textures/bat.png"/>
 			<collider_offset x="13" y="20" />
 			<collider_dimensions x="26" y="26" />
+      <wait_pf value="250"/>
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">

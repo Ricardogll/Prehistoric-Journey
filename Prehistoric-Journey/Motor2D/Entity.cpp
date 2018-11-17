@@ -49,7 +49,7 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
 	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
-	
+	wait_pf = variables.child("wait_pf").attribute("value").as_float();
 
 
 }

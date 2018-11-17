@@ -287,7 +287,7 @@ void Player::Update(float dt)
 	}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground && !god_mode)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground && !god_mode && !attacking)
 	{
 
 		jump.Reset();
@@ -469,7 +469,7 @@ void Player::Draw()
 
 	//SDL_Rect r = current_animation->GetCurrentFrame();
 	if (entity_x_dir == LEFT && on_liana==false) {
-		App->render->Blit(texture, (int)position.x + App->render->camera.x - collider->rect.w, (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
+		App->render->Blit(texture, (int)position.x + App->render->camera.x - collider->rect.w/2, (int)position.y, &(current_animation->GetCurrentFrame()), NULL, NULL, SDL_FLIP_HORIZONTAL, 0,0);
 	}
 	else {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));

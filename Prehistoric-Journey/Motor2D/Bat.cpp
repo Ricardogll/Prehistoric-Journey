@@ -77,25 +77,27 @@ void Bat::Update(float dt) {
 
 	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
 		//make timer so it happens once every 0.5sec or so
-		if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != - 1) {
-			path = App->pathfinding->GetLastPath();
-			
+		
+		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
+			if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != -1) {
+				path = App->pathfinding->GetLastPath();
+				timer_pathfinding = SDL_GetTicks();
 
-			if(iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
-				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
+				if (iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
+					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
+				else {
+					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
+					if (last_pos.x < position.x)
+						entity_x_dir = RIGHT;
+					else if (last_pos.x > position.x)
+						entity_x_dir = LEFT;
+
+				}
+			}
 			else {
-				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
-				if (last_pos.x < position.x)
-					entity_x_dir = RIGHT;
-				else if (last_pos.x > position.x)
-					entity_x_dir = LEFT;
-
+				path = nullptr;
 			}
 		}
-		else {
-			path = nullptr;
-		}
-
 	}
 	else {
 		speed = { 0.0f,0.0f };
