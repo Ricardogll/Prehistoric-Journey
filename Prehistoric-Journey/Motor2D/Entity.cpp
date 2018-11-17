@@ -1,6 +1,7 @@
 #include"j1App.h"
 #include"Entity.h"
 #include"j1Collision.h"
+#include"j1Render.h"
 
 
 
@@ -23,6 +24,17 @@ void Entity::OnCollision(Collider* c1, Collider* c2){
 
 	
 		
+}
+
+
+bool Entity::InsideCamera(fPoint& position) const {
+
+	bool ret = false;
+
+	if ((int)position.x > App->render->camera.x && (int)position.x < App->render->camera.x + App->render->camera.w)
+	    ret = true;
+
+	return ret;
 }
 
 void Entity::SetAnimations(pugi::xml_node& config, Animation& animation)
@@ -51,7 +63,7 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	wait_pf = variables.child("wait_pf").attribute("value").as_float();
 	gravity = variables.child("gravity").attribute("value").as_float();
-
+	idle_sound_folder = variables.child("sounds").attribute("idle_location").as_string();
 
 }
 

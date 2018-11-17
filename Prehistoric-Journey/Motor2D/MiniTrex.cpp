@@ -5,6 +5,7 @@
 #include "j1Entities.h"
 #include "p2Log.h"
 #include "j1Map.h"
+#include "j1Audio.h"
 #include "Player.h"
 
 MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
@@ -31,12 +32,13 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 		death.loop = animations.child("death").attribute("loop").as_bool();
 
 		texture = App->tex->Load(spritesheet.GetString());
+		idle_sound = App->audio->LoadFx(idle_sound_folder.GetString());
 	}
 	state = IDLE;
 	entity_x_dir = RIGHT;
 
 	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
-
+	//soundtimer.Start();
 }
 MiniTrex::~MiniTrex() {}
 
@@ -50,6 +52,11 @@ void MiniTrex::Update(float dt) {
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
+	if (soundtimer.Read() > 4000 && InsideCamera(position) == true) {
+		App->audio->PlayFx(idle_sound, 1);
+		soundtimer.Start();
+	}
+	LOG("TIMER %u", soundtimer.Read());
 	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000) { // put this in xml as pathfinding_radius or something
 		//make timer so it happens once every 0.5sec or so
 
