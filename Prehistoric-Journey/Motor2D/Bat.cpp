@@ -29,39 +29,44 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 		death.loop = animations.child("death").attribute("loop").as_bool();
 
 		texture = App->tex->Load(spritesheet.GetString());
+		collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
 	}
 	state = RUN;
 	entity_x_dir = RIGHT;
 	last_pos = position;
 
-	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+	
 }
 
 Bat::Bat(int x, int y, EntityTypes type) :Entity(x, y, type) { //DO CONSTRUCTOR THAT DOESNT NEED XML_NODE AND CALL IT IN ENTITIES WHEN CREATING NEW BAT
 
-	//pugi::xml_node node_entity = config.child("bat");
+	/*pugi::xml_node node_entity = config.child("bat");
 
-	//if (node_entity != NULL) {
-	//	LoadVariablesXML(node_entity);
+	if (node_entity != NULL) {
+		LoadVariablesXML(node_entity);
 
-	//	pugi::xml_node animations = node_entity.child("animations");
-	//	
+		pugi::xml_node animations = node_entity.child("animations");
+		
 
-	//	SetAnimations(animations.child("fly").child("animation"), run);
-	//	run.speed = animations.child("fly").attribute("speed").as_float();
-	//	run.loop = animations.child("fly").attribute("loop").as_bool();
+		SetAnimations(animations.child("fly").child("animation"), run);
+		run.speed = animations.child("fly").attribute("speed").as_float();
+		run.loop = animations.child("fly").attribute("loop").as_bool();
 
-	//	SetAnimations(animations.child("death").child("animation"), death);
-	//	death.speed = animations.child("death").attribute("speed").as_float();
-	//	death.loop = animations.child("death").attribute("loop").as_bool();
+		SetAnimations(animations.child("death").child("animation"), death);
+		death.speed = animations.child("death").attribute("speed").as_float();
+		death.loop = animations.child("death").attribute("loop").as_bool();
 
-	//	texture = App->tex->Load(spritesheet.GetString());
-	//}
-	//state = IDLE;
-	//entity_x_dir = RIGHT;
-	//last_pos = position;
+		texture = App->tex->Load(spritesheet.GetString());
+	}
+	state = IDLE;
+	entity_x_dir = RIGHT;
+	last_pos = position;
 
-	//collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+	collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.x, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+*/
+
+
+
 }
 
 Bat::~Bat() {}
