@@ -158,7 +158,9 @@ public:
 
 	MapData data;
 	iPoint spawn_pos = {0, 0};
+	uint spawn_pos_offset = 0u;
 	uint debug_camera_culling = 0u;
+	
 
 private:
 	j1PerfTimer ptimer;

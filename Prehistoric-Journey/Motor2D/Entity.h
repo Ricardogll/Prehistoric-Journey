@@ -40,7 +40,9 @@ public:
 	fPoint last_pos = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
 	float moving_speed = 150.0f;
+
 	float gravity = 0.0f;
+	bool on_ground = false;
 
 	STATE state = NO_STATE;
 	EntityTypes type = EntityTypes::UNKNOWN;

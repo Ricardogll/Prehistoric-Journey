@@ -16,8 +16,6 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void Update(float dt);
 	void Draw();
-	bool Load(pugi::xml_node&);
-	bool Save(pugi::xml_node&) const;
 	void AnimationsApplyDt();
 
 private:
