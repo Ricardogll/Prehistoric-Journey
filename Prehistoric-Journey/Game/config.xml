@@ -183,6 +183,7 @@
         <spritesheet location="textures/mini-tyranosaur.png"/>
         <collider_offset x="10" y="0" />
         <collider_dimensions x="50" y="40" />
+        <sounds idle_location="audio/fx/dinosaur.wav"/>
 		<wait_pf value="250"/>
 		<gravity value="250"/>
       </variables>

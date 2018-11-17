@@ -1,6 +1,7 @@
 #include"j1App.h"
 #include"Entity.h"
 #include"j1Collision.h"
+#include"j1Render.h"
 
 
 
@@ -28,6 +29,8 @@ void Entity::OnCollision(Collider* c1, Collider* c2){
 		
 }
 
+
+
 void Entity::SetAnimations(pugi::xml_node& config, Animation& animation)
 {
 	SDL_Rect coord;
@@ -54,7 +57,7 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	wait_pf = variables.child("wait_pf").attribute("value").as_float();
 	gravity = variables.child("gravity").attribute("value").as_float();
-
+	idle_sound_folder = variables.child("sounds").attribute("idle_location").as_string();
 
 }
 
@@ -137,7 +140,9 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 	 return true; 
  }
 
+
  bool Entity::OnScreen(int x)  {
 
 	 return (-App->render->camera.x <= x && -App->render->camera.x + App->render->camera.w >= x);
  }
+

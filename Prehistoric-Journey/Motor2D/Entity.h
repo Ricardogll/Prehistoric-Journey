@@ -6,6 +6,7 @@
 #include "j1Entities.h"
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -58,7 +59,8 @@ public:
 
 	SDL_Texture* texture = nullptr;
 	p2SString spritesheet;
-		
+	p2SString idle_sound_folder;
+
 	const p2DynArray<iPoint>* path;
 
 	bool to_destroy = false;
@@ -69,6 +71,9 @@ public:
 	iPoint starting_pos = { 0,0 };
 	iPoint last_saved_pos = { 0,0 };
 	
+	uint idle_sound = 0u;
+
+	j1Timer soundtimer;
 
 public:
 	Entity(int x, int y, EntityTypes type);
@@ -84,8 +89,9 @@ public:
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);
 
+
 	bool OnScreen(int x);
-};
+
 
 
 
