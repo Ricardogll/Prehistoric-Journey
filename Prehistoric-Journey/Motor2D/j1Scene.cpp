@@ -250,6 +250,13 @@ bool j1Scene::Update(float dt)
 
 	if (App->entities->GetPlayer()->player_died) {
 		
+		App->entities->DeleteEnemies();
+		if(curr_map==MAP_1)
+			App->entities->SetEnemies(1);
+		else
+			App->entities->SetEnemies(2);
+
+
 		App->fade->FadeToBlack(this, this, 2.0f);
 	}
 
@@ -272,18 +279,19 @@ bool j1Scene::PostUpdate()
 
 
 	//Draw pathfinding
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-	int id = (curr_map == MAP_2) ? 211 : 61;
-	int tileset = (curr_map == MAP_2) ? 1 : 0;
-	if (path) {
-		for (uint i = 0; i < path->Count(); ++i)
-		{
-			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
- 			App->render->Blit(App->map->data.tilesets.At(tileset)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(tileset)->data->GetTileRect(id));
+	if (App->collision->debug) {
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+		int id = (curr_map == MAP_2) ? 211 : 61;
+		int tileset = (curr_map == MAP_2) ? 1 : 0;
+		if (path) {
+			for (uint i = 0; i < path->Count(); ++i)
+			{
+				iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				App->render->Blit(App->map->data.tilesets.At(tileset)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(tileset)->data->GetTileRect(id));
 
+			}
 		}
 	}
-	
 
 
 	return ret;

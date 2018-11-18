@@ -94,7 +94,7 @@ void MiniTrex::Update(float dt) {
 
 		next_pos = App->map->WorldToMap(position.x, position.y);
 
-		if (App->pathfinding->IsWalkable({ next_pos.x + new_pos.x ,next_pos.y + 2 }) && is_right) {
+		if (App->pathfinding->IsWalkable({ next_pos.x + new_pos.x ,next_pos.y + navigation_floor_dist }) && is_right) {
 			next_pos = { next_pos.x + new_pos.x, next_pos.y };
 			state = RUN;
 			speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
@@ -103,7 +103,7 @@ void MiniTrex::Update(float dt) {
 		}
 		else
 			is_right = false;
-		if (App->pathfinding->IsWalkable({ next_pos.x - new_pos.x,next_pos.y + 2 }) && !is_right) {
+		if (App->pathfinding->IsWalkable({ next_pos.x - new_pos.x,next_pos.y + navigation_floor_dist }) && !is_right) {
 			next_pos = { next_pos.x - new_pos.x, next_pos.y };
 			state = RUN;
 			speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
@@ -234,14 +234,14 @@ void MiniTrex::OnCollision(Collider* c1, Collider* c2) {
 			else
 			{
 				//Touching left
-				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
 					
 					speed.x = 0.0f;
 					position.x++;
 
 				}//Touching right
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) {
 
 					
 					speed.x = 0.0f;

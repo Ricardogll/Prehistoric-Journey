@@ -224,14 +224,14 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 			else
 			{
 				//Touching left
-				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
 					if(speed.x < 0.0f)
 						speed.x = -speed.x;
 					position.x = prev_pos.x + 1;
 
 				}//Touching right
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { 
 
 					if (speed.x > 0.0f)
 						speed.x = -speed.x;
