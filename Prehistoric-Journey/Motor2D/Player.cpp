@@ -260,13 +260,13 @@ void Player::Update(float dt)
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && attacking == false && on_ground == true)
+		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && attacking == false && on_ground == true)
 		{
 			attack.Reset();
 			if(entity_x_dir == RIGHT)
-				attack_player_rect = { (int)position.x + collider_offset.x + collider->rect.w, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
+				attack_player_rect = { (int)position.x + collider_attack_offset.x + collider->rect.w, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
 			else
-				attack_player_rect = { (int)position.x + collider_offset.x - collider->rect.w, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
+				attack_player_rect = { (int)position.x + collider_attack_offset.x - collider->rect.w + collider_attack_offset.y, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
 			player_attack = App->collision->AddCollider(attack_player_rect, COLLIDER_PLAYER_ATTACK, (j1Module*)App->entities);
 			start_attack = SDL_GetTicks();
 			attacking = true;
@@ -598,8 +598,12 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	jump_force_liana = variables.child("jump_force_liana").attribute("value").as_float();
 	collider_offset.x = variables.child("collider_offset").attribute("x").as_int();
 	collider_offset.y = variables.child("collider_offset").attribute("y").as_int();
+	collider_attack_offset.x = variables.child("collider_attack_offset").attribute("x").as_int();
+	collider_attack_offset.y = variables.child("collider_attack_offset").attribute("y").as_int();
 	collider_dimensions.x = variables.child("collider_dimensions").attribute("x").as_int();
 	collider_dimensions.y = variables.child("collider_dimensions").attribute("y").as_int();
+	collider_attack_dimensions.x = variables.child("collider_attack_dimensions").attribute("x").as_int();
+	collider_attack_dimensions.y = variables.child("collider_attack_dimensions").attribute("y").as_int();
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
