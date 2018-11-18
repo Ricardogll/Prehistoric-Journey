@@ -31,6 +31,9 @@ public:
 	// Load a WAV in memory
 	unsigned int LoadFx(const char* path);
 
+	// UnLoad WAV
+	bool UnLoadFx(uint id);
+
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 

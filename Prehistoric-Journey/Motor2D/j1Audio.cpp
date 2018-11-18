@@ -162,6 +162,26 @@ unsigned int j1Audio::LoadFx(const char* path)
 	return ret;
 }
 
+// UnLoad WAV
+bool j1Audio::UnLoadFx(uint id)
+{
+
+	if (!active ||id >=fx.count()) 
+		return true;
+
+	bool ret = false;
+
+	if (fx[id] != nullptr)
+	{
+		Mix_FreeChunk(fx[id]);
+		fx[id] = nullptr;
+		ret = true;
+		
+	}
+
+	return ret;
+}
+
 // Play WAV
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
