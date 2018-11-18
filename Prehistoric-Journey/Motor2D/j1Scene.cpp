@@ -270,6 +270,21 @@ bool j1Scene::PostUpdate()
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+
+	//Draw pathfinding
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	if (path) {
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			App->render->Blit(App->map->data.tilesets.At(1)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(1)->data->GetTileRect(211));
+
+		}
+	}
+	
+
+
 	return ret;
 }
 
