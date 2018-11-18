@@ -42,7 +42,7 @@ public:
 	fPoint speed = { 0.0f,0.0f };
 	fPoint last_pos = { 0.0f,0.0f };
 	X_DIRECTION entity_x_dir = NONE;
-	float moving_speed = 150.0f;
+	float moving_speed = 0.0f;
 
 	float gravity = 0.0f;
 	bool on_ground = false;
@@ -68,11 +68,15 @@ public:
 
 	bool to_destroy = false;
 	float dt_current = 0.0f;
+
+
 	float timer_pathfinding = 0.0f;
 	float wait_pf = 0.0f;
 	int radar = 0;
 	uint sound_time = 0u;
 	uint hear_dist = 0u;
+	float knee_height = 0.0f;
+	int navigation_floor_dist = 0;
 
 	iPoint starting_pos = { 0,0 };
 	iPoint last_saved_pos = { 0,0 };
@@ -101,7 +105,7 @@ public:
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;
 	void LoadVariablesXML(const pugi::xml_node& entity_node);
 	
-	bool OnScreen(int x);
+	
 };
 
 #endif  // __ENTITY_H__

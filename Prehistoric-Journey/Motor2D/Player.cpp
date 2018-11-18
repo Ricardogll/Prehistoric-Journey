@@ -524,28 +524,29 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 				on_ground = true;
 				
 			}
+			else {
 
-			//Touching ceiling
-			if (c1->rect.y + (int)speed.y * dt_current - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
-				if (speed.y < 0.0f) {
-					speed.y = -speed.y;
+				//Touching ceiling
+				if (c1->rect.y + (int)speed.y * dt_current - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
+					if (speed.y < 0.0f) {
+						speed.y = -speed.y;
+					}
+					acceleration.y = gravity;
+					position.y = c2->rect.y + c2->rect.h + 1;
+
 				}
-				acceleration.y = gravity;
-				position.y = c2->rect.y + c2->rect.h + 1;
-
-			}
 
 				//Touching left
-				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
+				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
 					if (!on_ground)
 						position.x++;
-					
+
 
 				}//Touching right
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current  + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * knee_height) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
@@ -553,6 +554,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 						position.x--;
 
 				}
+			}
 
 			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 > c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
  				on_ground = false;
@@ -624,6 +626,8 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
 	hit_fx_folder = variables.child("hit_fx_folder").attribute("location").as_string();
 	attack_time = variables.child("attack_time").attribute("value").as_int();
+	knee_height = variables.child("knee_height").attribute("value").as_float();
+	
 
 }
 

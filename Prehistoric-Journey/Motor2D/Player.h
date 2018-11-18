@@ -71,6 +71,7 @@ private:
 	float jump_force = 0.0f;
 	float jump_force_liana = 0.0f;	
 	
+
 	p2SString jump_fx_folder;
 	p2SString lose_fx_folder;
 	p2SString hit_fx_folder;

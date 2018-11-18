@@ -61,7 +61,9 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	radar = variables.child("radar").attribute("value").as_int();
 	sound_time = variables.child("sound_time").attribute("value").as_uint();
 	hear_dist = variables.child("hear_dist").attribute("value").as_uint();
-
+	knee_height = variables.child("knee_height").attribute("value").as_float();
+	moving_speed = variables.child("moving_speed").attribute("value").as_float();
+	navigation_floor_dist= variables.child("navigation_floor_dist").attribute("value").as_int();
 }
 
 fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
@@ -117,7 +119,4 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 
  }
 
- bool Entity::OnScreen(int x)  {
 
-	 return (-App->render->camera.x <= x && -App->render->camera.x + App->render->camera.w >= x);
- }
