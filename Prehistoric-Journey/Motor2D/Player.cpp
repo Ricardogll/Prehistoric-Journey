@@ -493,14 +493,24 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 		iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
 		iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
 
-		int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
-		int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
+		int down_right_gid = 0;
+		if (down_right.x >= 0 && down_right.x <= App->map->data.width && down_right.y >= 0 && down_right.y <= App->map->data.height)//If tile is outside the map dont ->Get(...) or error
+			down_right_gid = layer_coll->Get(down_right.x, down_right.y);
+
+		int down_left_gid = 0;
+		if (down_left.x >= 0 && down_left.x <= App->map->data.width && down_left.y >= 0 && down_left.y <= App->map->data.height)
+			down_left_gid = layer_coll->Get(down_left.x, down_left.y);
 
 		iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
-		iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
+		iPoint up_left = App->map->WorldToMap(player_rect.x , player_rect.y);
 
-		int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
-		int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
+		int up_right_gid = 0;
+		if (up_right.x >= 0 && up_right.x <= App->map->data.width && up_right.y >= 0 && up_right.y <= App->map->data.height)
+			up_right_gid = layer_coll->Get(up_right.x, up_right.y);
+
+		int up_left_gid = 0;
+		if (up_left.x >= 0 && up_left.x <= App->map->data.width && up_left.y >= 0 && up_left.y <= App->map->data.height)
+			up_left_gid = layer_coll->Get(up_left.x, up_left.y);
 
 
 
