@@ -81,15 +81,13 @@ void Bat::Update(float dt) {
 	else {
 		srand(time(NULL));
 
-		iPoint new_pos;
-
 		new_pos.x = rand() % 10;
-		new_pos.x = (new_pos.x < 5) ? 1 : -1;
-
 		new_pos.y = rand() % 10;
+
+		new_pos.x = (new_pos.x < 5) ? 1 : -1;
 		new_pos.y = (new_pos.y < 5) ? 1 : -1;
 
-		iPoint next_pos = App->map->WorldToMap(position.x, position.y);
+		next_pos = App->map->WorldToMap(position.x, position.y);
 
 		next_pos = { next_pos.x + new_pos.x, next_pos.y + new_pos.y};
 

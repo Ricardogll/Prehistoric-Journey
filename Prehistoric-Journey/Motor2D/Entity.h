@@ -70,7 +70,10 @@ public:
 
 	iPoint starting_pos = { 0,0 };
 	iPoint last_saved_pos = { 0,0 };
-	
+
+	iPoint new_pos = { 0,0 };
+	iPoint next_pos = { 0,0 };
+
 	uint idle_sound = 0u;
 
 	j1Timer soundtimer;

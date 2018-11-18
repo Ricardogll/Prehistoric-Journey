@@ -7,6 +7,7 @@
 #include "j1Map.h"
 #include "j1Audio.h"
 #include "Player.h"
+#include <time.h>
 
 MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 	pugi::xml_node node_entity = config.child("mini-tyranosaur");
@@ -66,9 +67,12 @@ void MiniTrex::Update(float dt) {
 				path = App->pathfinding->GetLastPath();
 				timer_pathfinding = SDL_GetTicks();
 
-				if (iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y))
+				if (iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y)) {
+					state = RUN;
 					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
+				}
 				else {
+					state = RUN;
 					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
 					if (last_pos.x < position.x)
 						entity_x_dir = RIGHT;
@@ -80,12 +84,37 @@ void MiniTrex::Update(float dt) {
 			else {
 				path = nullptr;
 				LOG("PATH NOT FOUND MINI");
+				state = IDLE;
 				speed = { 0.0f,0.0f };
 			}
 		}
 	}
+	else if (state == DEATH) {
+		speed = { 0.0f, 0.0f };
+	}
 	else {
-		speed = { 0.0f,0.0f };
+		srand(time(NULL));
+
+		new_pos.x = rand() % 20;
+
+		new_pos.x = (new_pos.x < 10) ? 1 : -1;
+
+		next_pos = App->map->WorldToMap(position.x, position.y);
+
+		next_pos = { next_pos.x + new_pos.x, next_pos.y};
+
+		if (App->pathfinding->IsWalkable({next_pos.x,next_pos.y+2})) {
+			state = RUN;
+			speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
+			if (last_pos.x < position.x)
+				entity_x_dir = RIGHT;
+			else if (last_pos.x > position.x)
+				entity_x_dir = LEFT;
+		}
+		else {
+			state = IDLE;
+			speed = { 0.0f,0.0f };
+		}
 	}
 
 	speed.y = 0.0f;
