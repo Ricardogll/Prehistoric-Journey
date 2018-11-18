@@ -268,10 +268,11 @@ void j1App::FinishUpdate()
 
 	int i = 0;
 	static char title[500];
-	i = sprintf_s(title, 500, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Time since startup: %.3f Frame Count: %lu ",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	i = sprintf_s(title, 500, "Last sec frames: %i Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f Frame Count: %lu ",
+		frames_on_last_update, avg_fps, last_frame_ms, seconds_since_startup, frame_count);
 	i += sprintf_s(title + i, 500 - i, " Last dt: %.3f, ( Fps cap: %s Vsync: %s )", dt, fps_cap_str.GetString(), vsync_str.GetString());
 
+	
 
 	App->win->SetTitle(title);
 
