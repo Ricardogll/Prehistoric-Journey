@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "j1Map.h"
 #include "j1Audio.h"
+#include "Brofiler/Brofiler.h"
 #include <time.h>
 
 Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
@@ -18,9 +19,6 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 		LoadVariablesXML(node_entity);
 
 		pugi::xml_node animations = node_entity.child("animations");
-		/*SetAnimations(animations.child("idle").child("animation"), idle);
-		idle.speed = animations.child("idle").attribute("speed").as_float();
-		idle.loop = animations.child("idle").attribute("loop").as_bool();*/
 
 		SetAnimations(animations.child("fly").child("animation"), run);
 		run.speed = animations.child("fly").attribute("speed").as_float();
@@ -44,7 +42,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 Bat::~Bat() {}
 
 void Bat::Update(float dt) {
-	
+	BROFILER_CATEGORY("Bat Update", Profiler::Color::Gold)
 	prev_pos = position;
 
 	dt_current = dt;
@@ -53,12 +51,13 @@ void Bat::Update(float dt) {
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
-	if (soundtimer.Read() > 4000 && dist < 290000) {
+	if (soundtimer.Read() > sound_time && dist < hear_dist && state != DEATH) {
 		App->audio->PlayFx(idle_sound, 0);
 		soundtimer.Start();
 	}
 
-	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000 && state != DEATH ) { // put this in xml as pathfinding_radius or something
+
+	if (position.DistanceNoSqrt(player_pos) < radar && position.DistanceNoSqrt(player_pos) > -radar && state != DEATH ) {
 		
 		
 		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
@@ -143,8 +142,8 @@ void Bat::Draw() {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 
-	if (App->collision->debug)
-		DrawPathfinding();
+	//if (App->collision->debug)
+	//	DrawPathfinding();
 }
 
 
