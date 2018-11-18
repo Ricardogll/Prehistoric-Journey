@@ -2,6 +2,7 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1PathFinding.h"
+#include "j1FadeToBlack.h"
 #include "Brofiler/Brofiler.h"
 
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
@@ -187,80 +188,81 @@ int PathNode::CalculateF(const iPoint& destination)
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	BROFILER_CATEGORY("A*", Profiler::Color::Gold)
-	if ((!IsWalkable(origin) || !IsWalkable(destination)) || origin == destination) {
-		return -1;
-		LOG("Path not found");
-	}
-	else {
-		
-
-		open.list.clear();
-		closed.list.clear();
-
-		int g = 0, h = origin.DistanceTo(destination);
-
-		PathNode curr(g, h, origin, nullptr);
-		open.list.add(curr);
-
-		PathList neighbours;
-
-		uint neighbours_last_size = 0u;
-
-		while (p2List_item<PathNode>* item = open.GetNodeLowestScore()) {
-		
-			curr = item->data;
+		if (App->fade->IsFading()) {
+			if ((!IsWalkable(origin) || !IsWalkable(destination)) || origin == destination) {
+				return -1;
+				LOG("Path not found");
+			}
+			else {
 
 
-			closed.list.add(curr);
-			open.list.del(item);
+				open.list.clear();
+				closed.list.clear();
+
+				int g = 0, h = origin.DistanceTo(destination);
+
+				PathNode curr(g, h, origin, nullptr);
+				open.list.add(curr);
+
+				PathList neighbours;
+
+				uint neighbours_last_size = 0u;
+
+				while (p2List_item<PathNode>* item = open.GetNodeLowestScore()) {
+
+					curr = item->data;
 
 
-
-
-
-			uint neighbours_size = closed.list.end->data.FindWalkableAdjacents(neighbours);
-
-			for (int i = 0; i < neighbours_size; i++) {
-
-				//if (closed.list.find(neighbours.list[i]) != -1) continue;
-
-				if (closed.Find(neighbours.list[i].pos) != NULL) continue;
-
-				const p2List_item<PathNode>* repeated_node = open.Find(neighbours.list[i].pos);
-
-				if (repeated_node == NULL) {
-
-					neighbours.list[i].CalculateF(destination);
-					open.list.add(neighbours.list[i]);
-				}
+					closed.list.add(curr);
+					open.list.del(item);
 
 
 
-				if (neighbours.list[i].pos == destination) {
-					//closed.list.add(neighbours.list[i]);
-					break;
+
+
+					uint neighbours_size = closed.list.end->data.FindWalkableAdjacents(neighbours);
+
+					for (int i = 0; i < neighbours_size; i++) {
+
+						//if (closed.list.find(neighbours.list[i]) != -1) continue;
+
+						if (closed.Find(neighbours.list[i].pos) != NULL) continue;
+
+						const p2List_item<PathNode>* repeated_node = open.Find(neighbours.list[i].pos);
+
+						if (repeated_node == NULL) {
+
+							neighbours.list[i].CalculateF(destination);
+							open.list.add(neighbours.list[i]);
+						}
+
+
+
+						if (neighbours.list[i].pos == destination) {
+							//closed.list.add(neighbours.list[i]);
+							break;
+						}
+					}
+
+
+					if (curr.pos == destination) {
+						last_path.Clear();
+
+						p2List_item<PathNode>* item_path = closed.list.end;
+						for (item_path; item_path->data.parent != nullptr; item_path->data = *item_path->data.parent) {
+							last_path.PushBack(item_path->data.pos);
+						}
+						last_path.PushBack(item_path->data.pos);
+						last_path.Flip();
+
+						return last_path.Count();
+					}
+
+
+					neighbours.list.clear();
 				}
 			}
-
-
-			if (curr.pos == destination) {
-				last_path.Clear();
-
-				p2List_item<PathNode>* item_path = closed.list.end;
-				for (item_path; item_path->data.parent != nullptr; item_path->data = *item_path->data.parent) {
-					last_path.PushBack(item_path->data.pos);
-				}
-				last_path.PushBack(item_path->data.pos);
-				last_path.Flip();
-
-				return last_path.Count();
-			}
-			
-
-			neighbours.list.clear();
 		}
-	}
-
 	return -1;
 }
 

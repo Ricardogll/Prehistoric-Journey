@@ -3,13 +3,16 @@
 #include"j1Collision.h"
 #include"j1Render.h"
 #include "j1Map.h"
-
+#include "j1Audio.h"
 
 
 Entity::Entity(int x, int y, EntityTypes type) :position(x, y), type(type) {}
 
 Entity::~Entity() {
 	
+	App->audio->UnLoadFx(idle_sound);
+	App->audio->UnLoadFx(death_sound);
+
 	
 	if (collider != nullptr) {
 		App->collision->EraseCollider(collider);
