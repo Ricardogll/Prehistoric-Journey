@@ -36,7 +36,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 	state = RUN;
 	entity_x_dir = RIGHT;
 	last_pos = position;
-	srand(time(NULL));
+
 }
 
 Bat::~Bat() {}
@@ -86,7 +86,7 @@ void Bat::Update(float dt) {
 		speed = { 0.0f, gravity };
 	}
 	else {
-		
+		srand(time(NULL));
 
 		new_pos.x = rand() % 10;
 		new_pos.y = rand() % 10;
