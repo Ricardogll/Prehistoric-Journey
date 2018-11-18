@@ -261,7 +261,7 @@ void MiniTrex::OnCollision(Collider* c1, Collider* c2) {
 
 	}
 
-	if (c2->type == COLLIDER_PLAYER_ATTACK) {
+	if (c2->type == COLLIDER_PLAYER_ATTACK || c2->type==COLLIDER_DEAD) {
 		App->audio->PlayFx(death_sound, 0);
 		state = DEATH;
 		App->collision->EraseCollider(collider);

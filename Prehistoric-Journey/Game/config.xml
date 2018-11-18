@@ -85,6 +85,7 @@
       <collider_dimensions x="42" y="48"/>
       <collider_attack_offset x="16" y="5"/>
       <collider_attack_dimensions x="37" y="36"/>
+	  <knee_height value="0.8"/>
 
     </variables>
     <animations>
