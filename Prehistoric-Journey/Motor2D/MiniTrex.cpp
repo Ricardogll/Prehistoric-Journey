@@ -7,7 +7,6 @@
 #include "j1Map.h"
 #include "j1Audio.h"
 #include "Player.h"
-#include <time.h>
 
 MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 	pugi::xml_node node_entity = config.child("mini-tyranosaur");
@@ -34,6 +33,7 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 
 		texture = App->tex->Load(spritesheet.GetString());
 		idle_sound = App->audio->LoadFx(idle_sound_folder.GetString());
+		death_sound = App->audio->LoadFx(death_sound_folder.GetString());
 
 
 		collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
@@ -70,12 +70,10 @@ void MiniTrex::Update(float dt) {
 				if (iPoint(path->At(0)->x, path->At(0)->y) != App->map->WorldToMap(position.x, position.y)) {
 					state = RUN;
 					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(0)->x, path->At(0)->y));
-					speed.x *= 1.25f;
 				}
 				else {
 					state = RUN;
 					speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), iPoint(path->At(1)->x, path->At(1)->y));
-					speed.x *= 1.25f;
 					if (last_pos.x < position.x)
 						entity_x_dir = RIGHT;
 					else if (last_pos.x > position.x)
@@ -270,6 +268,7 @@ void MiniTrex::OnCollision(Collider* c1, Collider* c2) {
 	}
 
 	if (c2->type == COLLIDER_PLAYER_ATTACK) {
+		App->audio->PlayFx(death_sound, 0);
 		state = DEATH;
 		App->collision->EraseCollider(collider);
 	}

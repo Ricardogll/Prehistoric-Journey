@@ -78,6 +78,7 @@ bool Player::Start()
 
 	jump_fx = App->audio->LoadFx(jump_fx_folder.GetString());
 	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
+	hit_fx = App->audio->LoadFx(hit_fx_folder.GetString());
 	texture = App->tex->Load(spritesheet.GetString());
 	state = IDLE;
 	position.x = App->map->spawn_pos.x;
@@ -262,6 +263,7 @@ void Player::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && attacking == false && on_ground == true)
 		{
+			App->audio->PlayFx(hit_fx);
 			attack.Reset();
 			if(entity_x_dir == RIGHT)
 				attack_player_rect = { (int)position.x + collider_attack_offset.x + collider->rect.w, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
@@ -619,6 +621,7 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	spritesheet = variables.child("spritesheet").attribute("location").as_string();
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
+	hit_fx_folder = variables.child("hit_fx_folder").attribute("location").as_string();
 	attack_time = variables.child("attack_time").attribute("value").as_int();
 
 	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());

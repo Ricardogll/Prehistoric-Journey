@@ -7,6 +7,7 @@
 #include "p2DynArray.h"
 #include "Player.h"
 #include "j1Map.h"
+#include "j1Audio.h"
 #include <time.h>
 
 Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
@@ -31,6 +32,8 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 
 		texture = App->tex->Load(spritesheet.GetString());
 		collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_ENEMY, (j1Module*)App->entities);
+		idle_sound = App->audio->LoadFx(idle_sound_folder.GetString());
+		death_sound = App->audio->LoadFx(death_sound_folder.GetString());
 	}
 	state = RUN;
 	entity_x_dir = RIGHT;
@@ -49,6 +52,11 @@ void Bat::Update(float dt) {
 	
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
+
+	if (soundtimer.Read() > 4000 && dist < 290000) {
+		App->audio->PlayFx(idle_sound, 0);
+		soundtimer.Start();
+	}
 
 	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000 && state != DEATH ) { // put this in xml as pathfinding_radius or something
 		
@@ -240,6 +248,7 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 		
 	}
 	if (c2->type == COLLIDER_PLAYER_ATTACK) {
+		App->audio->PlayFx(death_sound, 0);
 		state = DEATH;
 		App->collision->EraseCollider(collider);
 	}

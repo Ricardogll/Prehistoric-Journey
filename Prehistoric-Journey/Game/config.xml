@@ -66,6 +66,7 @@
       <spritesheet location="textures/caverman.png"/>
       <jump_fx_folder location="audio/fx/jump.wav"/>
       <lose_fx_folder location="audio/fx/lose.wav"/>
+      <hit_fx_folder location="audio/fx/hit.wav"/>
       <limit_map value="-5375"/>
       <attack_time value="325"/>
       <gravity value="500"  />
@@ -206,9 +207,9 @@
         <spritesheet location="textures/mini-tyranosaur.png"/>
         <collider_offset x="10" y="0" />
         <collider_dimensions x="50" y="48" />
-        <sounds idle_location="audio/fx/dinosaur.wav"/>
-		<wait_pf value="250"/>
-		<gravity value="250"/>
+        <sounds idle_location="audio/fx/dinosaur.wav" death_location="audio/fx/dinosaur_death.wav"/>
+	    	<wait_pf value="250"/>
+		    <gravity value="250"/>
       </variables>
     </mini-tyranosaur>
     <bat>
@@ -244,7 +245,7 @@
 			<collider_dimensions x="26" y="26" />
 			<wait_pf value="250"/>
 			<gravity value="150"/>
-
+      <sounds idle_location="audio/fx/bat.wav" death_location="audio/fx/bat_death.wav"/>
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">
