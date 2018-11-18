@@ -88,8 +88,7 @@ private:
 
 	uint jump_fx = 0u;
 	uint lose_fx = 0u;
-
-	
+	uint hit_fx = 0u;
 
 	//****XML variables
 
@@ -105,6 +104,7 @@ private:
 	
 	p2SString jump_fx_folder;
 	p2SString lose_fx_folder;
+	p2SString hit_fx_folder;
 
 public:
 

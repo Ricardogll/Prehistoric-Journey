@@ -62,6 +62,7 @@ public:
 	SDL_Texture* texture = nullptr;
 	p2SString spritesheet;
 	p2SString idle_sound_folder;
+	p2SString death_sound_folder;
 
 	const p2DynArray<iPoint>* path;
 
@@ -79,6 +80,7 @@ public:
 	bool is_right = false;
 
 	uint idle_sound = 0u;
+	uint death_sound = 0u;
 
 	j1Timer soundtimer;
 

@@ -56,6 +56,7 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	wait_pf = variables.child("wait_pf").attribute("value").as_float();
 	gravity = variables.child("gravity").attribute("value").as_float();
 	idle_sound_folder = variables.child("sounds").attribute("idle_location").as_string();
+	death_sound_folder = variables.child("sounds").attribute("death_location").as_string();
 
 }
 
