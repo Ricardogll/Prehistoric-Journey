@@ -16,29 +16,101 @@ j1Entities::j1Entities() {
 
 
 j1Entities::~j1Entities() {
-
+	to_create1.clear();
+	to_create2.clear();
 }
 
 bool j1Entities::Awake(pugi::xml_node& config) {
 		
 	pugi::xml_node aux_node;
 	
-	
-	for (aux_node = config.child("spawns").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
+	//Saving entities positions for map 1
+	for (aux_node = config.child("spawns1").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
 		
-		to_create.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
 	}
-	
-	
 
-	for (aux_node = config.child("spawns").child("mini_trex"); aux_node; aux_node = aux_node.next_sibling("mini_trex")) {
+	for (aux_node = config.child("spawns1").child("mini_trex"); aux_node; aux_node = aux_node.next_sibling("mini_trex")) {
 	
-		to_create.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
 	}
+
+
+	//Saving entities positions for map 2
+	for (aux_node = config.child("spawns2").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
+
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
+	}
+
+	for (aux_node = config.child("spawns2").child("mini_trex"); aux_node; aux_node = aux_node.next_sibling("mini_trex")) {
+
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
+	}
+
 	
 
 	return true;
 }
+
+void j1Entities::SetEnemies(uint map) {
+
+
+	p2List_item<ToCreate>* item;
+
+
+	switch (map) {
+
+	case 1: {
+
+		item = to_create1.start;
+
+		for (item; item != nullptr; item = item->next) {
+
+			switch (item->data.type) {
+			case EntityTypes::BAT:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::BAT);
+
+				break;
+			case EntityTypes::MINI_TREX:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
+
+				break;
+			default:
+				break;
+			}
+		}
+
+		break;
+	}
+	case 2: {
+
+		item = to_create2.start;
+
+		for (item; item != nullptr; item = item->next) {
+
+			switch (item->data.type) {
+			case EntityTypes::BAT:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::BAT);
+
+				break;
+			case EntityTypes::MINI_TREX:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
+
+				break;
+			default:
+				break;
+			}
+		}
+		break;
+	}
+	default:
+		break;
+
+	}
+
+
+}
+
 
 bool j1Entities::Start() {
 
@@ -46,7 +118,7 @@ bool j1Entities::Start() {
 
 	SpawnEntity(0, 0, EntityTypes::PLAYER);
 	
-	p2List_item<ToCreate>* item = to_create.start;
+	p2List_item<ToCreate>* item = to_create1.start;
 
 	for (item; item != nullptr; item = item->next) {
 
@@ -64,7 +136,7 @@ bool j1Entities::Start() {
 		}
 	}
 
-	to_create.clear();
+	
 
 
 	return ret;

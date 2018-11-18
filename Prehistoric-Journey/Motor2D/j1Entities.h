@@ -63,11 +63,14 @@ public:
 	bool Load(pugi::xml_node& entity_node);
 
 	bool Save(pugi::xml_node& entity_node) const;
+
+	void SetEnemies(uint map);
 	
 public:
 
 	p2DynArray<Entity*> entities;
-	p2List<ToCreate> to_create;
+	p2List<ToCreate> to_create1;
+	p2List<ToCreate> to_create2;
 
 private:
 	

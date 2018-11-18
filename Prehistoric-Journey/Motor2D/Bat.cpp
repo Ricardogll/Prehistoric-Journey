@@ -168,24 +168,12 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 
 
 		MapLayer* layer_coll = App->map->data.layers.end->data;
-		iPoint down_right = App->map->WorldToMap(position.x + collider->rect.w - collider_offset.x, position.y + collider->rect.h);
-		iPoint down_left = App->map->WorldToMap(position.x - collider_offset.x, position.y + collider->rect.h);
-
-		int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
-		int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
-
-		iPoint up_right = App->map->WorldToMap(position.x + collider->rect.w - collider_offset.x, position.y);
-		iPoint up_left = App->map->WorldToMap(position.x - collider_offset.x, position.y);
-
-		int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
-		int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
-
 
 
 		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
 		{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
 			//Touching floor
-			if (c1->rect.y + c1->rect.h + (int)speed.y * dt_current + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
+			if (c1->rect.y + c1->rect.h + (int)speed.y * dt_current + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y){ //&& (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
 
 				if (speed.y > 0.0f) 
 				speed.y = -speed.y;
@@ -196,7 +184,7 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 			}
 
 			//Touching ceiling
-			if (c1->rect.y + (int)speed.y * dt_current - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
+			if (c1->rect.y + (int)speed.y * dt_current - 1 <= c2->rect.y + c2->rect.h && on_ground == false && c1->rect.y + c1->rect.h > c2->rect.y + c2->rect.h){// && (up_right_gid == 48 || up_right_gid == 63 || up_right_gid == 62 || up_right_gid == 198 || up_right_gid == 213 || up_right_gid == 212) && (up_left_gid == 48 || up_left_gid == 63 || up_left_gid == 62 || up_left_gid == 198 || up_left_gid == 213 || up_left_gid == 212)) {
 				if (speed.y < 0.0f) {
 					speed.y = -speed.y;
 				}

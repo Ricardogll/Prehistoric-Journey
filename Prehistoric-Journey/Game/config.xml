@@ -1,13 +1,13 @@
 <!-- Config file for the game -->
 
 <config>
-  <app framerate_cap="16">
+  <app framerate_cap="33">
     <title>Prehistoric Journey	</title>
     <organization>UPC</organization>
   </app>
 
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
@@ -40,10 +40,10 @@
     <!-- 128 MAX volume, 0 min volume-->
   </audio>
 <entities>
-	<spawns>
-		<bat x="50" y="50" />
+	<spawns1>
+		<!--<bat x="50" y="50" />
 		<bat x="100" y="100" />
-		<bat x="2304" y="290" />
+		<bat x="2304" y="290" />-->
     <mini_trex x="1856" y="288" />
     <mini_trex x="3104" y="192" />
     <mini_trex x="5376" y=" 96" />
@@ -51,7 +51,16 @@
 
 	
 	
-	</spawns>
+	</spawns1>
+	<spawns2>
+		<bat x="0" y="0" />
+		<bat x="100" y="0" />
+		<bat x="200" y="0" />
+		<mini_trex x="50" y="50" />
+		<mini_trex x="150" y="50" />
+		<mini_trex x="250" y="50" />
+	
+	</spawns2>
   <player>
     <variables>
       <spritesheet location="textures/caverman.png"/>
