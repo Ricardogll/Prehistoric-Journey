@@ -511,7 +511,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 				acceleration.y = 0.0f;
 				speed.y = 0.0f;
-				position.y = c2->rect.y - c1->rect.h - collider_offset.y;
+				position.y = c2->rect.y - c1->rect.h - collider_offset.y + 1;
 				on_ground = true;
 			}
 
@@ -530,22 +530,24 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					position.x++;
+					
 
 				}//Touching right
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current  + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					position.x--;
+					
 
 				}
 
 			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
-				on_ground = false;
+ 				on_ground = false;
+				LOG("AAAAAAAAA");
 			}
 			else if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && entity_x_dir == LEFT && (down_left_gid == 62 || down_right_gid == 212 || down_left_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
 				on_ground = false;
+				LOG("BBBBBBBBB");
 			}
 		}
 

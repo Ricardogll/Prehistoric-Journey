@@ -7,24 +7,18 @@
 	<map />
 	<scene />
 	<entities>
-		<player_position x="490.586121" y="519.070435" />
+		<player_position x="1107.7865" y="423" />
 		<bat>
-			<position x="441.894012" y="549.744324" />
+			<position x="500.780396" y="290.982086" dead="false" />
 		</bat>
-		<bat>
-			<position x="900" y="300" />
-		</bat>
-		<minitrex>
-			<position x="1120" y="436.75" />
-		</minitrex>
-		<minitrex>
-			<position x="370.44809" y="529.5" />
-		</minitrex>
+		<mini-tyranosaur>
+			<position x="534.598816" y="548.75" dead="false" />
+		</mini-tyranosaur>
 	</entities>
 	<fade />
 	<:anonymous />
 	<pathfinding />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-616" y="0" />
 	</renderer>
 </game_state>

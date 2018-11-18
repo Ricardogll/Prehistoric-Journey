@@ -176,6 +176,7 @@ bool j1Scene::Update(float dt)
 			is_fade = true;
 			break;
 		}
+		App->entities->DeleteEnemies();
 		App->entities->SetEnemies(1);
 		
 	}
@@ -205,12 +206,13 @@ bool j1Scene::Update(float dt)
 			is_fade = true;
 			break;
 		}
-
+		App->entities->DeleteEnemies();
 		App->entities->SetEnemies(2);
 	}
 
 	if (App->entities->GetPlayer()->change_map) {
 		App->entities->GetPlayer()->change_map = false;
+		App->entities->DeleteEnemies();
 		switch (curr_map) {
 		case MAP_2:
 
@@ -223,6 +225,7 @@ bool j1Scene::Update(float dt)
 			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
 			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
+			App->entities->SetEnemies(1);
 			break;
 
 		case MAP_1:
@@ -236,6 +239,7 @@ bool j1Scene::Update(float dt)
 			App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
 			App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
 			is_fade = true;
+			App->entities->SetEnemies(2);
 			break;
 		}
 	}

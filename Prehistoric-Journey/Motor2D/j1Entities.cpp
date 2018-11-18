@@ -39,12 +39,12 @@ bool j1Entities::Awake(pugi::xml_node& config) {
 	//Saving entities positions for map 2
 	for (aux_node = config.child("spawns2").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
 
-		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
+		to_create2.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
 	}
 
 	for (aux_node = config.child("spawns2").child("mini_trex"); aux_node; aux_node = aux_node.next_sibling("mini_trex")) {
 
-		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
+		to_create2.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
 	}
 
 	
@@ -164,17 +164,19 @@ bool j1Entities::PreUpdate() {
 bool j1Entities::Update(float dt) {
 	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
 
-	for (uint i = 0u; i < entities.Count(); i++) {
-		if (entities[i] != nullptr) {
-			entities[i]->Update(dt);
-		}
-	}
-	for (uint i = 0u; i < entities.Count(); i++) {
-		if (entities[i] != nullptr) {
-			entities[i]->Draw();
-		}
-	}
-
+		
+			for (uint i = 0u; i < entities.Count(); i++) {
+				if (entities[i] != nullptr) {
+					entities[i]->Update(dt);
+				}
+			}
+		
+			for (uint i = 0u; i < entities.Count(); i++) {
+				if (entities[i] != nullptr) {
+					entities[i]->Draw();
+				}
+			}
+		
 	return true;
 }
 
@@ -198,6 +200,21 @@ bool j1Entities::CleanUp() {
 	return true;
 }
 
+bool j1Entities::DeleteEnemies() {
+
+	for (uint i = 0u; i < entities.Count(); i++) {
+
+		if (entities[i] != nullptr) {
+			if (entities[i]->type != EntityTypes::PLAYER) {
+				
+				entities[i]->to_destroy = true;
+
+			}
+		}
+	}
+	
+	return true;
+}
 
 bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 
