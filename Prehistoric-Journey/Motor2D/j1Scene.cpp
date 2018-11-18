@@ -176,7 +176,7 @@ bool j1Scene::Update(float dt)
 			is_fade = true;
 			break;
 		}
-
+		App->entities->SetEnemies(1);
 		
 	}
 
@@ -205,6 +205,8 @@ bool j1Scene::Update(float dt)
 			is_fade = true;
 			break;
 		}
+
+		App->entities->SetEnemies(2);
 	}
 
 	if (App->entities->GetPlayer()->change_map) {
