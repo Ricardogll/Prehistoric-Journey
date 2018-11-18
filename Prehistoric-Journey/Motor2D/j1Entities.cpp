@@ -21,9 +21,20 @@ j1Entities::~j1Entities() {
 
 bool j1Entities::Awake(pugi::xml_node& config) {
 		
-	/*pugi::xml_document	config_file;
-	node = &App->LoadConfig(config_file);
-	node = node->child("entities");*/
+	pugi::xml_node aux_node;
+	
+	
+	for (aux_node = config.child("spawns").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
+		
+		to_create.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::BAT));
+	}
+	
+	
+
+	for (aux_node = config.child("spawns").child("mini_trex"); aux_node; aux_node = aux_node.next_sibling("mini_trex")) {
+	
+		to_create.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
+	}
 	
 
 	return true;
@@ -34,10 +45,27 @@ bool j1Entities::Start() {
 	bool ret = true;
 
 	SpawnEntity(0, 0, EntityTypes::PLAYER);
-	//SpawnEntity(150, 200, EntityTypes::BAT);
-	SpawnEntity(900, 300, EntityTypes::BAT);
-	SpawnEntity(35*32, 12*32, EntityTypes::MINI_TREX);
-	SpawnEntity(200,200, EntityTypes::MINI_TREX);
+	
+	p2List_item<ToCreate>* item = to_create.start;
+
+	for (item; item != nullptr; item = item->next) {
+
+		switch (item->data.type) {
+		case EntityTypes::BAT:
+			SpawnEntity(item->data.x, item->data.y, EntityTypes::BAT);
+
+			break;
+		case EntityTypes::MINI_TREX:
+			SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	to_create.clear();
+
 
 	return ret;
 }
