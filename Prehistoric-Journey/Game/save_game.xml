@@ -7,27 +7,48 @@
 	<map />
 	<scene />
 	<entities>
-		<player_position x="2909.05542" y="199" />
+		<player_position x="192" y="519" />
+		<bat>
+			<position x="1056" y="224" dead="false" />
+		</bat>
+		<bat>
+			<position x="1824" y="224" dead="false" />
+		</bat>
+		<bat>
+			<position x="2432" y="64" dead="false" />
+		</bat>
+		<bat>
+			<position x="4064" y="64" dead="false" />
+		</bat>
+		<bat>
+			<position x="4928" y="64" dead="false" />
+		</bat>
+		<bat>
+			<position x="5696" y="64" dead="false" />
+		</bat>
+		<bat>
+			<position x="6208" y="64" dead="false" />
+		</bat>
 		<mini-tyranosaur>
-			<position x="3619.19946" y="182.5" dead="false" />
+			<position x="1856" y="150.25" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="6136" y="14212.5" dead="false" />
+			<position x="3104" y="118.25" dead="false" />
 		</mini-tyranosaur>
-		<bat>
-			<position x="3904.99438" y="314.734924" dead="false" />
-		</bat>
-		<bat>
-			<position x="4723.03955" y="332.378601" dead="false" />
-		</bat>
-		<bat>
-			<position x="6001.06348" y="170.236328" dead="false" />
-		</bat>
+		<mini-tyranosaur>
+			<position x="5504" y="54.25" dead="false" />
+		</mini-tyranosaur>
+		<mini-tyranosaur>
+			<position x="6048" y="54.25" dead="false" />
+		</mini-tyranosaur>
+		<mini-tyranosaur>
+			<position x="6329" y="54.25" dead="false" />
+		</mini-tyranosaur>
 	</entities>
 	<fade />
 	<:anonymous />
 	<pathfinding />
 	<renderer>
-		<camera x="-2418" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>
