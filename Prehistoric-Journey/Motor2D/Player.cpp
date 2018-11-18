@@ -493,14 +493,24 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 		iPoint down_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y + player_rect.h);
 		iPoint down_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y + player_rect.h);
 
-		int down_right_gid = layer_coll->Get(down_right.x, down_right.y);
-		int down_left_gid = layer_coll->Get(down_left.x, down_left.y);
+		int down_right_gid = 0;
+		if (down_right.x >= 0 && down_right.x <= App->map->data.width && down_right.y >= 0 && down_right.y <= App->map->data.height)//If tile is outside the map dont ->Get(...) or error
+			down_right_gid = layer_coll->Get(down_right.x, down_right.y);
+
+		int down_left_gid = 0;
+		if (down_left.x >= 0 && down_left.x <= App->map->data.width && down_left.y >= 0 && down_left.y <= App->map->data.height)
+			down_left_gid = layer_coll->Get(down_left.x, down_left.y);
 
 		iPoint up_right = App->map->WorldToMap(player_rect.x + player_rect.w - collider_offset.x, player_rect.y);
-		iPoint up_left = App->map->WorldToMap(player_rect.x - collider_offset.x, player_rect.y);
+		iPoint up_left = App->map->WorldToMap(player_rect.x , player_rect.y);
 
-		int up_right_gid = layer_coll->Get(up_right.x, up_right.y);
-		int up_left_gid = layer_coll->Get(up_left.x, up_left.y);
+		int up_right_gid = 0;
+		if (up_right.x >= 0 && up_right.x <= App->map->data.width && up_right.y >= 0 && up_right.y <= App->map->data.height)
+			up_right_gid = layer_coll->Get(up_right.x, up_right.y);
+
+		int up_left_gid = 0;
+		if (up_left.x >= 0 && up_left.x <= App->map->data.width && up_left.y >= 0 && up_left.y <= App->map->data.height)
+			up_left_gid = layer_coll->Get(up_left.x, up_left.y);
 
 
 
@@ -511,7 +521,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 				acceleration.y = 0.0f;
 				speed.y = 0.0f;
-				position.y = c2->rect.y - c1->rect.h - collider_offset.y;
+				position.y = c2->rect.y - c1->rect.h - collider_offset.y + 1;
 				on_ground = true;
 			}
 
@@ -530,22 +540,24 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					position.x++;
+					
 
 				}//Touching right
-				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
+				else if (c1->rect.x + c1->rect.w + (int)speed.x * dt_current  + 1 > c2->rect.x && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == RIGHT && abs(c1->rect.x) < abs(c2->rect.x)) { //Remember to take this magic numbers off
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					position.x--;
+					
 
 				}
 
 			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
-				on_ground = false;
+ 				on_ground = false;
+				LOG("AAAAAAAAA");
 			}
 			else if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && entity_x_dir == LEFT && (down_left_gid == 62 || down_right_gid == 212 || down_left_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
 				on_ground = false;
+				LOG("BBBBBBBBB");
 			}
 		}
 

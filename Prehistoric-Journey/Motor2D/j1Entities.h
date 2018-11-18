@@ -66,6 +66,8 @@ public:
 
 	void SetEnemies(uint map);
 	
+	bool DeleteEnemies();
+
 public:
 
 	p2DynArray<Entity*> entities;
