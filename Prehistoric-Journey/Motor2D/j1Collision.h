@@ -1,7 +1,7 @@
 #ifndef __j1COLLISION_H__
 #define __j1COLLISION_H__
 
-#define MAX_COLLIDERS 1000
+#define MAX_COLLIDERS 1200
 
 #include "j1Module.h"
 
@@ -61,11 +61,14 @@ public:
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
 
+public:
+	bool debug = true;
+
 private:
 	int now = 0;
 	Collider* colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = true;
+	
 };
 
 #endif

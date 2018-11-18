@@ -2,6 +2,7 @@
 #include"Entity.h"
 #include"j1Collision.h"
 #include"j1Render.h"
+#include "j1Map.h"
 
 
 
@@ -142,4 +143,21 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
  bool Entity::OnScreen(int x)  {
 
 	 return (-App->render->camera.x <= x && -App->render->camera.x + App->render->camera.w >= x);
+ }
+
+ void Entity::DrawPathfinding() {
+
+
+	 if (path) {
+		 for (uint i = 0; i < path->Count(); ++i)
+		 {
+			 iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		 				//App->render->Blit(App->map->data.tilesets.At(2)->data->texture, pos.x, pos.y);
+		 				/*SDL_Rect aux;
+
+		 				aux = App->map->data.tilesets.At(1)->data->GetTileRect(211);*/
+			 App->render->Blit(App->map->data.tilesets.At(1)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(1)->data->GetTileRect(211));
+
+		 }
+	 }
  }

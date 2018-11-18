@@ -164,6 +164,10 @@ void MiniTrex::Draw() {
 	else {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
+
+	if (App->collision->debug)
+		DrawPathfinding();
+
 }
 
 
