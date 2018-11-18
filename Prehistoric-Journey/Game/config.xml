@@ -41,24 +41,29 @@
   </audio>
 <entities>
 	<spawns1>
-		<!--<bat x="50" y="50" />
-		<bat x="100" y="100" />
-		<bat x="2304" y="290" />-->
-    <mini_trex x="1856" y="288" />
-    <mini_trex x="3104" y="192" />
-    <mini_trex x="5376" y=" 96" />
-    <mini_trex x="6049" y=" 96" />
-
-	
+		<bat x="1056" y="224" />
+		<bat x="1824" y="224" />
+    <bat x="2432" y="64" />
+    <bat x="4064" y="64" />
+    <bat x="4928" y="64" />
+    <bat x="5696" y="64" />
+    <bat x="6208" y="64" />
+    <mini_trex x="1856" y="64" />
+    <mini_trex x="3104" y="32" />
+    <mini_trex x="5504" y="-32" />
+    <mini_trex x="6048" y="-32" />
+    <mini_trex x="6336" y="-32" />
 	
 	</spawns1>
 	<spawns2>
-		<bat x="0" y="0" />
-		<bat x="100" y="0" />
-		<bat x="200" y="0" />
-		<mini_trex x="50" y="50" />
-		<mini_trex x="150" y="50" />
-		<mini_trex x="250" y="50" />
+		<bat x="352" y="224" />
+		<bat x="864" y="192" />
+    <bat x="3840" y="128" />
+    <bat x="4512" y="224" />
+    <bat x="5664" y="192" />
+		<mini_trex x="672" y="64" />
+		<mini_trex x="2720" y="32" />
+    <mini_trex x="3296" y="-32" />
 	
 	</spawns2>
   <player>
