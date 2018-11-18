@@ -135,8 +135,7 @@ void Bat::Draw() {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 
-	if (App->collision->debug)
-		DrawPathfinding();
+	
 }
 
 
