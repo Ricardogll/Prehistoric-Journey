@@ -4,7 +4,7 @@ A little 2D Platformer made by two students on second year of CITM UPC of Terras
 
 For the first version we had two levels where the player could move around, jump and climb lianas on the first level and rocks on the second one. 
 
-Now 2 types of enemies have been added that, if close to you, will chase you down! Don't worry because now you can use your mighty weapon to defend yourself. All the game has been normalized so playing in faster or slower machines will result in the same gameplay.
+Now 2 types of enemies have been added that, if close to you, will chase you down! Don't worry because now you can use your mighty weapon to defend yourself. All the game logic has been normalized so playing in faster or slower machines will result in the same gameplay.
 
 For this game we used C++, using SDL and pugi libraries. The maps have been made using Tiled.
 
@@ -50,13 +50,17 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 - Volume changing mid-game with keypad plus and minus.
 
-### Authors
+### Authors and accomplishments on this assignment
 
-- [Ricardo Gutiérrez Llenas](https://github.com/Ricardogll)
+- [Ricardo Gutiérrez Llenas:](https://github.com/Ricardogll) Pathfinding. Normalized logic. Entity system. 
 
-- [Sergio Gómez Roldán](https://github.com/Sersius)
+
+
+- [Sergio Gómez Roldán:](https://github.com/Sersius) Audio and animation. Entities wander. UML. Brofiler. Diverse tweaks.
 
 - [Project](https://github.com/Ricardogll/Prehistoric-Journey)
+
+
 
 ### Disclosure
 
