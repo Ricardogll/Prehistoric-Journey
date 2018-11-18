@@ -519,12 +519,14 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 		if (c2->type == COLLIDER_WALL || c2->type == COLLIDER_LEDGE)
 		{ //Using "(int)speed" to see if in the next update player will be inside the wall. Using +1 in case the float is shortened and we end up going inside the wall.
 			//Touching floor
-			if (c1->rect.y + c1->rect.h + (int)speed.y + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && (down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
+			if (c1->rect.y + c1->rect.h + (int)speed.y * dt_current + 1 > c2->rect.y && on_ground == false && c1->rect.y < c2->rect.y && c1->rect.y - c2->rect.y < -c2->rect.h/2 &&(down_right_gid == 48 || down_right_gid == 63 || down_right_gid == 62 || down_right_gid == 198 || down_right_gid == 213 || down_right_gid == 212) && (down_left_gid == 48 || down_left_gid == 63 || down_left_gid == 62 || down_left_gid == 198 || down_left_gid == 213 || down_left_gid == 212)) {
 
 				acceleration.y = 0.0f;
 				speed.y = 0.0f;
+				
 				position.y = c2->rect.y - c1->rect.h - collider_offset.y + 1;
 				on_ground = true;
+				
 			}
 
 			//Touching ceiling
@@ -542,6 +544,8 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
+					if (!on_ground)
+						position.x++;
 					
 
 				}//Touching right
@@ -549,17 +553,18 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 					acceleration.x = 0.0f;
 					speed.x = 0.0f;
-					
+					if (!on_ground)
+						position.x--;
 
 				}
 
-			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
+			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 > c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
  				on_ground = false;
-				LOG("AAAAAAAAA");
+				
 			}
-			else if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 <= c2->rect.x && entity_x_dir == LEFT && (down_left_gid == 62 || down_right_gid == 212 || down_left_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
+			else if (c2->type == COLLIDER_LEDGE && c1->rect.x + c1->rect.w + (int)speed.x * dt_current - 1 < c2->rect.x && entity_x_dir == LEFT && (down_left_gid == 62 || down_right_gid == 212 || down_left_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
 				on_ground = false;
-				LOG("BBBBBBBBB");
+				
 			}
 		}
 

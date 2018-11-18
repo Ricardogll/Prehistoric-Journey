@@ -273,12 +273,13 @@ bool j1Scene::PostUpdate()
 
 	//Draw pathfinding
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
+	int id = (curr_map == MAP_2) ? 211 : 61;
+	int tileset = (curr_map == MAP_2) ? 1 : 0;
 	if (path) {
 		for (uint i = 0; i < path->Count(); ++i)
 		{
 			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			App->render->Blit(App->map->data.tilesets.At(1)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(1)->data->GetTileRect(211));
+ 			App->render->Blit(App->map->data.tilesets.At(tileset)->data->texture, pos.x, pos.y, &App->map->data.tilesets.At(tileset)->data->GetTileRect(id));
 
 		}
 	}
