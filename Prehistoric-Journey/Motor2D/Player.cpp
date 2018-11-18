@@ -254,10 +254,8 @@ void Player::Update(float dt)
 			if (jumping == false) {
 				state = IDLE;
 			}
-			//if (key_d_pressed == false) { 
 			acceleration.x = 0.0f;
 			speed.x = 0.0f;
-			//}
 
 		}
 
@@ -423,7 +421,6 @@ bool Player::Load(pugi::xml_node& node)
 
 	last_saved_pos.x = node.child("player_position").attribute("x").as_int();
 	last_saved_pos.y = node.child("player_position").attribute("y").as_int();
-	//saved_map = node.child("position").attribute("map").as_int();
 	position.x = last_saved_pos.x;
 	position.y = last_saved_pos.y;
 
@@ -436,7 +433,6 @@ bool Player::Save(pugi::xml_node& node) const
 	pugi::xml_node position_node = node.append_child("player_position");
 	position_node.append_attribute("x").set_value(position.x);
 	position_node.append_attribute("y").set_value(position.y);
-	//position.append_attribute("map").set_value(App->scene->curr_map);
 	return true;
 }
 
@@ -629,23 +625,7 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	hit_fx_folder = variables.child("hit_fx_folder").attribute("location").as_string();
 	attack_time = variables.child("attack_time").attribute("value").as_int();
 
-	/*jump_fx = App->audio->LoadFx(variables.child("jump_fx_folder").attribute("location").as_string());
-	lose_fx = App->audio->LoadFx(variables.child("lose_fx_folder").attribute("location").as_string());
-	texture = App->tex->Load(variables.child("spritesheet").attribute("location").as_string());*/
 }
-
-//void Player::SetAnimations(pugi::xml_node& config, Animation& animation)
-//{
-//	SDL_Rect coord;
-//	for (; config; config = config.next_sibling("animation"))
-//	{
-//		coord.x = config.attribute("x").as_uint();
-//		coord.y = config.attribute("y").as_uint();
-//		coord.w = config.attribute("w").as_uint();
-//		coord.h = config.attribute("h").as_uint();
-//		animation.PushBack(coord);
-//	}
-//}
 
 void Player::AnimationsApplyDt() {
 
@@ -654,7 +634,6 @@ void Player::AnimationsApplyDt() {
 		 run_anim_speed = run.speed;
 		 jump_anim_speed = jump.speed;
 		 climbing_anim_speed = climbing.speed;
-		 //climbing_idle_anim_speed = climbing_idle.speed;
 		 attack_anim_speed = attack.speed;
 
 		 anim_speed_flag = true;
@@ -665,7 +644,6 @@ void Player::AnimationsApplyDt() {
 		run.speed = run_anim_speed * dt_current;
 		jump.speed = jump_anim_speed * dt_current;
 		climbing.speed = climbing_anim_speed * dt_current;
-		//climbing_idle.speed = climbing_idle_anim_speed * dt_current;
 		attack.speed = attack_anim_speed * dt_current;
 	}
 	

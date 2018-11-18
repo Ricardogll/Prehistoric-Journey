@@ -7,6 +7,7 @@
 #include "j1Collision.h"
 #include "j1Window.h"
 #include "j1Scene.h"
+#include "Brofiler/Brofiler.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -36,6 +37,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 void j1Map::Draw()
 {
+	BROFILER_CATEGORY("Draw map", Profiler::Color::BurlyWood)
 	ptimer.Start();
 	if (map_loaded == false)
 		return;
@@ -134,6 +136,7 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 		
 void j1Map::setColliders()
 {
+	BROFILER_CATEGORY("SetColliders", Profiler::Color::Beige)
 	p2List_item<TileSet*>* tile_item = this->data.tilesets.start;
 
 	

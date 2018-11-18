@@ -210,6 +210,9 @@
         <sounds idle_location="audio/fx/dinosaur.wav" death_location="audio/fx/dinosaur_death.wav"/>
 	    	<wait_pf value="250"/>
 		    <gravity value="250"/>
+        <radar value="65000"/>
+        <sound_time value="4000"/>
+        <hear_dist value="290000"/>
       </variables>
     </mini-tyranosaur>
     <bat>
@@ -246,6 +249,9 @@
 			<wait_pf value="250"/>
 			<gravity value="150"/>
       <sounds idle_location="audio/fx/bat.wav" death_location="audio/fx/bat_death.wav"/>
+      <radar value="100000"/>
+      <sound_time value="4000"/>
+      <hear_dist value="290000"/>
 		</variables>
     </bat>
     <tyranosaur location="textures/tyranosaur.png">

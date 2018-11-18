@@ -70,6 +70,9 @@ public:
 	float dt_current = 0.0f;
 	float timer_pathfinding = 0.0f;
 	float wait_pf = 0.0f;
+	int radar = 0;
+	uint sound_time = 0u;
+	uint hear_dist = 0u;
 
 	iPoint starting_pos = { 0,0 };
 	iPoint last_saved_pos = { 0,0 };

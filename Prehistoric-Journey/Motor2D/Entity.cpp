@@ -58,6 +58,9 @@ void Entity::LoadVariablesXML(const pugi::xml_node& entity_node) {
 	gravity = variables.child("gravity").attribute("value").as_float();
 	idle_sound_folder = variables.child("sounds").attribute("idle_location").as_string();
 	death_sound_folder = variables.child("sounds").attribute("death_location").as_string();
+	radar = variables.child("radar").attribute("value").as_int();
+	sound_time = variables.child("sound_time").attribute("value").as_uint();
+	hear_dist = variables.child("hear_dist").attribute("value").as_uint();
 
 }
 
@@ -79,33 +82,6 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 	}
 	return fPoint(0.0f, 0.0f);
 }
-
- //bool Entity::Load(pugi::xml_node& entity_node) {
-	// 
-	// switch (type) {
-
-	// case EntityTypes::BAT:
-	//	 last_saved_pos.x = entity_node.child("position").attribute("x").as_int();
-	//	 last_saved_pos.y = entity_node.child("position").attribute("y").as_int();
-	//	 break;
-
-	// case EntityTypes::MINI_TREX:
-	//	
-	//	 break;
-
-	// case EntityTypes::PLAYER:
-	// default:
-	//	 return true;
-	// }
-
-	// last_saved_pos.x = entity_node.child("position").attribute("x").as_int();
-	// last_saved_pos.y = entity_node.child("position").attribute("y").as_int();
-	// position.x = last_saved_pos.x;
-	// position.y = last_saved_pos.y;
-	// 
-	// return true;
- //}
-
 
  bool Entity::Save(pugi::xml_node& entity_node) const { 
 	 

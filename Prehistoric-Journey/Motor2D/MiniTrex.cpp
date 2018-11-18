@@ -7,6 +7,7 @@
 #include "j1Map.h"
 #include "j1Audio.h"
 #include "Player.h"
+#include "Brofiler/Brofiler.h"
 
 MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type) {
 	pugi::xml_node node_entity = config.child("mini-tyranosaur");
@@ -15,9 +16,6 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 		LoadVariablesXML(node_entity);
 
 		pugi::xml_node animations = node_entity.child("animations");
-		/*SetAnimations(animations.child("idle").child("animation"), idle);
-		idle.speed = animations.child("idle").attribute("speed").as_float();
-		idle.loop = animations.child("idle").attribute("loop").as_bool();*/
 
 		SetAnimations(animations.child("idle").child("animation"), idle);
 		idle.speed = animations.child("idle").attribute("speed").as_float();
@@ -41,26 +39,26 @@ MiniTrex::MiniTrex(int x, int y, pugi::xml_node& config, EntityTypes type) :Enti
 	state = IDLE;
 	entity_x_dir = RIGHT;
 
-	//soundtimer.Start();
 }
 MiniTrex::~MiniTrex() {}
 
 
 
 void MiniTrex::Update(float dt) {
+	BROFILER_CATEGORY("MiniTrex Update", Profiler::Color::Gold)
 	dt_current = dt;
 	AnimationsApplyDt();
 
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
-	if (soundtimer.Read() > 4000 && dist < 275000) {
+	if (soundtimer.Read() > sound_time && dist < hear_dist && state != DEATH) {
 		App->audio->PlayFx(idle_sound, 0);
 		soundtimer.Start();
 	}
 	
 
-	if (position.DistanceNoSqrt(player_pos) < 90000 && position.DistanceNoSqrt(player_pos) > -90000 && state != DEATH) { // put this in xml as pathfinding_radius or something
+	if (position.DistanceNoSqrt(player_pos) < radar && position.DistanceNoSqrt(player_pos) > -radar && state != DEATH) {
 		
 		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
 			if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(player_pos.x, player_pos.y)) != -1) {
@@ -94,7 +92,6 @@ void MiniTrex::Update(float dt) {
 	}
 	else {
 
-		//PUT THIS VARIABLES ON XML!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		next_pos = App->map->WorldToMap(position.x, position.y);
 
 		if (App->pathfinding->IsWalkable({ next_pos.x + new_pos.x ,next_pos.y + 2 }) && is_right) {
@@ -160,9 +157,6 @@ void MiniTrex::Draw() {
 	else {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
-
-	
-
 }
 
 
