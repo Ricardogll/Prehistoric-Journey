@@ -12,6 +12,7 @@
 #include "j1Collision.h"
 #include "j1FadeToBlack.h"
 #include "j1Entities.h"
+
 #include "j1PathFinding.h"
 #include "Brofiler/Brofiler.h"
 
@@ -53,12 +54,7 @@ bool j1Scene::Start()
 		curr_map = MAP_1;
 		App->map->setColliders();
 
-		int w, h;//change to differentiate between maps
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);
+		
 	}
 
 	if (App->entities->GetPlayer() == nullptr) {
@@ -83,6 +79,12 @@ bool j1Scene::Start()
 	else if (App->entities->GetPlayer()->player_died)
 		App->entities->GetPlayer()->player_died = false;
 
+	int w, h;//change to differentiate between maps
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
+	RELEASE_ARRAY(data);
 
 	return true;
 }
@@ -251,6 +253,8 @@ bool j1Scene::Update(float dt)
 		App->fade->FadeToBlack(this, this, 2.0f);
 	}
 
+
+	
 
 	App->map->Draw();
 	

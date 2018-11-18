@@ -38,7 +38,7 @@ Bat::Bat(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, t
 	state = RUN;
 	entity_x_dir = RIGHT;
 	last_pos = position;
-
+	srand(time(NULL));
 }
 
 Bat::~Bat() {}
@@ -87,11 +87,11 @@ void Bat::Update(float dt) {
 		speed = { 0.0f, gravity };
 	}
 	else {
-		srand(time(NULL));
+		
 
 		new_pos.x = rand() % 10;
 		new_pos.y = rand() % 10;
-
+		
 		new_pos.x = (new_pos.x < 5) ? 1 : -1;
 		new_pos.y = (new_pos.y < 5) ? 1 : -1;
 
@@ -143,6 +143,8 @@ void Bat::Draw() {
 		App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 
+	if (App->collision->debug)
+		DrawPathfinding();
 }
 
 

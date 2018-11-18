@@ -79,7 +79,7 @@ void j1Entities::SetEnemies(uint map) {
 				break;
 			}
 		}
-
+		
 		break;
 	}
 	case 2: {
@@ -177,6 +177,9 @@ bool j1Entities::Update(float dt) {
 				}
 			}
 		
+			
+
+
 	return true;
 }
 
