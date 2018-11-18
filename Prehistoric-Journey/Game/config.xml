@@ -44,8 +44,11 @@
 		<bat x="50" y="50" />
 		<bat x="100" y="100" />
 		<bat x="2304" y="290" />
-		<mini_trex x="50" y="0" />
-		<mini_trex x="1152" y="384" />
+    <mini_trex x="1856" y="288" />
+    <mini_trex x="3104" y="192" />
+    <mini_trex x="5376" y=" 96" />
+    <mini_trex x="6049" y=" 96" />
+
 	
 	
 	</spawns>

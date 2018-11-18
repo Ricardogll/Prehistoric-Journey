@@ -93,27 +93,32 @@ void MiniTrex::Update(float dt) {
 		speed = { 0.0f, 0.0f };
 	}
 	else {
-		srand(time(NULL));
+		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
+			srand(time(NULL));
 
-		new_pos.x = rand() % 20;
+			new_pos.x = rand() % 10;
 
-		new_pos.x = (new_pos.x < 10) ? 1 : -1;
+			new_pos.x = (new_pos.x < 5) ? 1 : -1;
 
-		next_pos = App->map->WorldToMap(position.x, position.y);
+			next_pos = App->map->WorldToMap(position.x, position.y);
 
-		next_pos = { next_pos.x + new_pos.x, next_pos.y};
+			next_pos = { next_pos.x + new_pos.x, next_pos.y };
 
-		if (App->pathfinding->IsWalkable({next_pos.x,next_pos.y+2})) {
-			state = RUN;
-			speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
-			if (last_pos.x < position.x)
-				entity_x_dir = RIGHT;
-			else if (last_pos.x > position.x)
-				entity_x_dir = LEFT;
-		}
-		else {
-			state = IDLE;
-			speed = { 0.0f,0.0f };
+			if (App->pathfinding->IsWalkable({ next_pos.x,next_pos.y + 2 })) {
+				timer_pathfinding = SDL_GetTicks();
+				state = RUN;
+				speed = SpeedNeededFromTo(App->map->WorldToMap(position.x, position.y), next_pos);
+				speed.x /= 3.0f;
+				//speed.y = 0.0f;
+				if (last_pos.x < position.x)
+					entity_x_dir = RIGHT;
+				else if (last_pos.x > position.x)
+					entity_x_dir = LEFT;
+			}
+			else if (!App->pathfinding->IsWalkable({ next_pos.x,next_pos.y + 2 })) {
+				state = IDLE;
+				speed = { 0.0f,0.0f };
+			}
 		}
 	}
 

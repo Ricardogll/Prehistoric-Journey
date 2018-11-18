@@ -524,7 +524,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 			}
 			
-			
+			else {
 				//Touching left
 				if (c1->rect.x + (int)speed.x * dt_current - 1 < c2->rect.x + c2->rect.w && (c1->rect.y > c2->rect.y || c1->rect.y > c2->rect.y - c1->rect.h * 8 / 10) && entity_x_dir == LEFT && c1->rect.x > c2->rect.x) {
 
@@ -540,7 +540,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 					position.x--;
 
 				}
-			
+			}
 
 			if (c2->type == COLLIDER_LEDGE && c1->rect.x + (int)speed.x * dt_current + 1 >= c2->rect.x + c2->rect.w && entity_x_dir == RIGHT && (down_right_gid == 62 || down_right_gid== 212|| down_right_gid == 0 || down_left_gid == 61 || down_right_gid == 211)) {
 				on_ground = false;
