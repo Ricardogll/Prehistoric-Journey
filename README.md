@@ -2,7 +2,9 @@
 
 A little 2D Platformer made by two students on second year of CITM UPC of Terrassa.
 
-For now we have two levels where the player can move around, jump and climb lianas on the first level and rocks on the second one.
+For the first version we had two levels where the player could move around, jump and climb lianas on the first level and rocks on the second one. 
+
+Now 2 types of enemies have been added that, if close to you, will chase you down! Don't worry because now you can use your mighty weapon to defend yourself. All the game has been normalized so playing in faster or slower machines will result in the same gameplay.
 
 For this game we used C++, using SDL and pugi libraries. The maps have been made using Tiled.
 
@@ -13,6 +15,8 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 - Right (D)
 
 - Jump  (Espace)
+
+- Attack (C)
 
 - Climb (W,A,S,D). Press W when you are on top of a climbable part of the map to make the player grab onto it.
 
@@ -30,9 +34,11 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 - F6:  Load the previous state
 
-- F9:  Draw colliders
+- F9:  Draw colliders and enemies pathfinding
 
 - F10: God Mode
+
+- F11: Cap or uncap FPS. (Capped fps equals 30fps)
 
 - F3: To see camera culling in work with 1 less tile
 
