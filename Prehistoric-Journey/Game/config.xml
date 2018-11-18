@@ -77,6 +77,8 @@
       <jump_force_liana value="-250.0"/>
       <collider_offset x="16" y="10"/>
       <collider_dimensions x="42" y="48"/>
+      <collider_attack_offset x="16" y="5"/>
+      <collider_attack_dimensions x="37" y="36"/>
 
     </variables>
     <animations>

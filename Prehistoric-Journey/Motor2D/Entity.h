@@ -35,6 +35,8 @@ public:
 	Collider* collider;
 	iPoint collider_dimensions = { 0,0 };
 	iPoint collider_offset = { 0,0 };
+	iPoint collider_attack_dimensions = { 0,0 };
+	iPoint collider_attack_offset = { 0,0 };
 
 	fPoint position = { 0.0f, 0.0f };
 	fPoint speed = { 0.0f,0.0f };
@@ -71,8 +73,10 @@ public:
 	iPoint starting_pos = { 0,0 };
 	iPoint last_saved_pos = { 0,0 };
 
-	iPoint new_pos = { 0,0 };
+	iPoint new_pos = { 1,0 };
 	iPoint next_pos = { 0,0 };
+
+	bool is_right = false;
 
 	uint idle_sound = 0u;
 
