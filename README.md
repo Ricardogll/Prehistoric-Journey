@@ -1,4 +1,4 @@
-# Prehistoric Journey
+﻿# Prehistoric Journey
 
 A little 2D Platformer made by two students on second year of CITM UPC of Terrassa.
 
@@ -49,6 +49,8 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 - Camera culling, only printing what the camera sees at the moment.
 
 - Volume changing mid-game with keypad plus and minus.
+
+- Entities wander, if they are not following you, start moving around.
 
 ### Authors and accomplishments on this assignment
 

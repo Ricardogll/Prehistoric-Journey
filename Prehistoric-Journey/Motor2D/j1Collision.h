@@ -62,7 +62,7 @@ public:
 	void DebugDraw();
 
 public:
-	bool debug = true;
+	bool debug = false;
 
 private:
 	int now = 0;
