@@ -64,6 +64,15 @@
     <ClCompile Include="MiniTrex.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="j1UI.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="UILabel.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -150,6 +159,15 @@
     <ClInclude Include="MiniTrex.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="j1UI.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UILabel.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -172,6 +190,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities">
       <UniqueIdentifier>{4194053b-b48e-473a-98a8-21298b09abcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI">
+      <UniqueIdentifier>{fd8a118b-70b4-4104-84fa-c622fd256737}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

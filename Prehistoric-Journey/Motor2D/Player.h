@@ -9,7 +9,7 @@
 #include	"Animation.h"
 #include	"Entity.h"
 
-struct SDL_texture;
+struct SDL_texture;//TODO look if works with class
 struct Collider;
 
 class Player :public Entity

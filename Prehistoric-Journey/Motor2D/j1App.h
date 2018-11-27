@@ -22,6 +22,7 @@ class j1Collision;
 //class j1Player;
 class j1PathFinding;
 class j1Entities;
+class j1UI;
 
 class j1App
 {
@@ -99,6 +100,7 @@ public:
 	//j1Player*			player = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 	j1Entities*			entities = nullptr;
+	j1UI*				ui = nullptr;
 
 	
 	float				dt = 0.0f;

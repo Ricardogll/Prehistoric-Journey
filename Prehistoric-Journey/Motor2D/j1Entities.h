@@ -53,7 +53,7 @@ public:
 	bool Update(float dt);
 
 	bool CleanUp();
-
+	
 	bool SpawnEntity(int x, int y, EntityTypes type);
 
 	void OnCollision(Collider* c1, Collider* c2);
