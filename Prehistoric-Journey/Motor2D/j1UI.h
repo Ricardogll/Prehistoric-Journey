@@ -54,7 +54,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// TODO 2: Create the factory methods
+	void DeleteUIElements();
+
 	// Gui creation functions
 	UIElement* CreateLabel(int x, int y, const char* text, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT);
 	UIElement* CreateImage(int x, int y, SDL_Rect rect, UIElement* parent = nullptr);
@@ -69,6 +70,7 @@ public:
 	
 
 private:
+	bool debug = false;
 
 	p2DynArray<UIElement*> ui_elements;
 	SDL_Texture* atlas;
