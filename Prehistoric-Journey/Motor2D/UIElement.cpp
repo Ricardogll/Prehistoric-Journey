@@ -5,20 +5,10 @@
 #include "p2Log.h"
 #include "j1Render.h"
 
-UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x(x), local_pos_y(y), type(type), parent(parent)
+UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x(x), local_pos_y(y), type(type)
 {
 	clickable = true;
 	draggable = true;
-
-	if (parent != nullptr) {
-		world_pos_x = local_pos_x + parent->world_pos_x;
-		world_pos_y = local_pos_y + parent->world_pos_y;
-	}
-	else {
-		world_pos_x = local_pos_x;
-		world_pos_y = local_pos_y;
-	}
-
 }
 
 UIElement::~UIElement()

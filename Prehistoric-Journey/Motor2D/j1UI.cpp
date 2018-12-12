@@ -146,10 +146,10 @@ void j1UI::DeleteUIElements() {
 
 }
 
-UIElement* j1UI::CreateLabel(int x, int y, const char* text, int size, SDL_Color color, const char* font)
+UIElement* j1UI::CreateLabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent)
 {
 
-	UIElement* aux = new UILabel(x, y, text, size, color, font);
+	UIElement* aux = new UILabel(x, y, text, size, color, font, parent);
 
 
 	ui_elements.PushBack(aux);
@@ -175,9 +175,9 @@ UIElement * j1UI::CreateImage(int x, int y, SDL_Rect rect, UIElement* parent)
 //	return aux;
 //}
 
-UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked)
+UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent)
 {
-	UIElement* aux = new UIButton(x, y, rect, hovering, clicked);
+	UIElement* aux = new UIButton(x, y, rect, hovering, clicked, parent);
 	ui_elements.PushBack(aux);
 
 	return aux;

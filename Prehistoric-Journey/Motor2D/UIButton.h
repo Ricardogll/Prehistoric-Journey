@@ -7,7 +7,7 @@
 class UIButton : public UIElement {
 
 public:
-	UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked);
+	UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent);
 	~UIButton();
 	void Draw(SDL_Texture* atlas);
 	void Update();

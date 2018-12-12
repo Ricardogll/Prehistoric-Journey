@@ -35,8 +35,8 @@ j1Scene::~j1Scene()
 	ui_el->~UIElement();
 	ui_el = nullptr;
 
-	ui_el2->~UIElement();
-	ui_el2 = nullptr;
+	menu->~UIElement();
+	menu = nullptr;
 
 
 }
@@ -104,11 +104,11 @@ bool j1Scene::Start()
 
 	window_ui = new UIElement(App->render->camera.x, 0, UIType::WINDOW);
 
-
-	test_ui = App->ui->CreateButton(200, 20, { 642,169,229,69 }, { 0,113,229,69 }, { 411,169,229,69 });
-	ui_el = App->ui->CreateLabel(100, 100, "HelloWorld", 16, { 255,0,0,255 });
+	menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+	test_ui = App->ui->CreateButton(50, 50, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	ui_el = App->ui->CreateLabel(15, 15, "HelloWorld", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", test_ui);
 	
-	ui_el2 = App->ui->CreateImage(10, 10, { 648, 173, 221, 64 }, window_ui);
+
 
 	return true;
 }

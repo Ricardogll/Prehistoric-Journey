@@ -64,4 +64,4 @@ public:
 
 };
 
-#endif // !__UIELEMENT_H__
+#endif //

@@ -49,7 +49,7 @@ private:
 	bool is_fade = false;
 	UIElement* test_ui;
 	UIElement* ui_el;
-	UIElement* ui_el2;
+	UIElement* menu;
 	UIElement* window_ui;
 	
 

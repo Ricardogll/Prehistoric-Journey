@@ -28,7 +28,7 @@
   </map>
 
   <gui>
-    <atlas file="gui/atlas.png"/>
+    <atlas file="gui/Ui_spritesheet.png"/>
   </gui>
   
   <scene>

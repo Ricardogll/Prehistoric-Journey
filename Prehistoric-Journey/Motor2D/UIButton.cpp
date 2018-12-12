@@ -4,13 +4,23 @@
 #include "j1UI.h"
 //#include "p2Log.h"
 
-UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked) :UIElement(x, y, BUTTON)
+UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent) :UIElement(local_pos_x, local_pos_y, BUTTON)
 {
 	img_rect = rect;
 	basic_rect = rect;
 	hovering_rect = hovering;
 	clicked_rect = clicked;
-	this->rect = { x,y,rect.w,rect.h };
+	if (parent != nullptr)
+	{
+		local_pos_x = parent->local_pos_x + x;
+		local_pos_y = parent->local_pos_y + y;
+	}
+	else
+	{
+		local_pos_x = x;
+		local_pos_y = y;
+	}
+	this->rect = { local_pos_x,local_pos_y,rect.w,rect.h };
 
 }
 
