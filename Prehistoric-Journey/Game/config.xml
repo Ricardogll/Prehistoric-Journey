@@ -27,6 +27,10 @@
 	<spawn_pos_offset value="8" />
   </map>
 
+  <gui>
+    <atlas file="gui/atlas.png"/>
+  </gui>
+  
   <scene>
     <music>
       <music_map1 location="audio/music/theme-1.ogg"/>

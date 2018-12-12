@@ -12,7 +12,8 @@
 #include "j1Collision.h"
 #include "j1FadeToBlack.h"
 #include "j1Entities.h"
-
+#include "j1UI.h"
+#include "UIButton.h"
 #include "j1PathFinding.h"
 #include "Brofiler/Brofiler.h"
 
@@ -85,6 +86,26 @@ bool j1Scene::Start()
 		App->pathfinding->SetMap(w, h, data);
 
 	RELEASE_ARRAY(data);
+
+	window_ui = new UIElement(App->render->camera.x, 0, UIType::WINDOW);
+	// change to window or smthing
+	
+		/*clickable = true;
+	draggable = true;
+
+	if (parent != nullptr) {
+		world_pos_x = local_pos_x + parent->world_pos_x;
+		world_pos_y = local_pos_y + parent->world_pos_y;
+	}
+	else {
+		world_pos_x = local_pos_x;
+		world_pos_y = local_pos_y;
+	}*/
+
+	test_ui = App->ui->CreateButton(200, 20, { 642,169,229,69 }, { 0,113,229,69 }, { 411,169,229,69 });
+	ui_el = App->ui->CreateLabel(100, 100, "HelloWorld", 16, { 255,0,0,255 });
+	
+	ui_el2 = App->ui->CreateImage(10, 10, { 648, 173, 221, 64 }, window_ui);
 
 	return true;
 }
@@ -261,7 +282,8 @@ bool j1Scene::Update(float dt)
 	}
 
 
-	
+	window_ui->world_pos_x = -App->render->camera.x;
+	//window_ui->local_pos_x = -App->render->camera.x;
 
 	App->map->Draw();
 	

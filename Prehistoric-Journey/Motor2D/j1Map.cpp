@@ -103,7 +103,7 @@ void j1Map::Draw()
 		tileset_item = tileset_item->prev;
 	}
 	
-	LOG("Time printing map %f ", ptimer.ReadMs());
+
 }
 
 

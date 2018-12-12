@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+class UIElement;
 
 enum CurrentMap
 {
@@ -46,6 +47,10 @@ public:
 	
 private:
 	bool is_fade = false;
+	UIElement* test_ui;
+	UIElement* ui_el;
+	UIElement* ui_el2;
+	UIElement* window_ui;
 	
 
 };

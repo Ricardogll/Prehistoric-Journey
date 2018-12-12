@@ -18,6 +18,7 @@
 #include "j1Pathfinding.h"
 #include "j1Entities.h"
 #include "j1UI.h"
+#include "j1Fonts.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -40,6 +41,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	//player = new j1Player();
 	entities = new j1Entities();
 	pathfinding = new j1PathFinding();
+	font = new j1Fonts();
 	ui = new j1UI();
 
 	// Ordered for awake / Start / Update
@@ -51,6 +53,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(entities);
+	AddModule(font);
 	AddModule(ui);
 	AddModule(fade);
 	AddModule(collision);
