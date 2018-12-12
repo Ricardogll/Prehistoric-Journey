@@ -24,7 +24,22 @@ j1Scene::j1Scene() : j1Module()
 
 // Destructor
 j1Scene::~j1Scene()
-{}
+{
+
+	window_ui->~UIElement();
+	window_ui = nullptr;
+
+	test_ui->~UIElement();
+	test_ui = nullptr;
+
+	ui_el->~UIElement();
+	ui_el = nullptr;
+
+	ui_el2->~UIElement();
+	ui_el2 = nullptr;
+
+
+}
 
 // Called before render is available
 bool j1Scene::Awake(pugi::xml_node& config)
@@ -88,19 +103,7 @@ bool j1Scene::Start()
 	RELEASE_ARRAY(data);
 
 	window_ui = new UIElement(App->render->camera.x, 0, UIType::WINDOW);
-	// change to window or smthing
-	
-		/*clickable = true;
-	draggable = true;
 
-	if (parent != nullptr) {
-		world_pos_x = local_pos_x + parent->world_pos_x;
-		world_pos_y = local_pos_y + parent->world_pos_y;
-	}
-	else {
-		world_pos_x = local_pos_x;
-		world_pos_y = local_pos_y;
-	}*/
 
 	test_ui = App->ui->CreateButton(200, 20, { 642,169,229,69 }, { 0,113,229,69 }, { 411,169,229,69 });
 	ui_el = App->ui->CreateLabel(100, 100, "HelloWorld", 16, { 255,0,0,255 });
@@ -283,7 +286,7 @@ bool j1Scene::Update(float dt)
 
 
 	window_ui->world_pos_x = -App->render->camera.x;
-	//window_ui->local_pos_x = -App->render->camera.x;
+	
 
 	App->map->Draw();
 	
@@ -323,6 +326,8 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	App->ui->DeleteUIElements();
 
 	return true;
 }

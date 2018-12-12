@@ -77,7 +77,8 @@ bool j1UI::Update(float dt)
 		}
 	}
 
-
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+		debug = !debug;
 
 	return true;
 }
@@ -89,6 +90,10 @@ bool j1UI::PostUpdate()
 	for (uint i = 0u; i < ui_elements.Count(); i++) {
 		if (ui_elements[i] != nullptr) {
 			ui_elements[i]->Draw(atlas);
+
+			if (debug)
+				App->render->DrawQuad({ ui_elements[i]->world_pos_x, ui_elements[i]->world_pos_y, ui_elements[i]->rect.w, ui_elements[i]->rect.h }, 255, 0, 0, 255, false);
+
 		}
 	}
 
@@ -120,6 +125,25 @@ bool j1UI::CleanUp()
 	
 
 	return true;
+}
+
+void j1UI::DeleteUIElements() {
+
+	LOG("Deleting all ui_elements");
+
+	for (uint i = 0; i < ui_elements.Count(); ++i)
+	{
+		if (ui_elements[i] != nullptr)
+		{
+			delete ui_elements[i];
+			ui_elements[i] = nullptr;
+			ui_elements.Delete(i);
+			
+		}
+	}
+
+	ui_elements.Clear();
+
 }
 
 UIElement* j1UI::CreateLabel(int x, int y, const char* text, int size, SDL_Color color, const char* font)
