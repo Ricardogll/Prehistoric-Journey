@@ -63,8 +63,7 @@ void UIElement::SetPositionWithParent() {
 			//App->input->GetMouseMotion(mouse_motion.x, mouse_motion.y);
 			local_pos_x += mouse_pos_aux.x - prev_mouse.x;
 			local_pos_y += mouse_pos_aux.y - prev_mouse.y;
-			world_pos_x += mouse_pos_aux.x - prev_mouse.x;
-			world_pos_y += mouse_pos_aux.y - prev_mouse.y;
+			
 			//LOG("MouseMotion: %i, %i", mouse_motion.x, mouse_motion.y);
 		}
 

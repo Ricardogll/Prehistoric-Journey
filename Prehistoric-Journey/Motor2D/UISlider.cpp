@@ -8,12 +8,14 @@
 
 UISlider::UISlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent):UIElement(x,y,SLIDER,parent)
 {
-
-	this->rect = { world_pos_x,world_pos_y,bar.w,bar.h };
+	clickable = true;
+	draggable = true;
+	//this->rect = { world_pos_x,world_pos_y,bar.w,bar.h };
 	bar_rect = bar;
 	ball_rect = ball;
 	world_ball_x = world_pos_x;
-	world_ball_y = world_pos_y + rect.h / 2 - ball_rect.h / 2;
+	world_ball_y = world_pos_y + bar_rect.h / 2 - ball_rect.h / 2;
+	this->rect = { world_ball_x,world_ball_y,ball_rect.w,ball_rect.h };
 }
 
 UISlider::~UISlider() {
@@ -39,10 +41,10 @@ void UISlider::Update() {
 		if (prev_mouse != mouse_pos_aux) {
 			//iPoint mouse_motion;
 			//App->input->GetMouseMotion(mouse_motion.x, mouse_motion.y);
-			local_pos_x += mouse_pos_aux.x - prev_mouse.x;
-			local_pos_y += mouse_pos_aux.y - prev_mouse.y;
-			world_pos_x += mouse_pos_aux.x - prev_mouse.x;
-			world_pos_y += mouse_pos_aux.y - prev_mouse.y;
+			local_ball_x += mouse_pos_aux.x - prev_mouse.x;
+			
+			//world_ball_x += mouse_pos_aux.x - prev_mouse.x;
+			
 			//LOG("MouseMotion: %i, %i", mouse_motion.x, mouse_motion.y);
 		}
 
@@ -61,11 +63,14 @@ void UISlider::Update() {
 	}
 
 
-	rect.x = world_pos_x;
-	rect.y = world_pos_y;
+	//rect.x = world_pos_x;
+	//rect.y = world_pos_y;
 
 	world_ball_x = local_ball_x + world_pos_x;
 	world_ball_y = local_ball_y + world_pos_y;
+	
+	rect.x = world_ball_x;
+	rect.y = world_ball_y;
 
 	prev_mouse = mouse_pos_aux;
 }

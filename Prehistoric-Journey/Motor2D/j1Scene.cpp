@@ -108,7 +108,7 @@ bool j1Scene::Start()
 	menu->draggable = true;
 	test_ui = App->ui->CreateButton(50, 50, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
 	ui_el = App->ui->CreateLabel(15, 15, "HelloWorld", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", test_ui);
-	slider_ui = App->ui->CreateSlider(10, 10, { 550,209,222,45 }, { 694,160,37,37 }, menu);
+	slider_ui = App->ui->CreateSlider(-20, -20, { 550,209,222,45 }, { 694,160,37,37 }, menu);
 	
 
 
