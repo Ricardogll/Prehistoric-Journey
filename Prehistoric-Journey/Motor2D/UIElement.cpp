@@ -9,7 +9,7 @@ UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x
 {
 	
 	clickable = true;
-
+	visible = true;
 	
 
 	if (parent != nullptr)
@@ -45,6 +45,7 @@ void UIElement::Draw(SDL_Texture* texture)
 
 void UIElement::Update()
 {
+	
 
 	SetPositionWithParent();
 
@@ -87,6 +88,10 @@ void UIElement::SetPositionWithParent() {
 
 	prev_mouse = mouse_pos_aux;
 
+	if (parent != nullptr) {
+		if (!parent->visible)
+			visible = false;
+	}
 }
 
 
@@ -156,3 +161,5 @@ void UIElement::SetText(const char * text)
 {
 
 }
+
+

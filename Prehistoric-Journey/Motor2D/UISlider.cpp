@@ -81,6 +81,13 @@ void UISlider::Update() {
 
 	prev_mouse = mouse_pos_aux;
 
+	if (parent != nullptr) {
+		if (!parent->visible)
+			visible = false;
+	}
+
+
+
 	GetSliderValue(255);
 }
 

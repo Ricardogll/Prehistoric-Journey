@@ -51,7 +51,11 @@ private:
 	UIElement* ui_el;
 	UIElement* menu;
 	UIElement* window_ui;
-	UIElement* slider_ui;
+	
+
+	UIElement* menu_settings;
+	UIElement* music_slider_ui;
+	UIElement* music_label_ui;
 	
 
 };

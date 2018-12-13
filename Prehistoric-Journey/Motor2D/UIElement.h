@@ -31,6 +31,7 @@ public:
 	SDL_Rect rect = { 0,0,0,0 };
 	bool clickable = false;
 	bool draggable = false;
+	bool visible = false;
 	MouseState mouse_state = MouseState::NONE;
 	MouseState prev_mouse_state = MouseState::NONE;
 	iPoint prev_mouse = { 0,0 };
@@ -45,7 +46,7 @@ public:
 	_TTF_Font* current_font = nullptr;
 	UIElement* parent = nullptr;
 	iPoint mouse_drag = { 0,0 };
-
+	bool btn_clicked = false;
 
 
 public:
