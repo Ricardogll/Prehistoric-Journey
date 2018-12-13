@@ -57,6 +57,7 @@
     <mini_trex x="5504" y="-32" />
     <mini_trex x="6048" y="-32" />
     <mini_trex x="6336" y="-32" />
+    <chicken x="100" y="200"/>
 	
 	</spawns1>
 	<spawns2>
@@ -246,7 +247,7 @@
   
     <chicken>
 		  <animations>
-		  <idle speed="1" loop="true">
+		  <idle speed="15" loop="true">
 			<animation x="  0" y="0" w="28" h="75"/>
 			<animation x=" 28" y="0" w="28" h="75"/>
 			<animation x=" 56" y="0" w="28" h="75"/>
