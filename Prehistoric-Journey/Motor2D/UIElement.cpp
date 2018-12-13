@@ -90,7 +90,7 @@ void UIElement::SetPositionWithParent() {
 }
 
 
-MouseState UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click)
+void UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click)
 {
 	mouse_state = MouseState::NONE;
 
@@ -149,7 +149,7 @@ MouseState UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse
 	}
 	prev_mouse_state = mouse_state;
 
-	return mouse_state;
+	//return mouse_state;
 }
 
 void UIElement::SetText(const char * text)

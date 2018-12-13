@@ -11,7 +11,7 @@ public:
 	~UISlider();
 	void Draw(SDL_Texture* atlas);
 	void Update();
-	
+	float GetSliderValue(int max_value) const;
 
 private:
 	int world_ball_x = 0;

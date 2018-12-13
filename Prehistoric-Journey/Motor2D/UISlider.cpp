@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1UI.h"
 #include "j1Input.h"
+#include "p2Log.h"
 
 
 
@@ -62,6 +63,10 @@ void UISlider::Update() {
 		world_pos_y = local_pos_y + parent->world_pos_y;
 	}
 
+	if (local_ball_x > bar_rect.w - ball_rect.w)
+		local_ball_x = bar_rect.w - ball_rect.w;
+	else if (local_ball_x < 0)
+		local_ball_x = 0;
 
 	//rect.x = world_pos_x;
 	//rect.y = world_pos_y;
@@ -73,4 +78,19 @@ void UISlider::Update() {
 	rect.y = world_ball_y;
 
 	prev_mouse = mouse_pos_aux;
+
+	GetSliderValue(255);
+}
+
+
+float UISlider::GetSliderValue(int max_value) const{
+
+	if (bar_rect.w-ball_rect.w != 0) {
+		float value = ((float)world_ball_x - (float)world_pos_x) / ((float)bar_rect.w - (float)ball_rect.w); //value between 0 and 1 
+
+		LOG("Slider value: %f", value * max_value);
+		return value * max_value;
+	}
+	
+	return 0;
 }
