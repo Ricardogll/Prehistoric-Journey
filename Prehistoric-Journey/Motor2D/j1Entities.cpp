@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Bat.h"
 #include "MiniTrex.h"
+#include "Chicken.h"
 #include "Brofiler/Brofiler.h"
 
 
@@ -35,6 +36,10 @@ bool j1Entities::Awake(pugi::xml_node& config) {
 		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
 	}
 
+	for (aux_node = config.child("spawns1").child("chicken"); aux_node; aux_node = aux_node.next_sibling("chicken")) {
+
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::CHICKEN));
+	}
 
 	//Saving entities positions for map 2
 	for (aux_node = config.child("spawns2").child("bat"); aux_node; aux_node = aux_node.next_sibling("bat")) {
@@ -47,16 +52,17 @@ bool j1Entities::Awake(pugi::xml_node& config) {
 		to_create2.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::MINI_TREX));
 	}
 
-	
+	for (aux_node = config.child("spawns2").child("chicken"); aux_node; aux_node = aux_node.next_sibling("chicken")) {
+
+		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::CHICKEN));
+	}	
 
 	return true;
 }
 
 void j1Entities::SetEnemies(uint map) {
 
-
 	p2List_item<ToCreate>* item;
-
 
 	switch (map) {
 
@@ -73,6 +79,10 @@ void j1Entities::SetEnemies(uint map) {
 				break;
 			case EntityTypes::MINI_TREX:
 				SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
+
+				break;
+			case EntityTypes::CHICKEN:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::CHICKEN);
 
 				break;
 			default:
@@ -97,6 +107,10 @@ void j1Entities::SetEnemies(uint map) {
 				SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
 
 				break;
+			case EntityTypes::CHICKEN:
+				SpawnEntity(item->data.x, item->data.y, EntityTypes::CHICKEN);
+
+				break;
 			default:
 				break;
 			}
@@ -107,8 +121,6 @@ void j1Entities::SetEnemies(uint map) {
 		break;
 
 	}
-
-
 }
 
 
@@ -131,13 +143,14 @@ bool j1Entities::Start() {
 			SpawnEntity(item->data.x, item->data.y, EntityTypes::MINI_TREX);
 
 			break;
+		case EntityTypes::CHICKEN:
+			SpawnEntity(item->data.x, item->data.y, EntityTypes::CHICKEN);
+
+			break;
 		default:
 			break;
 		}
 	}
-
-	
-
 
 	return ret;
 }
@@ -146,40 +159,36 @@ bool j1Entities::PreUpdate() {
 	//do deletes if to_destroy
 	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::DeepPink)
 		
-		//https://stackoverflow.com/questions/25569985/sdl-invalid-texture-error-on-sdl-destroytexture TODO: Check if this is happening
-		for (uint i = 0u; i < entities.Count(); i++) {
-			
-			if (entities[i]->to_destroy) {
-				delete(entities[i]);
+	//https://stackoverflow.com/questions/25569985/sdl-invalid-texture-error-on-sdl-destroytexture TODO: Check if this is happening
+	for (uint i = 0u; i < entities.Count(); i++) {
+		
+		if (entities[i]->to_destroy) {
+			delete(entities[i]);
 
-				entities[i] = nullptr;
+			entities[i] = nullptr;
 
-				if (!entities.Delete(i)) 
-					return false;
+			if (!entities.Delete(i)) 
+				return false;
 
-			}
 		}
+	}
 	return true;
 }
 
 bool j1Entities::Update(float dt) {
 	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
-
 		
-			for (uint i = 0u; i < entities.Count(); i++) {
-				if (entities[i] != nullptr) {
-					entities[i]->Update(dt);
-				}
-			}
+	for (uint i = 0u; i < entities.Count(); i++) {
+		if (entities[i] != nullptr) {
+			entities[i]->Update(dt);
+		}
+	}
 		
-			for (uint i = 0u; i < entities.Count(); i++) {
-				if (entities[i] != nullptr) {
-					entities[i]->Draw();
-				}
-			}
-		
-			
-
+	for (uint i = 0u; i < entities.Count(); i++) {
+		if (entities[i] != nullptr) {
+			entities[i]->Draw();
+		}
+	}
 
 	return true;
 }
@@ -239,12 +248,6 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 		ret = true;
 		break;
 	}
-	case EntityTypes::TREX: {
-
-
-		ret = true;
-		break;
-	}
 	case EntityTypes::MINI_TREX: {
 
 		MiniTrex* mini_trex = new MiniTrex(x, y, config.child("entities"), EntityTypes::MINI_TREX);
@@ -253,16 +256,18 @@ bool j1Entities::SpawnEntity(int x, int y, EntityTypes type) {
 		ret = true;
 		break;
 	}
-	case EntityTypes::PTERODACTYL: {
-
-
-		ret = true;
-		break;
-	}
 	case EntityTypes::BAT: {
 
 		Bat* bat = new Bat(x, y, config.child("entities"), EntityTypes::BAT);
 		entities.PushBack(bat);
+
+		ret = true;
+		break;
+	}
+	case EntityTypes::CHICKEN: {
+
+		Chicken* chicken = new Chicken(x, y, config.child("entities"), EntityTypes::CHICKEN);
+		entities.PushBack(chicken);
 
 		ret = true;
 		break;
@@ -301,13 +306,6 @@ Player* j1Entities::GetPlayer() const {
 
 bool j1Entities::Load(pugi::xml_node& entity_node) {
 
-
-	//for (uint i = 0; i < entities.Count(); i++) {
-	//	if (entities[i] != nullptr) {
-	//		entities[i]->Load(entity_node);
-	//	}
-	//}
-
 	for (uint i = 0; i < entities.Count(); i++) {
 		if (entities[i] != nullptr && entities[i]->type != EntityTypes::PLAYER) {
 			entities[i]->to_destroy = true;
@@ -330,12 +328,16 @@ bool j1Entities::Load(pugi::xml_node& entity_node) {
 			SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::BAT);
 	}
 
+	for (pugi::xml_node aux = entity_node.child("chicken"); aux; aux = aux.next_sibling("chicken")) {
+		dead_aux = aux.child("position").attribute("dead").as_bool();
+		if (!dead_aux)
+			SpawnEntity(aux.child("position").attribute("x").as_int(), aux.child("position").attribute("y").as_int(), EntityTypes::CHICKEN);
+	}
+
 	return true; 
 }
 
 bool j1Entities::Save(pugi::xml_node& entity_node) const {
-	/*if (GetPlayer() != nullptr)
-		GetPlayer()->Save(entity_node);*/
 
 	for (uint i = 0; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {

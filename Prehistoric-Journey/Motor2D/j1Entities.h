@@ -13,10 +13,9 @@ struct SDL_Texture;
 enum class EntityTypes
 {
 	PLAYER,
-	TREX,
 	MINI_TREX,
-	PTERODACTYL,
 	BAT,
+	CHICKEN,
 	UNKNOWN
 };
 

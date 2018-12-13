@@ -99,7 +99,11 @@ fPoint Entity::SpeedNeededFromTo(iPoint& from, iPoint& to) const
 		 break;
 
 	 case EntityTypes::MINI_TREX:
-		  aux = entity_node.append_child("mini-tyranosaur");
+		 aux = entity_node.append_child("mini-tyranosaur");
+		 break;
+
+	 case EntityTypes::CHICKEN:
+		 aux = entity_node.append_child("chicken");
 		 break;
 
 	 case EntityTypes::PLAYER:

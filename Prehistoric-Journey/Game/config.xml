@@ -150,34 +150,6 @@
     </animations>
   </player>
   
-    <pterodactyl location="textures/pterodactyl.png">
-      <fly speed="0.08" loop="true">
-        <animation x=" 18" y=" 38" w="104" h="75"/>
-        <animation x="144" y=" 38" w="104" h="75"/>
-        <animation x="270" y=" 38" w="104" h="75"/>
-        <animation x="396" y=" 38" w="104" h="75"/>
-        <animation x=" 18" y="152" w="104" h="75"/>
-      </fly>
-      <attack speed="0.05" loop="false">
-        <animation x="149" y="113" w="86" h="99"/>
-        <animation x="274" y="113" w="86" h="99"/>
-        <animation x="412" y="113" w="86" h="99"/>
-        <animation x=" 22" y="240" w="86" h="99"/>
-      </attack>
-      <hit speed="0.05" loop="false">
-        <animation x="128" y="250" w="112" h="63"/>
-        <animation x="252" y="250" w="112" h="63"/>
-      </hit>
-      <death speed="0.08" loop="true">
-        <animation x="412" y="256" w="79" h="71"/>
-        <animation x=" 34" y="370" w="79" h="71"/>
-        <animation x="160" y="370" w="79" h="71"/>
-        <animation x="286" y="370" w="79" h="71"/>
-      </death>
-      <deathidle>
-        <animation x="387" y="413" w="110" h="19"/>
-      </deathidle>
-    </pterodactyl>
     <mini-tyranosaur>
       <animations>
       <idle speed="10" loop="true">
@@ -228,6 +200,7 @@
 	  <navigation_floor_dist value="2.0"/>
       </variables>
     </mini-tyranosaur>
+  
     <bat>
 		<animations>
 		  <fly speed="8" loop="true">
@@ -270,42 +243,36 @@
 	  <navigation_floor_dist value="2.0"/>
 		</variables>
     </bat>
-    <tyranosaur location="textures/tyranosaur.png">
-      <idle speed="0.05" loop="true">
-        <animation x=" 24" y="30" w="116" h="70"/>
-        <animation x="175" y="30" w="116" h="70"/>
-        <animation x="326" y="30" w="116" h="70"/>
-        <animation x="477" y="30" w="116" h="70"/>
-        <animation x="628" y="30" w="116" h="70"/>
-        <animation x="779" y="30" w="116" h="70"/>
-      </idle>
-      <walk speed="0.08" loop="true">
-        <animation x=" 24" y="129" w="117" h="76"/>
-        <animation x="175" y="129" w="117" h="76"/>
-        <animation x="326" y="129" w="117" h="76"/>
-        <animation x="477" y="129" w="117" h="76"/>
-        <animation x="628" y="129" w="117" h="76"/>
-        <animation x="779" y="129" w="117" h="76"/>
-        <animation x=" 24" y="234" w="117" h="76"/>
-        <animation x="175" y="234" w="117" h="76"/>
-      </walk>
-      <attack speed="0.05" loop="false">
-        <animation x="307" y="215" w="141" h="95"/>
-        <animation x="458" y="215" w="141" h="95"/>
-        <animation x="609" y="215" w="141" h="95"/>
-        <animation x="760" y="215" w="141" h="95"/>
-        <animation x="  5" y="320" w="141" h="95"/>
-      </attack>
-      <hit speed="0.05" loop="false">
-        <animation x="175" y="320" w="118" h="95"/>
-        <animation x="326" y="320" w="118" h="95"/>
-      </hit>
-      <death speed="0.08" loop="false">
-        <animation x="466" y="347" w="129" h="68"/>
-        <animation x="617" y="347" w="129" h="68"/>
-        <animation x="768" y="347" w="129" h="68"/>
-      </death>
-    </tyranosaur>
+  
+    <chicken>
+		  <animations>
+		  <idle speed="1" loop="true">
+			<animation x="  0" y="0" w="28" h="75"/>
+			<animation x=" 28" y="0" w="28" h="75"/>
+			<animation x=" 56" y="0" w="28" h="75"/>
+			<animation x=" 84" y="0" w="28" h="75"/>
+			<animation x="112" y="0" w="28" h="75"/>
+      <animation x="140" y="0" w="28" h="75"/>
+      <animation x="168" y="0" w="28" h="75"/>
+      <animation x="196" y="0" w="28" h="75"/>
+      <animation x="224" y="0" w="28" h="75"/>
+      <animation x="224" y="0" w="28" h="75"/>
+      <animation x="196" y="0" w="28" h="75"/>
+      <animation x="140" y="0" w="28" h="75"/>
+      <animation x="112" y="0" w="28" h="75"/>
+      <animation x=" 84" y="0" w="28" h="75"/>
+      <animation x=" 56" y="0" w="28" h="75"/>
+      <animation x=" 28" y="0" w="28" h="75"/>        
+      <animation x="  0" y="0" w="28" h="75"/> 
+		  </idle>
+	    </animations>
+		<variables>
+			<spritesheet location="textures/chicken.png"/>
+			<collider_offset x="0" y="10" />
+			<collider_dimensions x="28" y="50" />
+      <sounds death_location="audio/fx/bat_death.wav"/>
+		</variables>
+    </chicken>
   
   </entities>
 </config>
