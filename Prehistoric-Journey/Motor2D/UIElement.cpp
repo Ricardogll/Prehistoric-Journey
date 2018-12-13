@@ -5,10 +5,25 @@
 #include "p2Log.h"
 #include "j1Render.h"
 
-UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x(x), local_pos_y(y), type(type)
+UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x(x), local_pos_y(y), type(type), parent(parent)
 {
+	
 	clickable = true;
-	draggable = true;
+
+	
+
+	if (parent != nullptr)
+	{
+		world_pos_x = parent->local_pos_x + x;
+		world_pos_y = parent->local_pos_y + y;	
+	}
+	else
+	{
+		world_pos_x = x;
+		world_pos_y = y;
+	}
+
+	
 }
 
 UIElement::~UIElement()
@@ -16,7 +31,7 @@ UIElement::~UIElement()
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 	parent = nullptr;
-	App->font->Unload(current_font);
+	//App->font->Unload(current_font);
 	current_font = nullptr;
 }
 
@@ -30,8 +45,16 @@ void UIElement::Draw(SDL_Texture* texture)
 
 void UIElement::Update()
 {
+
+	SetPositionWithParent();
+
+}
+
+void UIElement::SetPositionWithParent() {
+
 	iPoint mouse_pos_aux;
 	App->input->GetMousePosition(mouse_pos_aux.x, mouse_pos_aux.y);
+
 
 	if (mouse_state == MouseState::REPEAT_CLICK && draggable) {
 
@@ -54,14 +77,19 @@ void UIElement::Update()
 	}
 	else
 	{
+
 		world_pos_x = local_pos_x + parent->world_pos_x;
 		world_pos_y = local_pos_y + parent->world_pos_y;
 	}
+
+
 	rect.x = world_pos_x;
 	rect.y = world_pos_y;
 
 	prev_mouse = mouse_pos_aux;
+
 }
+
 
 MouseState UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click)
 {

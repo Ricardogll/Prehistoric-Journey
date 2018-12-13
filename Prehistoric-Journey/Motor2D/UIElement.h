@@ -58,6 +58,7 @@ public:
 	virtual void Draw(SDL_Texture* texture);
 	virtual void Update();
 	MouseState CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click);
+	void SetPositionWithParent();
 	virtual void SetText(const char * text);
 
 

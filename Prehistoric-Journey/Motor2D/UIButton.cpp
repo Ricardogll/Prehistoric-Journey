@@ -4,23 +4,23 @@
 #include "j1UI.h"
 //#include "p2Log.h"
 
-UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent) :UIElement(local_pos_x, local_pos_y, BUTTON)
+UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent) :UIElement(x, y, BUTTON, parent)
 {
 	img_rect = rect;
 	basic_rect = rect;
 	hovering_rect = hovering;
 	clicked_rect = clicked;
-	if (parent != nullptr)
-	{
-		local_pos_x = parent->local_pos_x + x;
-		local_pos_y = parent->local_pos_y + y;
-	}
-	else
-	{
-		local_pos_x = x;
-		local_pos_y = y;
-	}
-	this->rect = { local_pos_x,local_pos_y,rect.w,rect.h };
+	//if (parent != nullptr)
+	//{
+	//	local_pos_x = parent->local_pos_x + x;
+	//	local_pos_y = parent->local_pos_y + y;
+	//}
+	//else
+	//{
+	//	local_pos_x = x;
+	//	local_pos_y = y;
+	//}
+	this->rect = { world_pos_x,world_pos_y,rect.w,rect.h };
 
 }
 
@@ -51,11 +51,14 @@ void UIButton::Update() {
 	if (mouse_state == MouseState::DOWN_CLICK)
 		OnClick();
 
+
+	SetPositionWithParent();
+
 }
 
 void UIButton::Draw(SDL_Texture* atlas) {
 
-	App->render->Blit(atlas, local_pos_x, local_pos_y, &img_rect);
+	App->render->Blit(atlas, world_pos_x, world_pos_y, &img_rect);
 
 }
 

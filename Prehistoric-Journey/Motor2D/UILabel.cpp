@@ -5,24 +5,24 @@
 #include "j1Textures.h"
 
 
-UILabel::UILabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent) :UIElement(x, y, LABEL)
+UILabel::UILabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent) :UIElement(x, y, LABEL, parent)
 {
 
 	this->text = text;
 	this->color = color;
 
-	if (parent != nullptr)
-	{
-		local_pos_x = parent->local_pos_x + x;
-		local_pos_y = parent->local_pos_y + y;
-	}
-	else
-	{
-		local_pos_x = x;
-		local_pos_y = y;
-	}
+	//if (parent != nullptr)
+	//{
+	//	local_pos_x = parent->local_pos_x + x;
+	//	local_pos_y = parent->local_pos_y + y;
+	//}
+	//else
+	//{
+	//	local_pos_x = x;
+	//	local_pos_y = y;
+	//}
 
-	this->rect = { local_pos_x,local_pos_y,rect.w,rect.h };
+	this->rect = { world_pos_x,world_pos_y,0,0 };
 
 	_TTF_Font* newFont = App->font->Load(font, size);
 	current_font = newFont;

@@ -3,22 +3,22 @@
 #include "j1Render.h"
 #include "j1UI.h"
 
-UIImage::UIImage(int x, int y, SDL_Rect rect, UIElement* parent) :UIElement(x, y, IMAGE)
+UIImage::UIImage(int x, int y, SDL_Rect rect, UIElement* parent) :UIElement(x, y, IMAGE, parent)
 {
 	img_rect = rect;
 
-	if (parent != nullptr)
-	{
-		local_pos_x = parent->local_pos_x + x;
-		local_pos_y = parent->local_pos_y + y;
-	}
-	else
-	{
-		local_pos_x = x;
-		local_pos_y = y;
-	}
+	//if (parent != nullptr)
+	//{
+	//	local_pos_x = parent->local_pos_x + x;
+	//	local_pos_y = parent->local_pos_y + y;
+	//}
+	//else
+	//{
+	//	local_pos_x = x;
+	//	local_pos_y = y;
+	//}
 
-	this->rect = { local_pos_x,local_pos_y,rect.w,rect.h };
+	this->rect = { world_pos_x,world_pos_y,rect.w,rect.h };
 }
 
 UIImage::~UIImage()
