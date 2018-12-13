@@ -57,7 +57,7 @@ private:
 	UIElement* menu_settings_label;
 	UIElement* menu_credits_label;
 	UIElement* menu_exit_label;
-	UIElement* menu_play_label;
+	UIElement* menu_play_label;   
 	UIElement* menu;
 	UIElement* window_ui;
 	
@@ -65,8 +65,10 @@ private:
 	UIElement* menu_settings;
 	UIElement* music_slider_ui;
 	UIElement* music_label_ui;
-	
+	UIElement* menu_settings_back_btn;
 
+	UIElement* menu_credits;
+	UIElement* menu_credits_back_btn;
 };
 
 #endif // __j1SCENE_H__

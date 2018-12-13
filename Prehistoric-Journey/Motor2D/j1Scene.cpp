@@ -145,8 +145,12 @@ bool j1Scene::Start()
 	menu_settings->visible = false;
 	music_label_ui = App->ui->CreateLabel(50, 75, "Music", 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
 	music_slider_ui = App->ui->CreateSlider(0,40, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
-	
 
+	menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
+	
+	menu_credits = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+	menu_credits->visible = false;
+	menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
 
 	return true;
 }
@@ -335,9 +339,51 @@ bool j1Scene::Update(float dt)
 		menu_settings->visible = true;
 		music_label_ui->visible = true;
 		music_slider_ui->visible = true;
+		menu_settings_back_btn->visible = true;
 		menu->visible = false;
 	}
 
+	if (menu_settings_back_btn->btn_clicked)
+	{
+		menu->visible = true;
+		continue_btn->visible = true;
+		settings_btn->visible = true;
+		credits_btn->visible = true;
+		exit_btn->visible = true;
+		play_btn->visible = true;
+		menu_title_label->visible = true;
+		menu_continue_label->visible = true;
+		menu_settings_label->visible = true;
+		menu_credits_label->visible = true;
+		menu_exit_label->visible = true;
+		menu_play_label->visible = true;
+		menu_settings->visible = false;
+	}
+
+	if (credits_btn->btn_clicked)
+	{
+
+		menu_credits->visible = true;
+		menu_credits_back_btn->visible = true;
+		menu->visible = false;
+	}
+
+	if (menu_credits_back_btn->btn_clicked)
+	{
+		menu->visible = true;
+		continue_btn->visible = true;
+		settings_btn->visible = true;
+		credits_btn->visible = true;
+		exit_btn->visible = true;
+		play_btn->visible = true;
+		menu_title_label->visible = true;
+		menu_continue_label->visible = true;
+		menu_settings_label->visible = true;
+		menu_credits_label->visible = true;
+		menu_exit_label->visible = true;
+		menu_play_label->visible = true;
+		menu_credits->visible = false;
+	}
 
 	App->map->Draw();
 	
@@ -350,7 +396,7 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || exit_btn->btn_clicked)
 		ret = false;
 
 

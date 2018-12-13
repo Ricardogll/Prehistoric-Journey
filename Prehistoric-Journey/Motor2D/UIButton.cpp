@@ -50,7 +50,7 @@ void UIButton::Update() {
 
 
 
-	if (mouse_state == MouseState::DOWN_CLICK)
+	if (mouse_state == MouseState::UP_CLICK)
 		btn_clicked = true;
 
 
