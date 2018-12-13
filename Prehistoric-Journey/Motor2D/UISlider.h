@@ -12,6 +12,7 @@ public:
 	void Draw(SDL_Texture* atlas);
 	void Update();
 	float GetSliderValue(int max_value) const;
+	void SetSliderValue(int value, int max_value);
 
 private:
 	int world_ball_x = 0;

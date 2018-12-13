@@ -30,6 +30,8 @@ UIButton::~UIButton()
 
 void UIButton::Update() {
 
+	btn_clicked = false;
+
 	switch (mouse_state) {
 
 	case MouseState::DOWN_CLICK:
@@ -49,7 +51,7 @@ void UIButton::Update() {
 
 
 	if (mouse_state == MouseState::DOWN_CLICK)
-		OnClick();
+		btn_clicked = true;
 
 
 	SetPositionWithParent();
@@ -62,8 +64,3 @@ void UIButton::Draw(SDL_Texture* atlas) {
 
 }
 
-void UIButton::OnClick() {
-
-	//LOG("BUTTON CLICKED");
-
-}

@@ -103,12 +103,16 @@ bool j1Scene::Start()
 	RELEASE_ARRAY(data);
 
 	window_ui = new UIElement(App->render->camera.x, 0, WINDOW);
-
+	window_ui->visible = false;
 	menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 	//menu->draggable = true;
 	test_ui = App->ui->CreateButton(50, 50, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
 	ui_el = App->ui->CreateLabel(15, 15, "HelloWorld", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", test_ui);
-	slider_ui = App->ui->CreateSlider(50, 200, { 550,209,222,45 }, { 694,160,37,37 }, menu);
+
+	menu_settings = App->ui->CreateImage(0, 65, { 0, 0, 549, 474 }, window_ui);
+	menu_settings->visible = false;
+	music_label_ui = App->ui->CreateLabel(50, 75, "Music", 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
+	music_slider_ui = App->ui->CreateSlider(0,40, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
 	
 
 
@@ -134,6 +138,10 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
 		App->audio->DecreaseVolumeMusic();
 		App->audio->DecreaseVolumeFx();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		pause = !pause;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
@@ -286,9 +294,18 @@ bool j1Scene::Update(float dt)
 		App->fade->FadeToBlack(this, this, 2.0f);
 	}
 
-
+	//UI
 	window_ui->world_pos_x = -App->render->camera.x;
 	
+	if (test_ui->btn_clicked)
+	{
+		
+		menu_settings->visible = true;
+		music_label_ui->visible = true;
+		music_slider_ui->visible = true;
+		menu->visible = false;
+	}
+
 
 	App->map->Draw();
 	

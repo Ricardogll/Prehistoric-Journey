@@ -72,8 +72,10 @@ bool j1UI::Update(float dt)
 
 	for (uint i = 0u; i < ui_elements.Count(); i++) {
 		if (ui_elements[i] != nullptr) {
-			ui_elements[i]->CheckMouseState(mouse_x, mouse_y, mouse_click);
-			ui_elements[i]->Update();
+			if (ui_elements[i]->visible) {
+				ui_elements[i]->CheckMouseState(mouse_x, mouse_y, mouse_click);
+				ui_elements[i]->Update();
+			}
 		}
 	}
 
@@ -89,11 +91,13 @@ bool j1UI::PostUpdate()
 
 	for (uint i = 0u; i < ui_elements.Count(); i++) {
 		if (ui_elements[i] != nullptr) {
-			ui_elements[i]->Draw(atlas);
+			if (ui_elements[i]->visible) {
+				ui_elements[i]->Draw(atlas);
 
-			if (debug)
-				App->render->DrawQuad({ ui_elements[i]->world_pos_x, ui_elements[i]->world_pos_y, ui_elements[i]->rect.w, ui_elements[i]->rect.h }, 255, 0, 0, 255, false);
+				if (debug)
+					App->render->DrawQuad({ ui_elements[i]->world_pos_x, ui_elements[i]->world_pos_y, ui_elements[i]->rect.w, ui_elements[i]->rect.h }, 255, 0, 0, 255, false);
 
+			}
 		}
 	}
 

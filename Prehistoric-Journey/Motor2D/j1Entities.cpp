@@ -4,6 +4,7 @@
 #include "p2Log.h"
 #include "Player.h"
 #include "Bat.h"
+#include "j1Scene.h"
 #include "MiniTrex.h"
 #include "Chicken.h"
 #include "Brofiler/Brofiler.h"
@@ -177,7 +178,10 @@ bool j1Entities::PreUpdate() {
 
 bool j1Entities::Update(float dt) {
 	BROFILER_CATEGORY("Update Entities", Profiler::Color::MediumSpringGreen)
-		
+	
+	if (App->scene->pause)
+		dt = 0;
+
 	for (uint i = 0u; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
 			entities[i]->Update(dt);

@@ -17,6 +17,8 @@ UISlider::UISlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
 	world_ball_x = world_pos_x;
 	world_ball_y = world_pos_y + bar_rect.h / 2 - ball_rect.h / 2;
 	this->rect = { world_ball_x,world_ball_y,ball_rect.w,ball_rect.h };
+
+	SetSliderValue(123, 255);
 }
 
 UISlider::~UISlider() {
@@ -79,6 +81,13 @@ void UISlider::Update() {
 
 	prev_mouse = mouse_pos_aux;
 
+	if (parent != nullptr) {
+		if (!parent->visible)
+			visible = false;
+	}
+
+
+
 	GetSliderValue(255);
 }
 
@@ -93,4 +102,11 @@ float UISlider::GetSliderValue(int max_value) const{
 	}
 	
 	return 0;
+}
+
+
+void UISlider::SetSliderValue(int value, int max_value) {
+
+	local_ball_x = ((float)value / (float)max_value) * (bar_rect.w - ball_rect.w);
+
 }
