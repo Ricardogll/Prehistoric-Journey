@@ -44,7 +44,7 @@ public:
 	CurrentMap curr_map = NO_MAP;
 	p2SString music_map1;
 	p2SString music_map2;
-	
+	bool pause = false;
 private:
 	bool is_fade = false;
 	UIElement* test_ui;
