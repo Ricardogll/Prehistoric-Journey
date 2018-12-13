@@ -29,11 +29,29 @@ j1Scene::~j1Scene()
 	window_ui->~UIElement();
 	window_ui = nullptr;
 
-	test_ui->~UIElement();
-	test_ui = nullptr;
+	continue_btn->~UIElement();
+	continue_btn = nullptr;
+	settings_btn->~UIElement();
+	settings_btn = nullptr;
+	credits_btn->~UIElement();
+	credits_btn = nullptr;
+	exit_btn->~UIElement();
+	exit_btn = nullptr;
+	play_btn->~UIElement();
+	play_btn = nullptr;
 
-	ui_el->~UIElement();
-	ui_el = nullptr;
+	menu_title_label->~UIElement();
+	menu_title_label = nullptr;
+	menu_continue_label->~UIElement();
+	menu_continue_label = nullptr;
+	menu_settings_label->~UIElement();
+	menu_settings_label = nullptr;
+	menu_credits_label->~UIElement();
+	menu_credits_label = nullptr;
+	menu_exit_label->~UIElement();
+	menu_exit_label = nullptr;
+	menu_play_label->~UIElement();
+	menu_play_label = nullptr;
 
 	menu->~UIElement();
 	menu = nullptr;
@@ -103,13 +121,27 @@ bool j1Scene::Start()
 	RELEASE_ARRAY(data);
 
 	window_ui = new UIElement(App->render->camera.x, 0, WINDOW);
-	window_ui->visible = false;
+	window_ui->visible = true;
 	menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 	//menu->draggable = true;
-	test_ui = App->ui->CreateButton(50, 50, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	ui_el = App->ui->CreateLabel(15, 15, "HelloWorld", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", test_ui);
+	menu_title_label = App->ui->CreateLabel(85, 50, "Prehistoric Journey", 32, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", menu);
 
-	menu_settings = App->ui->CreateImage(0, 65, { 0, 0, 549, 474 }, window_ui);
+	continue_btn = App->ui->CreateButton(50, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
+
+	settings_btn = App->ui->CreateButton(305, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	menu_settings_label = App->ui->CreateLabel(55, 13, "Settings", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", settings_btn);
+
+	credits_btn = App->ui->CreateButton(50, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	menu_credits_label = App->ui->CreateLabel(55, 13, "Credits", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", credits_btn);
+
+	exit_btn = App->ui->CreateButton(305, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	menu_exit_label = App->ui->CreateLabel(80, 13, "Exit", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", exit_btn);
+
+	play_btn = App->ui->CreateButton(180, 350, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+	menu_play_label = App->ui->CreateLabel(75, 13, "Play", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", play_btn);
+
+	menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 	menu_settings->visible = false;
 	music_label_ui = App->ui->CreateLabel(50, 75, "Music", 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
 	music_slider_ui = App->ui->CreateSlider(0,40, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
@@ -297,7 +329,7 @@ bool j1Scene::Update(float dt)
 	//UI
 	window_ui->world_pos_x = -App->render->camera.x;
 	
-	if (test_ui->btn_clicked)
+	if (settings_btn->btn_clicked)
 	{
 		
 		menu_settings->visible = true;

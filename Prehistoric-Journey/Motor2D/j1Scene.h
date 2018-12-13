@@ -47,8 +47,17 @@ public:
 	bool pause = false;
 private:
 	bool is_fade = false;
-	UIElement* test_ui;
-	UIElement* ui_el;
+	UIElement* continue_btn;
+	UIElement* settings_btn;
+	UIElement* credits_btn;
+	UIElement* exit_btn;
+	UIElement* play_btn;
+	UIElement* menu_title_label;
+	UIElement* menu_continue_label;
+	UIElement* menu_settings_label;
+	UIElement* menu_credits_label;
+	UIElement* menu_exit_label;
+	UIElement* menu_play_label;
 	UIElement* menu;
 	UIElement* window_ui;
 	
