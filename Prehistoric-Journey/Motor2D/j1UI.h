@@ -20,7 +20,7 @@ enum UIType {
 	BUTTON,
 	IMAGE,
 	WINDOW,
-	CHECKBOX,
+	SLIDER,
 	NONE_UI
 
 };
@@ -61,6 +61,7 @@ public:
 	UIElement* CreateImage(int x, int y, SDL_Rect rect, UIElement* parent = nullptr);
 	//UIElement* CreateImageNoAtlas(int x, int y, SDL_Rect rect, SDL_Texture* tex);
 	UIElement* CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent = nullptr);
+	UIElement* CreateSlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent = nullptr);
 
 	const SDL_Texture* GetAtlas() const;
 

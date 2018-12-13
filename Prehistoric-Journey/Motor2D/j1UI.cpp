@@ -9,7 +9,7 @@
 #include "UIImage.h"
 #include "UILabel.h"
 #include "UIButton.h"
-
+#include "UISlider.h"
 
 
 j1UI::j1UI() : j1Module()
@@ -178,6 +178,14 @@ UIElement * j1UI::CreateImage(int x, int y, SDL_Rect rect, UIElement* parent)
 UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent)
 {
 	UIElement* aux = new UIButton(x, y, rect, hovering, clicked, parent);
+	ui_elements.PushBack(aux);
+
+	return aux;
+}
+
+UIElement* j1UI:: CreateSlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
+{
+	UIElement* aux = new UISlider(x, y, bar, ball, parent);
 	ui_elements.PushBack(aux);
 
 	return aux;

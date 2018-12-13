@@ -51,6 +51,7 @@ private:
 	UIElement* ui_el;
 	UIElement* menu;
 	UIElement* window_ui;
+	UIElement* slider_ui;
 	
 
 };
