@@ -271,7 +271,7 @@
 			<spritesheet location="textures/chicken.png"/>
 			<collider_offset x="0" y="10" />
 			<collider_dimensions x="28" y="50" />
-      <sounds death_location="audio/fx/bat_death.wav"/>
+      <sounds death_location="audio/fx/pick_up.wav"/>
 		</variables>
     </chicken>
   
