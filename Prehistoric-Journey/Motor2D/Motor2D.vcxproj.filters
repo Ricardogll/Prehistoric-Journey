@@ -84,9 +84,12 @@
     </ClCompile>
     <ClCompile Include="UISlider.cpp">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Chicken.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="j1MainMenu.cpp">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +197,12 @@
     </ClInclude>
     <ClInclude Include="UISlider.h">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Chicken.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1MainMenu.h">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
