@@ -42,7 +42,7 @@ public:
 
 	SDL_Texture* texture = nullptr;
 	SDL_Rect img_rect = { 0,0,0,0 };
-	const char* text;
+	p2SString text;
 	_TTF_Font* current_font = nullptr;
 	UIElement* parent = nullptr;
 	iPoint mouse_drag = { 0,0 };

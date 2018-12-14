@@ -7,7 +7,7 @@
 class UILabel : public UIElement {
 
 public:
-	UILabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent);
+	UILabel(int x, int y, const char* text, int width, int size, SDL_Color color, const char* font, UIElement* parent);
 	~UILabel();
 
 	void SetText(const char* text);

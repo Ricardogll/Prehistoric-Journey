@@ -150,10 +150,10 @@ void j1UI::DeleteUIElements() {
 
 }
 
-UIElement* j1UI::CreateLabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent)
+UIElement* j1UI::CreateLabel(int x, int y,  const char* text, int width, int size, SDL_Color color, const char* font, UIElement* parent)
 {
 
-	UIElement* aux = new UILabel(x, y, text, size, color, font, parent);
+	UIElement* aux = new UILabel(x, y, text, width, size, color, font, parent);
 
 
 	ui_elements.PushBack(aux);

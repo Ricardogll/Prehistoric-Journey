@@ -5,7 +5,7 @@
 #include "j1Textures.h"
 
 
-UILabel::UILabel(int x, int y, const char* text, int size, SDL_Color color, const char* font, UIElement* parent) :UIElement(x, y, LABEL, parent)
+UILabel::UILabel(int x, int y, const char* text, int width, int size,  SDL_Color color, const char* font, UIElement* parent) :UIElement(x, y, LABEL, parent)
 {
 
 	this->text = text;
@@ -28,7 +28,10 @@ UILabel::UILabel(int x, int y, const char* text, int size, SDL_Color color, cons
 	current_font = newFont;
 	App->font->CalcSize(text, rect.w, rect.h, newFont);
 
-	texture = App->font->Print(text, color, newFont);
+	if(width < 0)
+		texture = App->font->Print(text, color, newFont);
+	else
+		texture = App->font->PrintMultiLine(text, width, color, newFont);
 
 	/*App->font->Unload(newFont);
 	newFont = nullptr;*/
@@ -45,6 +48,7 @@ UILabel::~UILabel()
 void UILabel::Draw(SDL_Texture* atlas) {
 
 	App->render->Blit(texture, world_pos_x, world_pos_y);
+	
 	
 
 }
