@@ -152,6 +152,29 @@ bool j1Scene::Start()
 	menu_credits->visible = false;
 	menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
 
+
+	//HUD
+	switch (App->entities->lifes)
+	{
+	case 3:
+		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
+		life2 = App->ui->CreateImage( 65, 10, { 550,254,43,39 }, window_ui);
+		life3 = App->ui->CreateImage(115, 10, { 550,254,43,39 }, window_ui);
+		break;
+	case 2:
+		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
+		life2 = App->ui->CreateImage( 65, 10, { 550,254,43,39 }, window_ui);
+		life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
+		break;
+	case 1:
+		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
+		life2 = App->ui->CreateImage( 65, 10, { 593,254,43,39 }, window_ui);
+		life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
+		break;
+	}
+
+	chickens = App->ui->CreateImage(350, 10, { 636,254,43,39 }, window_ui);
+
 	return true;
 }
 

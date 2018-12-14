@@ -69,6 +69,11 @@ private:
 
 	UIElement* menu_credits;
 	UIElement* menu_credits_back_btn;
+
+	UIElement* life1;
+	UIElement* life2;
+	UIElement* life3;
+	UIElement* chickens;
 };
 
 #endif // __j1SCENE_H__
