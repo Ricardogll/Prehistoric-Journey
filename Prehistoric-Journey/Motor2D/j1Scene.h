@@ -2,6 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 class UIElement;
@@ -47,6 +48,7 @@ public:
 	bool pause = false;
 	int score = 100;
 	int c_score = 0;
+	j1Timer timer;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;
@@ -77,10 +79,13 @@ private:
 	UIElement* life3;
 
 	UIElement* chickens;
-	UIElement* chickens_number;
+	UIElement* chickens_numbers;
 
 	UIElement* score_label;
 	UIElement* score_numbers;
+
+	UIElement* timer_label;
+	UIElement* timer_numbers;
 };
 
 #endif // __j1SCENE_H__

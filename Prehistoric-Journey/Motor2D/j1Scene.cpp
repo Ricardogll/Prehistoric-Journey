@@ -172,11 +172,14 @@ bool j1Scene::Start()
 		break;
 	}
 
-	chickens = App->ui->CreateImage(350, 10, { 636,254,43,39 }, window_ui);
-	chickens_number = App->ui->CreateLabel(405, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+	chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
+	chickens_numbers = App->ui->CreateLabel(425, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
-	score_label = App->ui->CreateLabel(500, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-	score_numbers = App->ui->CreateLabel(595, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+	score_label = App->ui->CreateLabel(520, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+	score_numbers = App->ui->CreateLabel(615, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+
+	timer_label = App->ui->CreateLabel(905, 20, "Time:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+	timer_numbers = App->ui->CreateLabel(975, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 	return true;
 }
@@ -206,8 +209,13 @@ bool j1Scene::Update(float dt)
 
 	std::string s3 = std::to_string(c_score);
 	p2SString s4 = s3.c_str();
-	App->font->CalcSize(s4.GetString(), chickens_number->img_rect.w, chickens_number->img_rect.h, App->font->default);
-	chickens_number->UpdateText(App->font->Print(s4.GetString(), { 255,255,255,255 }, App->font->default));
+	App->font->CalcSize(s4.GetString(), chickens_numbers->img_rect.w, chickens_numbers->img_rect.h, App->font->default);
+	chickens_numbers->UpdateText(App->font->Print(s4.GetString(), { 255,255,255,255 }, App->font->default));
+
+	std::string s5 = std::to_string((int)timer.ReadSec());
+	p2SString s6 = s5.c_str();
+	App->font->CalcSize(s6.GetString(), timer_numbers->img_rect.w, timer_numbers->img_rect.h, App->font->default);
+	timer_numbers->UpdateText(App->font->Print(s6.GetString(), { 255,255,255,255 }, App->font->default));
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->RaiseVolumeMusic();
