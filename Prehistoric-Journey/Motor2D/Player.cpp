@@ -101,297 +101,300 @@ void Player::Update(float dt)
 {
 	dt_current = dt;
 
-
-	App->render->camera.x = -position.x - player_rect.w / 2 + App->win->width / 2;
-	if (App->render->camera.x > start_map)
-		App->render->camera.x = start_map;
-	if (App->render->camera.x < limit_map)
-		App->render->camera.x = limit_map;
-
-
 	AnimationsApplyDt();
 
-	if (dt_current != 0) {
+	if (!App->scene->on_main_menu) {
 
-		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-			god_mode = !god_mode;
-
-		if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
-			if (App->map->debug_camera_culling == 0)
-				App->map->debug_camera_culling = 1;
-			else
-				App->map->debug_camera_culling = 0;
-		}
+		App->render->camera.x = -position.x - player_rect.w / 2 + App->win->width / 2;
+		if (App->render->camera.x > start_map)
+			App->render->camera.x = start_map;
+		if (App->render->camera.x < limit_map)
+			App->render->camera.x = limit_map;
 
 
-		key_w_pressed = false;
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		{
-			key_w_pressed = true;
-		}
+		
 
-		if (colliding_with_liana == false) {
+		if (dt_current != 0) {
 
-			on_liana = false;
-		}
-		if (on_liana) {
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
-			{
-				state = LIANA_IDLE;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
-			{
-				state = LIANA_IDLE;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
-			{
-				state = LIANA_IDLE;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
-			{
-				state = LIANA_IDLE;
+			if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+				god_mode = !god_mode;
+
+			if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+				if (App->map->debug_camera_culling == 0)
+					App->map->debug_camera_culling = 1;
+				else
+					App->map->debug_camera_culling = 0;
 			}
 
 
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			key_w_pressed = false;
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			{
-				position.x += liana_speed * dt_current;
-				entity_x_dir = RIGHT;
-				state = LIANA;
+				key_w_pressed = true;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			{
-				position.x -= liana_speed * dt_current;
-				entity_x_dir = LEFT;
-				state = LIANA;
+
+			if (colliding_with_liana == false) {
+
+				on_liana = false;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-			{
-				position.y += liana_speed * dt_current;
-				state = LIANA;
-			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-			{
-				position.y -= liana_speed * dt_current;
-				state = LIANA;
-			}
+			if (on_liana) {
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+				{
+					state = LIANA_IDLE;
+				}
+				else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+				{
+					state = LIANA_IDLE;
+				}
+				else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+				{
+					state = LIANA_IDLE;
+				}
+				else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+				{
+					state = LIANA_IDLE;
+				}
+
+
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+				{
+					position.x += liana_speed * dt_current;
+					entity_x_dir = RIGHT;
+					state = LIANA;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+				{
+					position.x -= liana_speed * dt_current;
+					entity_x_dir = LEFT;
+					state = LIANA;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				{
+					position.y += liana_speed * dt_current;
+					state = LIANA;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				{
+					position.y -= liana_speed * dt_current;
+					state = LIANA;
+				}
 
 
 
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && god_mode == false) {
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && god_mode == false) {
+					jump.Reset();
+					state = JUMP;
+					speed.y = jump_force_liana;
+
+					jumping = true;
+
+
+					on_ground = false;
+					just_landed = false;
+					on_liana = false;
+
+					if (entity_x_dir == LEFT) {
+						speed.x = -max_speed_x;
+						acceleration.x = -max_acc_x;
+					}
+					if (entity_x_dir == RIGHT) {
+						speed.x = max_speed_x;
+						acceleration.x = max_acc_x;
+					}
+
+					App->audio->PlayFx(jump_fx);
+				}
+
+			}
+			else {
+
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && attacking == false)
+				{
+
+					acceleration.x += acceleration_x;
+					if (jumping == false) {
+						state = RUN;
+					}
+					else {
+						state = JUMP;
+					}
+
+
+					if (entity_x_dir == LEFT)
+						run.Reset();
+
+					entity_x_dir = RIGHT;
+					key_d_pressed = true;
+				}
+				else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && attacking == false)
+				{
+					acceleration.x -= acceleration_x;
+					if (jumping == false) {
+						state = RUN;
+					}
+					else {
+						state = JUMP;
+					}
+
+					if (entity_x_dir == RIGHT) {
+						run.Reset();
+
+						entity_x_dir = LEFT;
+					}
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+				{
+					if (jumping == false) {
+						state = IDLE;
+					}
+					acceleration.x = 0.0f;
+					speed.x = 0.0f;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+				{
+					if (jumping == false) {
+						state = IDLE;
+					}
+					acceleration.x = 0.0f;
+					speed.x = 0.0f;
+
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && attacking == false && on_ground == true)
+				{
+					App->audio->PlayFx(hit_fx);
+					attack.Reset();
+					if (entity_x_dir == RIGHT)
+						attack_player_rect = { (int)position.x + collider_attack_offset.x + collider->rect.w, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
+					else
+						attack_player_rect = { (int)position.x + collider_attack_offset.x - collider->rect.w + collider_attack_offset.y, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
+					player_attack = App->collision->AddCollider(attack_player_rect, COLLIDER_PLAYER_ATTACK, (j1Module*)App->entities);
+					start_attack = SDL_GetTicks();
+					attacking = true;
+				}
+
+				if (start_attack + attack_time < SDL_GetTicks() && attacking == true)
+				{
+					state = IDLE;
+					App->collision->EraseCollider(player_attack);
+					start_attack = 0;
+					attacking = false;
+				}
+
+				if (attacking == true)
+				{
+					state = ATTACK;
+					acceleration.x = 0.0f;
+					speed.x = 0.0f;
+				}
+
+				key_d_pressed = false;
+
+			}
+
+
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground && !god_mode && !attacking)
+			{
+
 				jump.Reset();
 				state = JUMP;
-				speed.y = jump_force_liana;
+				speed.y = jump_force;
 
 				jumping = true;
 
 
 				on_ground = false;
 				just_landed = false;
-				on_liana = false;
-
-				if (entity_x_dir == LEFT) {
-					speed.x = -max_speed_x;
-					acceleration.x = -max_acc_x;
-				}
-				if (entity_x_dir == RIGHT) {
-					speed.x = max_speed_x;
-					acceleration.x = max_acc_x;
-				}
 
 				App->audio->PlayFx(jump_fx);
 			}
 
-		}
-		else {
-
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && attacking == false)
-			{
-
-				acceleration.x += acceleration_x;
-				if (jumping == false) {
-					state = RUN;
-				}
-				else {
-					state = JUMP;
-				}
 
 
-				if (entity_x_dir == LEFT)
-					run.Reset();
-
-				entity_x_dir = RIGHT;
-				key_d_pressed = true;
+			if (on_ground == false) {
+				acceleration.y = gravity;
+				just_landed = false;
 			}
-			else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && attacking == false)
+			else
 			{
-				acceleration.x -= acceleration_x;
-				if (jumping == false) {
-					state = RUN;
-				}
-				else {
-					state = JUMP;
-				}
+				on_ground = true;
+				jumping = false;
 
-				if (entity_x_dir == RIGHT) {
-					run.Reset();
+				if (just_landed == false) {
 
-					entity_x_dir = LEFT;
+					just_landed = true;
+
+					if (speed.x != 0.0f)
+						state = RUN;
+					else
+						state = IDLE;
 				}
 			}
 
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+			if (god_mode == true)
 			{
-				if (jumping == false) {
-					state = IDLE;
+				acceleration.y = 0.0f;
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+				{
+					acceleration.x += acceleration_x;
 				}
-				acceleration.x = 0.0f;
-				speed.x = 0.0f;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
-			{
-				if (jumping == false) {
-					state = IDLE;
+				if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+				{
+					acceleration.x -= acceleration_x;
 				}
-				acceleration.x = 0.0f;
-				speed.x = 0.0f;
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				{
 
+					speed.y = acceleration_x;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+				{
+					speed.y = 0.0f;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				{
+					speed.y = -acceleration_x;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+				{
+					speed.y = 0.0f;
+				}
 			}
 
-			if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && attacking == false && on_ground == true)
-			{
-				App->audio->PlayFx(hit_fx);
-				attack.Reset();
-				if (entity_x_dir == RIGHT)
-					attack_player_rect = { (int)position.x + collider_attack_offset.x + collider->rect.w, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
-				else
-					attack_player_rect = { (int)position.x + collider_attack_offset.x - collider->rect.w + collider_attack_offset.y, (int)position.y - collider_attack_offset.y, collider_attack_dimensions.x, collider_attack_dimensions.y };
-				player_attack = App->collision->AddCollider(attack_player_rect, COLLIDER_PLAYER_ATTACK, (j1Module*)App->entities);
-				start_attack = SDL_GetTicks();
-				attacking = true;
-			}
+			if (on_liana)
+				acceleration.y = 0.0f;
 
-			if (start_attack + attack_time < SDL_GetTicks() && attacking == true)
-			{
-				state = IDLE;
-				App->collision->EraseCollider(player_attack);
-				start_attack = 0;
-				attacking = false;
-			}
+			position.x += speed.x * dt_current;
+			position.y += speed.y * dt_current;
+			speed.x += acceleration.x * dt_current;
+			speed.y += acceleration.y * dt_current;
 
-			if (attacking == true)
-			{
-				state = ATTACK;
-				acceleration.x = 0.0f;
-				speed.x = 0.0f;
-			}
+			colliding_with_liana = false;
 
-			key_d_pressed = false;
+			if (speed.x > max_speed_x)
+				speed.x = max_speed_x;
+
+			if (acceleration.x > max_acc_x)
+				acceleration.x = max_acc_x;
+
+
+			if (speed.x < -max_speed_x)
+				speed.x = -max_speed_x;
+
+			if (acceleration.x < -max_acc_x)
+				acceleration.x = -max_acc_x;
+
+
+
+
+			collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+			//player_attack->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+			player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
 
 		}
-
-
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && on_ground && !god_mode && !attacking)
-		{
-
-			jump.Reset();
-			state = JUMP;
-			speed.y = jump_force;
-
-			jumping = true;
-
-
-			on_ground = false;
-			just_landed = false;
-
-			App->audio->PlayFx(jump_fx);
-		}
-
-
-
-		if (on_ground == false) {
-			acceleration.y = gravity;
-			just_landed = false;
-		}
-		else
-		{
-			on_ground = true;
-			jumping = false;
-
-			if (just_landed == false) {
-
-				just_landed = true;
-
-				if (speed.x != 0.0f)
-					state = RUN;
-				else
-					state = IDLE;
-			}
-		}
-
-		if (god_mode == true)
-		{
-			acceleration.y = 0.0f;
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-			{
-				acceleration.x += acceleration_x;
-			}
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			{
-				acceleration.x -= acceleration_x;
-			}
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-			{
-
-				speed.y = acceleration_x;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
-			{
-				speed.y = 0.0f;
-			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-			{
-				speed.y = -acceleration_x;
-			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
-			{
-				speed.y = 0.0f;
-			}
-		}
-
-		if (on_liana)
-			acceleration.y = 0.0f;
-
-		position.x += speed.x * dt_current;
-		position.y += speed.y * dt_current;
-		speed.x += acceleration.x * dt_current;
-		speed.y += acceleration.y * dt_current;
-
-		colliding_with_liana = false;
-
-		if (speed.x > max_speed_x)
-			speed.x = max_speed_x;
-
-		if (acceleration.x > max_acc_x)
-			acceleration.x = max_acc_x;
-
-
-		if (speed.x < -max_speed_x)
-			speed.x = -max_speed_x;
-
-		if (acceleration.x < -max_acc_x)
-			acceleration.x = -max_acc_x;
-
-
-
-
-		collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
-		//player_attack->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
-		player_rect = { (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y };
-
-
 	}
 
 }

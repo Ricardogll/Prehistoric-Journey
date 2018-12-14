@@ -49,6 +49,7 @@ public:
 	int score = 100;
 	int c_score = 0;
 	j1Timer timer;
+	bool on_main_menu = true;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;

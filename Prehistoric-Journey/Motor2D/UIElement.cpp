@@ -99,6 +99,8 @@ void UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click
 {
 	mouse_state = MouseState::NONE;
 
+	mouse_x -= App->render->camera.x;
+
 	if (clickable)
 	{
 		bool mouse_inside_rect = false;

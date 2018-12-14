@@ -121,36 +121,39 @@ bool j1Scene::Start()
 
 	window_ui = new UIElement(App->render->camera.x, 0, WINDOW);
 	window_ui->visible = true;
-	menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
-	//menu->draggable = true;
-	menu_title_label = App->ui->CreateLabel(85, 50, "abc de f ghi jk lmn op q rst uvwxyz", 250, 32, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", menu);
-	
-	continue_btn = App->ui->CreateButton(50, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
 
-	settings_btn = App->ui->CreateButton(305, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	menu_settings_label = App->ui->CreateLabel(55, 13, "Settings", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", settings_btn);
+	if (on_main_menu) {
+		menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+		//menu->draggable = true;
+		menu_title_label = App->ui->CreateLabel(85, 50, "abc de f ghi jk lmn op q rst uvwxyz", 250, 32, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", menu);
 
-	credits_btn = App->ui->CreateButton(50, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	menu_credits_label = App->ui->CreateLabel(55, 13, "Credits", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", credits_btn);
+		continue_btn = App->ui->CreateButton(50, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+		menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
 
-	exit_btn = App->ui->CreateButton(305, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	menu_exit_label = App->ui->CreateLabel(80, 13, "Exit", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", exit_btn);
+		settings_btn = App->ui->CreateButton(305, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+		menu_settings_label = App->ui->CreateLabel(55, 13, "Settings", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", settings_btn);
 
-	play_btn = App->ui->CreateButton(180, 350, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-	menu_play_label = App->ui->CreateLabel(75, 13, "Play", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", play_btn);
+		credits_btn = App->ui->CreateButton(50, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+		menu_credits_label = App->ui->CreateLabel(55, 13, "Credits", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", credits_btn);
 
-	menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
-	menu_settings->visible = false;
-	music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
-	music_slider_ui = App->ui->CreateSlider(0,40,255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+		exit_btn = App->ui->CreateButton(305, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+		menu_exit_label = App->ui->CreateLabel(80, 13, "Exit", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", exit_btn);
 
-	menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
-	
-	menu_credits = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
-	menu_credits->visible = false;
-	menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
+		play_btn = App->ui->CreateButton(180, 350, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
+		menu_play_label = App->ui->CreateLabel(75, 13, "Play", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", play_btn);
 
+		menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+		menu_settings->visible = false;
+		music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
+		music_slider_ui = App->ui->CreateSlider(0, 40, 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+
+		menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
+
+		menu_credits = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+		menu_credits->visible = false;
+		menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
+
+	}
 
 	//HUD
 	switch (App->entities->lifes)
@@ -200,12 +203,20 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 		score += 50;
 		c_score += 2;
+		
 	}
 	
-	std::string s = std::to_string(score);
-	p2SString s2 = s.c_str();
-	App->font->CalcSize(s2.GetString(), score_numbers->img_rect.w, score_numbers->img_rect.h, App->font->default);
-	score_numbers->UpdateText(App->font->Print(s2.GetString(), { 255,255,255,255 }, App->font->default));
+	if (on_main_menu)
+		App->render->camera.x--;
+
+
+	
+	//std::string s = std::to_string(score);
+	//p2SString s2 = s.c_str();
+	//App->font->CalcSize(s2.GetString(), score_numbers->img_rect.w, score_numbers->img_rect.h, App->font->default);
+	//score_numbers->UpdateText(App->font->Print(s2.GetString(), { 255,255,255,255 }, App->font->default));		//CHANGE THIS TO ...
+	p2SString s2 = std::to_string(score).c_str(); // THIS
+	score_numbers->SetText(s2.GetString());
 
 	std::string s3 = std::to_string(c_score);
 	p2SString s4 = s3.c_str();
@@ -437,7 +448,8 @@ bool j1Scene::Update(float dt)
 	}
 
 	if (continue_btn->btn_clicked) {
-		menu->visible = false;
+		menu->visible = false;//Delete UI of main menu
+		on_main_menu = false;
 	}
 
 	App->map->Draw();

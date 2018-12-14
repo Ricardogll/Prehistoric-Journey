@@ -71,9 +71,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(render);
 
 	//scene->active = false;
-	entities->active = false;
-	map->active = false;
-	pathfinding->active = false;
+	//entities->active = false;
+	//map->active = false;
+	//pathfinding->active = false;
 
 
 
