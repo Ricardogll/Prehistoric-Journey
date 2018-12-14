@@ -125,7 +125,7 @@ bool j1Scene::Start()
 	menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 	//menu->draggable = true;
 	menu_title_label = App->ui->CreateLabel(85, 50, "Prehistoric Journey", 32, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", menu);
-
+	
 	continue_btn = App->ui->CreateButton(50, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
 	menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
 
@@ -144,7 +144,7 @@ bool j1Scene::Start()
 	menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 	menu_settings->visible = false;
 	music_label_ui = App->ui->CreateLabel(50, 75, "Music", 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
-	music_slider_ui = App->ui->CreateSlider(0,40, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+	music_slider_ui = App->ui->CreateSlider(0,40,255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
 
 	menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
 	

@@ -47,6 +47,7 @@ public:
 	UIElement* parent = nullptr;
 	iPoint mouse_drag = { 0,0 };
 	bool btn_clicked = false;
+	float max_value = 0.0f;
 
 
 public:
@@ -62,7 +63,7 @@ public:
 	void SetPositionWithParent();
 	virtual void SetText(const char * text);
 
-
+	
 
 };
 

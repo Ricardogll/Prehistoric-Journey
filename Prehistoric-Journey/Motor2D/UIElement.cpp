@@ -144,8 +144,12 @@ void UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click
 				mouse_state = MouseState::ON_ENTER;
 				//LOG("ON ENTER");
 			}
+		}else if (prev_mouse_state == MouseState::REPEAT_CLICK) {
+			if (mouse_click == MouseState::REPEAT_CLICK) {
+				mouse_state = MouseState::REPEAT_CLICK;
+			}if (mouse_click == MouseState::UP_CLICK)
+				mouse_state = MouseState::UP_CLICK;
 		}
-
 
 		if ((prev_mouse_state == MouseState::HOVERING || prev_mouse_state == MouseState::ON_ENTER) && !mouse_inside_rect) {
 			mouse_state = MouseState::ON_LEAVE;

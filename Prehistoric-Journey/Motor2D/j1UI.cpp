@@ -187,9 +187,9 @@ UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, S
 	return aux;
 }
 
-UIElement* j1UI:: CreateSlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
+UIElement* j1UI:: CreateSlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
 {
-	UIElement* aux = new UISlider(x, y, bar, ball, parent);
+	UIElement* aux = new UISlider(x, y, max_value, bar, ball, parent);
 	ui_elements.PushBack(aux);
 
 	return aux;
