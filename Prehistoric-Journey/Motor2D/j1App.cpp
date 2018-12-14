@@ -40,13 +40,15 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new j1FadeToBlack();
 	map = new j1Map();
 	collision = new j1Collision();
-	//player = new j1Player();
 	entities = new j1Entities();
 	pathfinding = new j1PathFinding();
 	font = new j1Fonts();
 	ui = new j1UI();
 	
-
+	//scene->Disable();
+	//entities->Disable();
+	//map->Disable();
+	//pathfinding->Disable();
 
 
 	// Ordered for awake / Start / Update
@@ -63,11 +65,18 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(ui);
 	AddModule(fade);
 	AddModule(collision);
-	//AddModule(player);
 	AddModule(pathfinding);
 
 	// render last to swap buffer
 	AddModule(render);
+
+	scene->active = false;
+	entities->active = false;
+	map->active = false;
+	pathfinding->active = false;
+
+
+
 
 	startup_time.Start();
 
