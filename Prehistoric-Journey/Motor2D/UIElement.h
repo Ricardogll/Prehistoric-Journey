@@ -61,7 +61,9 @@ public:
 	virtual void Update();
 	void CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click);
 	void SetPositionWithParent();
+	void UpdateText(SDL_Texture* tex);
 	virtual void SetText(const char * text);
+
 
 	
 

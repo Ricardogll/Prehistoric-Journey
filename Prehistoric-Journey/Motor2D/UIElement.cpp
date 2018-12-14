@@ -161,6 +161,14 @@ void UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click
 	//return mouse_state;
 }
 
+void UIElement::UpdateText(SDL_Texture* tex)
+{
+	if (texture != nullptr)
+		App->tex->UnLoad((SDL_Texture*)texture);
+
+	texture = tex;
+}
+
 void UIElement::SetText(const char * text)
 {
 

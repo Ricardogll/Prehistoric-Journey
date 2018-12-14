@@ -45,6 +45,8 @@ public:
 	p2SString music_map1;
 	p2SString music_map2;
 	bool pause = false;
+	int score = 100;
+	int c_score = 0;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;
@@ -73,7 +75,12 @@ private:
 	UIElement* life1;
 	UIElement* life2;
 	UIElement* life3;
+
 	UIElement* chickens;
+	UIElement* chickens_number;
+
+	UIElement* score_label;
+	UIElement* score_numbers;
 };
 
 #endif // __j1SCENE_H__

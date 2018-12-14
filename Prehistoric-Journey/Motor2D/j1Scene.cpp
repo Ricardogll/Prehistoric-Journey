@@ -79,7 +79,6 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	
 
 
 	if (curr_map == NO_MAP)
@@ -174,6 +173,10 @@ bool j1Scene::Start()
 	}
 
 	chickens = App->ui->CreateImage(350, 10, { 636,254,43,39 }, window_ui);
+	chickens_number = App->ui->CreateLabel(405, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+
+	score_label = App->ui->CreateLabel(500, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+	score_numbers = App->ui->CreateLabel(595, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 	return true;
 }
@@ -189,6 +192,23 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Scene", Profiler::Color::MediumSpringGreen)
+
+	//For debug only (for now)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+		score += 50;
+		c_score += 2;
+	}
+	
+	std::string s = std::to_string(score);
+	p2SString s2 = s.c_str();
+	App->font->CalcSize(s2.GetString(), score_numbers->img_rect.w, score_numbers->img_rect.h, App->font->default);
+	score_numbers->UpdateText(App->font->Print(s2.GetString(), { 255,255,255,255 }, App->font->default));
+
+	std::string s3 = std::to_string(c_score);
+	p2SString s4 = s3.c_str();
+	App->font->CalcSize(s4.GetString(), chickens_number->img_rect.w, chickens_number->img_rect.h, App->font->default);
+	chickens_number->UpdateText(App->font->Print(s4.GetString(), { 255,255,255,255 }, App->font->default));
+
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->RaiseVolumeMusic();
 		App->audio->RaiseVolumeFx();
