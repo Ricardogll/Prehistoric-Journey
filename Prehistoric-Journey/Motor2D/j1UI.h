@@ -57,11 +57,11 @@ public:
 	void DeleteUIElements();
 
 	// Gui creation functions
-	UIElement* CreateLabel(int x, int y, const char* text, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT, UIElement* parent = nullptr);
+	UIElement* CreateLabel(int x, int y, const char* text, int width = -1, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT, UIElement* parent = nullptr);
 	UIElement* CreateImage(int x, int y, SDL_Rect rect, UIElement* parent = nullptr);
 	//UIElement* CreateImageNoAtlas(int x, int y, SDL_Rect rect, SDL_Texture* tex);
 	UIElement* CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent = nullptr);
-	UIElement* CreateSlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent = nullptr);
+	UIElement* CreateSlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent = nullptr);
 
 	const SDL_Texture* GetAtlas() const;
 

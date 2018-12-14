@@ -7,12 +7,12 @@
 class UISlider : public UIElement {
 
 public:
-	UISlider(int x, int y, SDL_Rect bar, SDL_Rect ball, UIElement* parent);
+	UISlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent);
 	~UISlider();
 	void Draw(SDL_Texture* atlas);
 	void Update();
-	float GetSliderValue(int max_value) const;
-	void SetSliderValue(int value, int max_value);
+	float GetSliderValue() const;
+	void SetSliderValue(float value, float max_value);
 
 private:
 	int world_ball_x = 0;

@@ -42,11 +42,12 @@ public:
 
 	SDL_Texture* texture = nullptr;
 	SDL_Rect img_rect = { 0,0,0,0 };
-	const char* text;
+	p2SString text;
 	_TTF_Font* current_font = nullptr;
 	UIElement* parent = nullptr;
 	iPoint mouse_drag = { 0,0 };
 	bool btn_clicked = false;
+	float max_value = 0.0f;
 
 
 public:
@@ -62,7 +63,7 @@ public:
 	void SetPositionWithParent();
 	virtual void SetText(const char * text);
 
-
+	
 
 };
 

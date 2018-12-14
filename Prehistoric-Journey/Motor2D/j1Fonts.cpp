@@ -86,7 +86,8 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 
-	
+	//TTF_CloseFont(default); // check if this solves memory leak
+	//default = nullptr;
 
 	if (surface == NULL)
 	{
@@ -97,6 +98,28 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 		ret = App->tex->LoadSurface(surface);
 		SDL_FreeSurface(surface);
 	}
+
+	return ret;
+}
+
+SDL_Texture * j1Fonts::PrintMultiLine(const char * text, int width, SDL_Color color, _TTF_Font * font)
+{
+	SDL_Texture* ret = NULL;
+	SDL_Surface* surface = TTF_RenderText_Blended_Wrapped((font) ? font : default, text, color, width);
+
+	//TTF_CloseFont(default);
+	//default = nullptr;
+
+	if (surface == NULL)
+	{
+		LOG("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		ret = App->tex->LoadSurface(surface);
+		SDL_FreeSurface(surface);
+	}
+
 
 	return ret;
 }

@@ -19,6 +19,7 @@
 #include "j1Entities.h"
 #include "j1UI.h"
 #include "j1Fonts.h"
+#include "j1MainMenu.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -35,14 +36,20 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	main_menu = new j1MainMenu();
 	fade = new j1FadeToBlack();
 	map = new j1Map();
 	collision = new j1Collision();
-	//player = new j1Player();
 	entities = new j1Entities();
 	pathfinding = new j1PathFinding();
 	font = new j1Fonts();
 	ui = new j1UI();
+	
+	//scene->Disable();
+	//entities->Disable();
+	//map->Disable();
+	//pathfinding->Disable();
+
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -52,16 +59,24 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
+	AddModule(main_menu);
 	AddModule(entities);
 	AddModule(font);
 	AddModule(ui);
 	AddModule(fade);
 	AddModule(collision);
-	//AddModule(player);
 	AddModule(pathfinding);
 
 	// render last to swap buffer
 	AddModule(render);
+
+	scene->active = false;
+	entities->active = false;
+	map->active = false;
+	pathfinding->active = false;
+
+
+
 
 	startup_time.Start();
 
