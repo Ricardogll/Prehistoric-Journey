@@ -249,8 +249,6 @@ void j1Audio::SetMusicVolume(int volume) {
 void j1Audio::SetFxVolume(int volume) {
 	Mix_Volume(-1, volume);
 	fx_volume = volume;
-
-
 }
 
 uint j1Audio::GetMusicVolume() {
