@@ -57,6 +57,9 @@ public:
 	int limit_map = 0;
 	int lifes = 3;
 	bool game_saved = false;
+	int saved_score = 0;
+	int saved_c_score = 0;
+	int saved_lifes = 0;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;

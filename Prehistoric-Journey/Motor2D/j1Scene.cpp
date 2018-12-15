@@ -26,6 +26,8 @@ j1Scene::j1Scene() : j1Module()
 j1Scene::~j1Scene()
 {
 
+	/*
+	
 	window_ui->~UIElement();
 	window_ui = nullptr;
 
@@ -55,6 +57,7 @@ j1Scene::~j1Scene()
 
 	menu->~UIElement();
 	menu = nullptr;
+	*/
 
 
 }
@@ -96,6 +99,8 @@ bool j1Scene::Start()
 	}
 	else if (App->entities->GetPlayer()->player_died == false) {
 		
+		App->entities->GetPlayer()->SetMovementZero();
+		App->entities->GetPlayer()->state = IDLE;
 
 		switch (curr_map) {
 		case MAP_1:
@@ -382,7 +387,8 @@ bool j1Scene::Update(float dt)
 
 		if (play_btn->btn_clicked) {
 			//menu->visible = false;//Delete UI of main menu
-			App->ui->Delete1UIElement(menu);
+			App->ui->DeleteUIElementChildren(menu);
+			App->ui->DeleteUIElementChildren(menu_settings);
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -391,7 +397,7 @@ bool j1Scene::Update(float dt)
 		if (continue_btn->btn_clicked && game_saved)
 		{
 			GameLoad();
-			App->ui->Delete1UIElement(menu);
+			App->ui->DeleteUIElementChildren(menu);
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -430,6 +436,7 @@ bool j1Scene::Update(float dt)
 			menu_credits->visible = true;
 			menu_credits_back_btn->visible = true;
 			menu->visible = false;
+			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
 		}
 
 		if (menu_credits_back_btn->btn_clicked)
@@ -466,9 +473,13 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || exit_btn->btn_clicked)
+	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (exit_btn != nullptr) {
+		if (exit_btn->btn_clicked)
+			ret = false;
+	}
 
 	//Draw pathfinding
 	if (App->collision->debug) {
@@ -496,11 +507,15 @@ bool j1Scene::CleanUp()
 
 	App->ui->DeleteUIElements();
 
+
 	return true;
 }
 
 void j1Scene::GameSave() {
 	App->SaveGame();
+	saved_score = score;
+	saved_c_score = c_score;
+	saved_lifes = lifes;
 	App->entities->GetPlayer()->saved_map = curr_map;
 	game_saved = true;
 }
@@ -536,5 +551,11 @@ void j1Scene::GameLoad() {
 		default:
 			break;
 		}
+		
 	}
+	App->entities->GetPlayer()->SetMovementZero();
+	
+	lifes = saved_lifes;
+	score = saved_score;
+	c_score = saved_c_score;
 }

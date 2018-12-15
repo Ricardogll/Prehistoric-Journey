@@ -660,3 +660,11 @@ void Player::AnimationsApplyDt() {
 	}
 	
 }
+
+
+void Player::SetMovementZero() {
+
+	speed = { 0.0f,0.0f };
+	acceleration = { 0.0f,0.0f };
+
+}

@@ -67,7 +67,7 @@ public:
 	void SetPositionWithParent();
 	void UpdateText(SDL_Texture* tex);
 	virtual void SetText(const char * text);
-
+	
 
 	
 
