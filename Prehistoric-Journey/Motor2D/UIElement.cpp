@@ -29,7 +29,7 @@ UIElement::UIElement(int x, int y, UIType type, UIElement* parent) : local_pos_x
 UIElement::~UIElement()
 {
 	App->tex->UnLoad(texture);
-	texture = nullptr;
+	//texture = nullptr;
 	parent = nullptr;
 	current_font = nullptr;
 }

@@ -56,7 +56,7 @@ public:
 
 	void DeleteUIElements();
 	void DeleteUIElementChildren(UIElement* ui_el);
-	void SetInvisibleChildren(UIElement* ui_el);
+	void SetVisibleChildren(UIElement* ui_el);
 
 	// Gui creation functions
 	UIElement* CreateLabel(int x, int y, const char* text, int width = -1, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT, UIElement* parent = nullptr);

@@ -21,9 +21,6 @@ UISlider::UISlider(int x, int y, float cur_value, float max_value, SDL_Rect bar,
 	SetSliderValue(cur_value,max_value);
 }
 
-UISlider::~UISlider() {
-
-}
 
 
 void UISlider::Draw(SDL_Texture* atlas) {

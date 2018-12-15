@@ -38,9 +38,6 @@ UILabel::UILabel(int x, int y, const char* text, int width, int size,  SDL_Color
 }
 
 
-UILabel::~UILabel()
-{
-}
 
 
 

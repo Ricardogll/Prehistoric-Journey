@@ -164,7 +164,7 @@ bool j1Scene::Start()
 		music_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetMusicVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
 		App->audio->SetMusicVolume(music_slider_ui->cur_value);
 		
-		fx_label_ui = App->ui->CreateLabel(50, 160, "Fx", -1, 24, { 0, 0, 0, 0 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
+		fx_label_ui = App->ui->CreateLabel(50, 160, "Sound Effects", -1, 24, { 0, 0, 0, 0 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
 		fx_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetFxVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, fx_label_ui);
 		App->audio->SetFxVolume(fx_slider_ui->cur_value);
 
@@ -397,8 +397,8 @@ bool j1Scene::Update(float dt)
 
 		if (play_btn->btn_clicked) {
 			//menu->visible = false;//Delete UI of main menu
-			App->ui->DeleteUIElementChildren(menu);
-			App->ui->DeleteUIElementChildren(menu_settings);
+			App->ui->DeleteUIElementChildren(window_ui);
+			
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -407,7 +407,8 @@ bool j1Scene::Update(float dt)
 		if (continue_btn->btn_clicked && game_saved)
 		{
 			GameLoad();
-			App->ui->DeleteUIElementChildren(menu);
+			App->ui->DeleteUIElementChildren(window_ui);
+			
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -415,19 +416,20 @@ bool j1Scene::Update(float dt)
 
 		if (settings_btn->btn_clicked)
 		{
-
-			menu_settings->visible = true;
+			App->ui->SetVisibleChildren(menu_settings);
+			/*menu_settings->visible = true;
 			music_label_ui->visible = true;
 			music_slider_ui->visible = true;
 			fx_label_ui->visible = true;
 			fx_slider_ui->visible = true;
-			menu_settings_back_btn->visible = true;
+			menu_settings_back_btn->visible = true;*/
 			menu->visible = false;
 		}
 
 		if (menu_settings_back_btn->btn_clicked)
 		{
-			menu->visible = true;
+			App->ui->SetVisibleChildren(menu);
+			/*menu->visible = true;
 			continue_btn->visible = true;
 			settings_btn->visible = true;
 			credits_btn->visible = true;
@@ -438,24 +440,25 @@ bool j1Scene::Update(float dt)
 			menu_settings_label->visible = true;
 			menu_credits_label->visible = true;
 			menu_exit_label->visible = true;
-			menu_play_label->visible = true;
+			menu_play_label->visible = true;*/
 			menu_settings->visible = false;
 		}
 
 		if (credits_btn->btn_clicked)
 		{
-
-			menu_credits->visible = true;
+			App->ui->SetVisibleChildren(menu_credits);
+			/*menu_credits->visible = true;
 			menu_credits_authors->visible = true;
 			menu_credits_license->visible = true;
-			menu_credits_back_btn->visible = true;
+			menu_credits_back_btn->visible = true;*/
 			menu->visible = false;
 			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
 		}
 
 		if (menu_credits_back_btn->btn_clicked)
 		{
-			menu->visible = true;
+			App->ui->SetVisibleChildren(menu);
+			/*menu->visible = true;
 			continue_btn->visible = true;
 			settings_btn->visible = true;
 			credits_btn->visible = true;
@@ -466,7 +469,7 @@ bool j1Scene::Update(float dt)
 			menu_settings_label->visible = true;
 			menu_credits_label->visible = true;
 			menu_exit_label->visible = true;
-			menu_play_label->visible = true;
+			menu_play_label->visible = true;*/
 			menu_credits->visible = false;
 		}
 

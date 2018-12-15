@@ -10,6 +10,7 @@
 #include "UILabel.h"
 #include "UIButton.h"
 #include "UISlider.h"
+#include "j1Audio.h"
 
 
 j1UI::j1UI() : j1Module()
@@ -116,6 +117,7 @@ bool j1UI::PostUpdate()
 	{
 		if (ui_elements[i]->to_destroy)
 		{
+
 			delete ui_elements[i];
 			ui_elements[i] = nullptr;
 			ui_elements.Delete(i);
@@ -149,7 +151,7 @@ bool j1UI::CleanUp()
 	ui_elements.Clear();
 
 	App->tex->UnLoad(atlas);
-	
+	App->audio->UnLoadFx(fx_click);
 
 	return true;
 }
@@ -188,18 +190,18 @@ void j1UI::DeleteUIElementChildren(UIElement* ui_el) {
 
 }
 
-void j1UI::SetInvisibleChildren(UIElement* ui_el) {
+void j1UI::SetVisibleChildren(UIElement* ui_el) {
 
 	for (uint i = 0; i < ui_elements.Count(); i++)
 	{
 		if (ui_elements[i] == ui_el)
 		{
-			ui_elements[i]->visible = false;
+			ui_elements[i]->visible = true;
 			//break;
 		}
 
 		if (ui_elements[i]->parent == ui_el)
-			SetInvisibleChildren(ui_elements[i]);
+			SetVisibleChildren(ui_elements[i]);
 
 	}
 

@@ -26,9 +26,7 @@ UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clic
 
 }
 
-UIButton::~UIButton()
-{
-}
+
 
 void UIButton::Update() {
 
