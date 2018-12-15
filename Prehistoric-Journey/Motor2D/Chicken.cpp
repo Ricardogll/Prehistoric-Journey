@@ -3,12 +3,13 @@
 #include "j1Collision.h"
 #include "j1Entities.h"
 #include "p2Log.h"
-#include "p2DynArray.h"
-#include "Player.h"
-#include "j1Map.h"
+//#include "p2DynArray.h"
+//#include "Player.h"
+//#include "j1Map.h"
 #include "j1Audio.h"
 #include "Brofiler/Brofiler.h"
-#include <time.h>
+//#include <time.h>
+#include "j1Scene.h"
 
 Chicken::Chicken(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity(x, y, type)
 {
@@ -64,7 +65,9 @@ void Chicken::OnCollision(Collider * c1, Collider * c2)
 {
 	if (c2->type == COLLIDER_PLAYER) {
 		App->audio->PlayFx(death_sound, 0);
-		App->collision->EraseCollider(collider);
-		App->tex->UnLoad(texture);
+		/*App->collision->EraseCollider(collider);
+		App->tex->UnLoad(texture);*/
+		App->scene->c_score++;
+		this->to_destroy = true;
 	}
 }

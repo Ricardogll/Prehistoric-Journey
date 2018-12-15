@@ -49,6 +49,13 @@ void UIElement::Update()
 
 	SetPositionWithParent();
 
+	if (parent != nullptr) {
+		if (!parent->visible)
+			visible = false;
+
+		//if (parent->to_destroy)
+			//to_destroy = true;
+	}
 }
 
 void UIElement::SetPositionWithParent() {
@@ -88,10 +95,7 @@ void UIElement::SetPositionWithParent() {
 
 	prev_mouse = mouse_pos_aux;
 
-	if (parent != nullptr) {
-		if (!parent->visible)
-			visible = false;
-	}
+
 }
 
 

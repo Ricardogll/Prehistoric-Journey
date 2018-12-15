@@ -206,10 +206,15 @@ bool j1Scene::Update(float dt)
 		
 	}
 	
-	if (on_main_menu)
-		App->render->camera.x--;
+	if (on_main_menu) {
+		App->render->camera.x+=speed_scroll;
 
+		if (App->render->camera.x < limit_map)
+			speed_scroll = 1;
 
+		if (App->render->camera.x > 0)
+			speed_scroll = -1;
+	}
 	
 	//std::string s = std::to_string(score);
 	//p2SString s2 = s.c_str();
@@ -448,8 +453,10 @@ bool j1Scene::Update(float dt)
 	}
 
 	if (continue_btn->btn_clicked) {
-		menu->visible = false;//Delete UI of main menu
+		//menu->visible = false;//Delete UI of main menu
+		App->ui->Delete1UIElement(menu);
 		on_main_menu = false;
+		App->fade->FadeToBlack(this, this, 2.0f);
 	}
 
 	App->map->Draw();

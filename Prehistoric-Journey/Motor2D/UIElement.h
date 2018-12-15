@@ -32,6 +32,7 @@ public:
 	bool clickable = false;
 	bool draggable = false;
 	bool visible = false;
+	bool to_destroy = false;
 	MouseState mouse_state = MouseState::NONE;
 	MouseState prev_mouse_state = MouseState::NONE;
 	iPoint prev_mouse = { 0,0 };
