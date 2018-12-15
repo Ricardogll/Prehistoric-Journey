@@ -92,6 +92,7 @@ private:
 	UIElement* menu_credits_authors;
 	UIElement* menu_credits_license;
 	UIElement* menu_credits_back_btn;
+	UIElement* menu_credits_web_btn;
 
 	UIElement* menu_in_game;
 	UIElement* menu_in_game_label;

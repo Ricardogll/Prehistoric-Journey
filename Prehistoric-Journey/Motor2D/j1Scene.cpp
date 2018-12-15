@@ -177,7 +177,7 @@ bool j1Scene::Start()
 		menu_credits_authors = App->ui->CreateLabel(13, 10, "Authors: Ricardo Gutiérrez Llenas  |  Sergio Gómez Roldán", 560, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
 		menu_credits_license = App->ui->CreateLabel(13, 50, "MIT License Copyright(c) 2018 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", 530, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
 		menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
-
+		menu_credits_web_btn = App->ui->CreateButton(400, 400, { 550,297,45,49 }, { 595,297,45,49 }, { 640,297,45,49 }, menu_credits);
 	}
 	else {
 
@@ -482,7 +482,7 @@ bool j1Scene::Update(float dt)
 			menu_credits_license->visible = true;
 			menu_credits_back_btn->visible = true;*/
 			menu->visible = false;
-			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
+			
 		}
 
 		if (menu_credits_back_btn->btn_clicked)
@@ -503,6 +503,10 @@ bool j1Scene::Update(float dt)
 			menu_credits->visible = false;
 		}
 
+		if (menu_credits_web_btn->btn_clicked)
+		{
+			ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
+		}
 		
 
 		if (music_slider_ui->cur_value != music_slider_ui->last_value)
