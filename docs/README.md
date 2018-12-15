@@ -7,7 +7,7 @@ A platformer where you are a caveman armed with a mace, on you have to catch as 
 
 ## **Team**
 
-
+![](team_photo.png)
 
 _Gutiérrez LLenas, Ricardo’s work and Github_
 * Pathfinding, normalized logic, entity system, camera culling and UI functionability.
