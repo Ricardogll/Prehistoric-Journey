@@ -83,6 +83,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 
+	App->audio->SetFxVolume(App->audio->GetFxVolume());
+	App->audio->SetMusicVolume(App->audio->GetMusicVolume());
 
 	if (curr_map == NO_MAP)
 	{
