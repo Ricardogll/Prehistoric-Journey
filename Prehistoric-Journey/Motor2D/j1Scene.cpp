@@ -259,7 +259,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 		score += 50;
 		c_score += 2;
-		
+		timer.AddTime(100);
 	}
 	
 	if (on_main_menu) {
@@ -284,9 +284,15 @@ bool j1Scene::Update(float dt)
 		timer_numbers->SetText(s_time.GetString());
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN && !on_main_menu) {
-		pause = true;
-		on_pause_menu = true;
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && !on_main_menu) {
+		pause = !pause;
+		on_pause_menu = pause;
+		if (pause)
+			App->ui->SetVisibleChildren(menu_in_game);
+		else {
+			menu_in_game->visible = false;
+			menu_in_game_settings->visible = false;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
@@ -499,8 +505,8 @@ bool j1Scene::Update(float dt)
 			App->audio->SetFxVolume(fx_slider_ui->cur_value);
 	}
 	else if (on_pause_menu == true) {
-		menu_in_game->visible = true;
-		App->ui->SetVisibleChildren(menu_in_game);
+		
+		
 
 		if (menu_in_game_resume_btn->btn_clicked) {
 			pause = false;
@@ -543,8 +549,8 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	//if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		//ret = false;
 
 	if (exit_btn != nullptr) {
 		if (exit_btn->btn_clicked)
