@@ -49,6 +49,8 @@ public:
 	iPoint mouse_drag = { 0,0 };
 	bool btn_clicked = false;
 	float max_value = 0.0f;
+	float cur_value = 0.0f;
+	float last_value = 0.0f;
 
 
 public:
@@ -59,6 +61,7 @@ public:
 
 	virtual void Start();
 	virtual void Draw(SDL_Texture* texture);
+	void PreUpdate();
 	virtual void Update();
 	void CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click);
 	void SetPositionWithParent();

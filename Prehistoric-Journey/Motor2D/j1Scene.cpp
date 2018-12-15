@@ -145,7 +145,9 @@ bool j1Scene::Start()
 		menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		menu_settings->visible = false;
 		music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
-		music_slider_ui = App->ui->CreateSlider(0, 40, 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+		music_slider_ui = App->ui->CreateSlider(0, 40, 0, 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+		App->audio->SetMusicVolume(music_slider_ui->cur_value);
+		
 
 		menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
 
@@ -452,12 +454,15 @@ bool j1Scene::Update(float dt)
 		menu_credits->visible = false;
 	}
 
-	if (continue_btn->btn_clicked) {
+	if (play_btn->btn_clicked) {
 		//menu->visible = false;//Delete UI of main menu
 		App->ui->Delete1UIElement(menu);
 		on_main_menu = false;
 		App->fade->FadeToBlack(this, this, 2.0f);
 	}
+
+	if (music_slider_ui->cur_value != music_slider_ui->last_value)
+		App->audio->SetMusicVolume(music_slider_ui->cur_value);
 
 	App->map->Draw();
 	

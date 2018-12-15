@@ -44,6 +44,14 @@ bool j1UI::Start()
 // Update all guis
 bool j1UI::PreUpdate()
 {
+	for (uint i = 0u; i < ui_elements.Count(); i++) {
+		if (ui_elements[i] != nullptr) {
+			
+			ui_elements[i]->PreUpdate();
+			
+		}
+	}
+
 	return true;
 }
 
@@ -214,9 +222,9 @@ UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, S
 	return aux;
 }
 
-UIElement* j1UI:: CreateSlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
+UIElement* j1UI:: CreateSlider(int x, int y, float cur_value, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent)
 {
-	UIElement* aux = new UISlider(x, y, max_value, bar, ball, parent);
+	UIElement* aux = new UISlider(x, y, cur_value, max_value, bar, ball, parent);
 	ui_elements.PushBack(aux);
 
 	return aux;

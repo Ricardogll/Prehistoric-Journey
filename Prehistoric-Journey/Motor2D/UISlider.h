@@ -7,7 +7,7 @@
 class UISlider : public UIElement {
 
 public:
-	UISlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent);
+	UISlider(int x, int y, float cur_value, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent);
 	~UISlider();
 	void Draw(SDL_Texture* atlas);
 	void Update();

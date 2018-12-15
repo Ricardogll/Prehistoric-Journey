@@ -7,7 +7,7 @@
 
 
 
-UISlider::UISlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent):UIElement(x,y,SLIDER,parent)
+UISlider::UISlider(int x, int y, float cur_value, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent):UIElement(x,y,SLIDER,parent)
 {
 	clickable = true;
 	draggable = true;
@@ -18,7 +18,7 @@ UISlider::UISlider(int x, int y, float max_value, SDL_Rect bar, SDL_Rect ball, U
 	world_ball_y = world_pos_y + bar_rect.h / 2 - ball_rect.h / 2;
 	this->rect = { world_ball_x,world_ball_y,ball_rect.w,ball_rect.h };
 	this->max_value = max_value;
-	SetSliderValue(0.5,1);
+	SetSliderValue(cur_value,max_value);
 }
 
 UISlider::~UISlider() {
@@ -81,23 +81,25 @@ void UISlider::Update() {
 
 	prev_mouse = mouse_pos_aux;
 
-	if (parent != nullptr) {
-		if (!parent->visible)
-			visible = false;
-	}
+	//if (parent != nullptr) {
+	//	if (!parent->visible)
+	//		visible = false;
+	//}
 
 
-
-	GetSliderValue();
+	last_value = cur_value;
+	cur_value = GetSliderValue();
+	LOG("Slider value: %f", cur_value);
 }
 
 
-float UISlider::GetSliderValue() const{
+float UISlider::GetSliderValue() const {
 
 	if (bar_rect.w-ball_rect.w != 0) {
 		float value = ((float)world_ball_x - (float)world_pos_x) / ((float)bar_rect.w - (float)ball_rect.w); //value between 0 and 1 
 
-		LOG("Slider value: %f", value * max_value);
+		
+		//LOG("Slider value: %f", value * max_value);
 		return value * max_value;
 	}
 	
@@ -108,5 +110,5 @@ float UISlider::GetSliderValue() const{
 void UISlider::SetSliderValue(float value, float max_value) {
 
 	local_ball_x = (value / max_value) * (bar_rect.w - ball_rect.w);
-
+	cur_value = value * max_value;
 }

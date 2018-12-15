@@ -54,6 +54,11 @@ void UIButton::Update() {
 		btn_clicked = true;
 
 
+	//if (parent != nullptr) {
+	//	if (!parent->visible)
+	//		visible = false;
+	//}
+
 	SetPositionWithParent();
 
 }

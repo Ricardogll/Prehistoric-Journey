@@ -239,3 +239,13 @@ void j1Audio::DecreaseVolumeFx()
 
 	Mix_Volume(-1, fx_volume);
 }
+
+
+void j1Audio::SetMusicVolume(int volume) {
+	Mix_VolumeMusic(volume);
+}
+
+void j1Audio::SetFxVolume(int volume) {
+	Mix_Volume(-1, volume);
+
+}

@@ -3,7 +3,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-
+#include "j1Audio.h"
 
 UILabel::UILabel(int x, int y, const char* text, int width, int size,  SDL_Color color, const char* font, UIElement* parent) :UIElement(x, y, LABEL, parent)
 {

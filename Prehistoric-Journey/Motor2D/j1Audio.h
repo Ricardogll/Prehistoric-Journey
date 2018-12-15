@@ -41,7 +41,8 @@ public:
 	void RaiseVolumeFx();
 	void DecreaseVolumeMusic();
 	void DecreaseVolumeFx();
-
+	void SetMusicVolume(int volume);
+	void SetFxVolume(int volume);
 
 private:
 

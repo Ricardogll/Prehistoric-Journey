@@ -43,12 +43,7 @@ void UIElement::Draw(SDL_Texture* texture)
 {
 }
 
-void UIElement::Update()
-{
-	
-
-	SetPositionWithParent();
-
+void UIElement::PreUpdate() {
 	if (parent != nullptr) {
 		if (!parent->visible)
 			visible = false;
@@ -56,6 +51,15 @@ void UIElement::Update()
 		//if (parent->to_destroy)
 			//to_destroy = true;
 	}
+}
+
+void UIElement::Update()
+{
+	
+
+	SetPositionWithParent();
+
+	
 }
 
 void UIElement::SetPositionWithParent() {
