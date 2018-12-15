@@ -280,16 +280,21 @@ bool j1Scene::Update(float dt)
 		p2SString s_chicken = std::to_string(c_score).c_str();
 		chickens_numbers->SetText(s_chicken.GetString());
 
-		p2SString s_time = std::to_string((int)timer.ReadSec()).c_str();
-		timer_numbers->SetText(s_time.GetString());
+		if (!on_pause_menu) {
+			p2SString s_time = std::to_string((int)(time + timer.ReadSec())).c_str();
+			timer_numbers->SetText(s_time.GetString());
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && !on_main_menu) {
 		pause = !pause;
 		on_pause_menu = pause;
-		if (pause)
+		if (pause) {
 			App->ui->SetVisibleChildren(menu_in_game);
+			time += timer.ReadSec();
+		}
 		else {
+			timer.Start();
 			menu_in_game->visible = false;
 			menu_in_game_settings->visible = false;
 		}
@@ -435,6 +440,7 @@ bool j1Scene::Update(float dt)
 			
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
+			
 			timer.Start();
 		}
 
@@ -512,6 +518,7 @@ bool j1Scene::Update(float dt)
 			pause = false;
 			menu_in_game->visible = false;
 			on_pause_menu = false;
+			timer.Start();
 		}
 
 		if (menu_in_game_settings_btn->btn_clicked) {
@@ -529,6 +536,7 @@ bool j1Scene::Update(float dt)
 			menu_in_game->visible = false;
 			on_pause_menu = false;
 			on_main_menu = true;
+			GameSave();
 			App->fade->FadeToBlack(this, this, 2.0f);
 		}
 
@@ -537,7 +545,7 @@ bool j1Scene::Update(float dt)
 		if (fx_in_game_slider_ui->cur_value != fx_in_game_slider_ui->last_value)
 			App->audio->SetFxVolume(fx_in_game_slider_ui->cur_value);
 	}
-
+	
 	App->map->Draw();
 	
 	return true;
@@ -552,10 +560,9 @@ bool j1Scene::PostUpdate()
 	//if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		//ret = false;
 
-	if (exit_btn != nullptr) {
-		if (exit_btn->btn_clicked)
+	if (exit_btn != nullptr && exit_btn->visible == true && exit_btn->btn_clicked)
 			ret = false;
-	}
+	
 
 	//Draw pathfinding
 	if (App->collision->debug) {
@@ -592,6 +599,7 @@ void j1Scene::GameSave() {
 	saved_score = score;
 	saved_c_score = c_score;
 	saved_lifes = lifes;
+	saved_time = time;
 	App->entities->GetPlayer()->saved_map = curr_map;
 	game_saved = true;
 }
@@ -634,4 +642,5 @@ void j1Scene::GameLoad() {
 	lifes = saved_lifes;
 	score = saved_score;
 	c_score = saved_c_score;
+	time = saved_time;
 }

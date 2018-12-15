@@ -54,6 +54,7 @@ public:
 	int score = 100;
 	int c_score = 0;
 	j1Timer timer;
+	float time = 0.0f;
 	bool on_main_menu = true;
 	bool on_pause_menu = false;
 	int speed_scroll = -1;
@@ -63,6 +64,7 @@ public:
 	int saved_score = 0;
 	int saved_c_score = 0;
 	int saved_lifes = 0;
+	float saved_time = 0.0f;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;
