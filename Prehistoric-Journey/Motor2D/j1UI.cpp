@@ -11,6 +11,7 @@
 #include "UIButton.h"
 #include "UISlider.h"
 #include "j1Audio.h"
+#include "Brofiler/Brofiler.h"
 
 
 j1UI::j1UI() : j1Module()
@@ -58,6 +59,7 @@ bool j1UI::PreUpdate()
 
 bool j1UI::Update(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::Moccasin)
 	int mouse_x = 0, mouse_y = 0;
 	MouseState mouse_click = MouseState::NONE;
 
