@@ -141,34 +141,39 @@ bool j1Scene::Start()
 	if (on_main_menu) {
 		menu = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		//menu->draggable = true;
-		menu_title_label = App->ui->CreateLabel(85, 50, "abc de f ghi jk lmn op q rst uvwxyz", 250, 32, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", menu);
+		menu_title_label = App->ui->CreateLabel(10, 50, "Prehistoric Journey", -1, 32, { 146, 98, 57, 255 }, "fonts/Prehistoric Caveman.ttf", menu);
 
 		continue_btn = App->ui->CreateButton(50, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-		menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
+		menu_continue_label = App->ui->CreateLabel(55, 13, "Continue", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", continue_btn);
 
 		settings_btn = App->ui->CreateButton(305, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-		menu_settings_label = App->ui->CreateLabel(55, 13, "Settings", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", settings_btn);
+		menu_settings_label = App->ui->CreateLabel(55, 13, "Settings", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", settings_btn);
 
 		credits_btn = App->ui->CreateButton(50, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-		menu_credits_label = App->ui->CreateLabel(55, 13, "Credits", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", credits_btn);
+		menu_credits_label = App->ui->CreateLabel(55, 13, "Credits", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", credits_btn);
 
 		exit_btn = App->ui->CreateButton(305, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-		menu_exit_label = App->ui->CreateLabel(80, 13, "Exit", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", exit_btn);
+		menu_exit_label = App->ui->CreateLabel(80, 13, "Exit", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", exit_btn);
 
 		play_btn = App->ui->CreateButton(180, 350, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu);
-		menu_play_label = App->ui->CreateLabel(75, 13, "Play", -1, 16, { 255,0,0,255 }, "fonts/Kenney Future Narrow.ttf", play_btn);
+		menu_play_label = App->ui->CreateLabel(75, 13, "Play", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", play_btn);
 
 		menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		menu_settings->visible = false;
-		music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
+		music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
 		music_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetMusicVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
 		App->audio->SetMusicVolume(music_slider_ui->cur_value);
 		
+		fx_label_ui = App->ui->CreateLabel(50, 160, "Fx", -1, 24, { 0, 0, 0, 0 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
+		fx_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetFxVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, fx_label_ui);
+		App->audio->SetFxVolume(fx_slider_ui->cur_value);
 
 		menu_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_settings);
 
 		menu_credits = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		menu_credits->visible = false;
+		menu_credits_authors = App->ui->CreateLabel(13, 10, "Authors: Ricardo Gutiérrez Llenas  |  Sergio Gómez Roldán", 560, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
+		menu_credits_license = App->ui->CreateLabel(13, 50, "MIT License Copyright(c) 2018 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", 530, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
 		menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
 
 	}
@@ -414,6 +419,8 @@ bool j1Scene::Update(float dt)
 			menu_settings->visible = true;
 			music_label_ui->visible = true;
 			music_slider_ui->visible = true;
+			fx_label_ui->visible = true;
+			fx_slider_ui->visible = true;
 			menu_settings_back_btn->visible = true;
 			menu->visible = false;
 		}
@@ -439,6 +446,8 @@ bool j1Scene::Update(float dt)
 		{
 
 			menu_credits->visible = true;
+			menu_credits_authors->visible = true;
+			menu_credits_license->visible = true;
 			menu_credits_back_btn->visible = true;
 			menu->visible = false;
 			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
@@ -465,6 +474,8 @@ bool j1Scene::Update(float dt)
 
 		if (music_slider_ui->cur_value != music_slider_ui->last_value)
 			App->audio->SetMusicVolume(music_slider_ui->cur_value);
+		if (fx_slider_ui->cur_value != fx_slider_ui->last_value)
+			App->audio->SetFxVolume(fx_slider_ui->cur_value);
 	}
 
 	App->map->Draw();

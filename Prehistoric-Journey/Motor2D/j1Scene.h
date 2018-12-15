@@ -82,9 +82,13 @@ private:
 	UIElement* menu_settings;
 	UIElement* music_slider_ui;
 	UIElement* music_label_ui;
+	UIElement* fx_slider_ui;
+	UIElement* fx_label_ui;
 	UIElement* menu_settings_back_btn;
 
 	UIElement* menu_credits;
+	UIElement* menu_credits_authors;
+	UIElement* menu_credits_license;
 	UIElement* menu_credits_back_btn;
 
 	UIElement* life1;
