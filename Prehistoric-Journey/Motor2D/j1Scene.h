@@ -50,6 +50,8 @@ public:
 	int c_score = 0;
 	j1Timer timer;
 	bool on_main_menu = true;
+	int speed_scroll = -1;
+	int limit_map = 0;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;

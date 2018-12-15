@@ -610,6 +610,7 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	pugi::xml_node variables = player_node.child("variables");
 	
 	limit_map = variables.child("limit_map").attribute("value").as_int();
+	App->scene->limit_map = limit_map;
 	gravity = variables.child("gravity").attribute("value").as_float();
 	acceleration_x = variables.child("acceleration_x").attribute("value").as_float();
 	liana_speed = variables.child("liana_speed").attribute("value").as_float();

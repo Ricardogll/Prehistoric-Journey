@@ -101,6 +101,18 @@ bool j1UI::PostUpdate()
 		}
 	}
 
+	for (uint i = 0; i < ui_elements.Count(); ++i)
+	{
+		if (ui_elements[i]->to_destroy)
+		{
+			delete ui_elements[i];
+			ui_elements[i] = nullptr;
+			ui_elements.Delete(i);
+
+		}
+	}
+
+
 	return true;
 }
 
@@ -139,14 +151,29 @@ void j1UI::DeleteUIElements() {
 	{
 		if (ui_elements[i] != nullptr)
 		{
-			delete ui_elements[i];
-			ui_elements[i] = nullptr;
-			ui_elements.Delete(i);
+			ui_elements[i]->to_destroy = true;
 			
 		}
 	}
 
-	ui_elements.Clear();
+	
+
+}
+
+void j1UI::Delete1UIElement(UIElement* ui_el) {
+
+	for (uint i = 0; i < ui_elements.Count(); i++) 
+	{
+		if (ui_elements[i] == ui_el) 
+		{
+			ui_elements[i]->to_destroy = true;
+			//break;
+		}
+
+		if (ui_elements[i]->parent == ui_el && ui_elements[i]->to_destroy == false)
+			Delete1UIElement(ui_elements[i]);
+
+	}
 
 }
 

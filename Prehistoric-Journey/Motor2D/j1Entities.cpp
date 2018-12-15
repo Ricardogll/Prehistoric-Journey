@@ -55,7 +55,7 @@ bool j1Entities::Awake(pugi::xml_node& config) {
 
 	for (aux_node = config.child("spawns2").child("chicken"); aux_node; aux_node = aux_node.next_sibling("chicken")) {
 
-		to_create1.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::CHICKEN));
+		to_create2.add(ToCreate(aux_node.attribute("x").as_int(), aux_node.attribute("y").as_int(), EntityTypes::CHICKEN));
 	}	
 
 	return true;
