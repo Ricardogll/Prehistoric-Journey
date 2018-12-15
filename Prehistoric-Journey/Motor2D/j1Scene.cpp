@@ -70,11 +70,11 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	pugi::xml_node variables = config.child("music");
 
-	music_map1 = (variables.child("music_map1").attribute("location").as_string());
+	music_map1 = variables.child("music_map1").attribute("location").as_string();
 	music_map2 = variables.child("music_map2").attribute("location").as_string();
-
-	
-
+	music_main_menu = variables.child("music_main_menu").attribute("location").as_string();
+	fx_click_folder = variables.child("fx_click").attribute("location").as_string();
+	App->ui->fx_click = App->audio->LoadFx(fx_click_folder.GetString());
 
 	return ret;
 }
@@ -93,6 +93,14 @@ bool j1Scene::Start()
 		
 	}
 
+	if (lifes < 0) {
+		lifes = 3;
+		on_main_menu = true;
+		App->entities->GetPlayer()->state = IDLE;
+	}
+
+	
+	
 	if (App->entities->GetPlayer() == nullptr) {
 		if (App->audio->active)
 			App->audio->PlayMusic(music_map1.GetString(), 0.5f);			
@@ -117,11 +125,8 @@ bool j1Scene::Start()
 	else if (App->entities->GetPlayer()->player_died) 
 		App->entities->GetPlayer()->player_died = false;
 	
-	if (lifes < 0) {
-		lifes = 3;
-		on_main_menu = true;
-		App->entities->GetPlayer()->state = IDLE;
-	}
+	if (on_main_menu)
+		App->audio->PlayMusic(music_main_menu.GetString(), 0.5f);
 
 	int w, h;
 	uchar* data = NULL;

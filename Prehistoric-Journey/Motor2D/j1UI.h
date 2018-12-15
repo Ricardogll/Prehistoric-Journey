@@ -70,7 +70,7 @@ public:
 
 public:
 
-	
+	uint fx_click = 0u;
 
 private:
 	bool debug = false;

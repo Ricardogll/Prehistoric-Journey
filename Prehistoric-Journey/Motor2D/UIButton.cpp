@@ -2,6 +2,8 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1UI.h"
+#include "j1Audio.h"
+
 //#include "p2Log.h"
 
 UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent) :UIElement(x, y, BUTTON, parent)
@@ -35,6 +37,7 @@ void UIButton::Update() {
 	switch (mouse_state) {
 
 	case MouseState::DOWN_CLICK:
+		App->audio->PlayFx(App->ui->fx_click);
 	case MouseState::REPEAT_CLICK:
 		img_rect = clicked_rect;
 		break;

@@ -48,6 +48,8 @@ public:
 	CurrentMap curr_map = NO_MAP;
 	p2SString music_map1;
 	p2SString music_map2;
+	p2SString music_main_menu;
+	p2SString fx_click_folder;
 	bool pause = false;
 	int score = 100;
 	int c_score = 0;

@@ -31,7 +31,6 @@ UIElement::~UIElement()
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 	parent = nullptr;
-	//App->font->Unload(current_font);
 	current_font = nullptr;
 }
 
