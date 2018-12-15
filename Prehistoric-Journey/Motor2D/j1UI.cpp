@@ -80,9 +80,12 @@ bool j1UI::Update(float dt)
 
 	for (uint i = 0u; i < ui_elements.Count(); i++) {
 		if (ui_elements[i] != nullptr) {
+			ui_elements[i]->btn_clicked = false;
 			if (ui_elements[i]->visible) {
-				ui_elements[i]->CheckMouseState(mouse_x, mouse_y, mouse_click);
+				
 				ui_elements[i]->Update();
+				ui_elements[i]->CheckMouseState(mouse_x, mouse_y, mouse_click);
+				
 			}
 		}
 	}

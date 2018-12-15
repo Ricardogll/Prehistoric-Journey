@@ -109,10 +109,16 @@ bool j1Scene::Start()
 		}
 
 	}
-	else if (App->entities->GetPlayer()->player_died)
+	else if (App->entities->GetPlayer()->player_died) 
 		App->entities->GetPlayer()->player_died = false;
+	
+	if (lifes < 0) {
+		lifes = 3;
+		on_main_menu = true;
+		App->entities->GetPlayer()->state = IDLE;
+	}
 
-	int w, h;//change to differentiate between maps
+	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
@@ -145,7 +151,7 @@ bool j1Scene::Start()
 		menu_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		menu_settings->visible = false;
 		music_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", menu_settings);
-		music_slider_ui = App->ui->CreateSlider(0, 40, 0, 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
+		music_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetMusicVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, music_label_ui);
 		App->audio->SetMusicVolume(music_slider_ui->cur_value);
 		
 
@@ -156,35 +162,42 @@ bool j1Scene::Start()
 		menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
 
 	}
+	else {
 
-	//HUD
-	switch (App->entities->lifes)
-	{
-	case 3:
-		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
-		life2 = App->ui->CreateImage( 65, 10, { 550,254,43,39 }, window_ui);
-		life3 = App->ui->CreateImage(115, 10, { 550,254,43,39 }, window_ui);
-		break;
-	case 2:
-		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
-		life2 = App->ui->CreateImage( 65, 10, { 550,254,43,39 }, window_ui);
-		life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
-		break;
-	case 1:
-		life1 = App->ui->CreateImage( 15, 10, { 550,254,43,39 }, window_ui);
-		life2 = App->ui->CreateImage( 65, 10, { 593,254,43,39 }, window_ui);
-		life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
-		break;
+		//HUD
+		switch (lifes)
+		{
+		case 3:
+			life1 = App->ui->CreateImage(15, 10, { 550,254,43,39 }, window_ui);
+			life2 = App->ui->CreateImage(65, 10, { 550,254,43,39 }, window_ui);
+			life3 = App->ui->CreateImage(115, 10, { 550,254,43,39 }, window_ui);
+			break;
+		case 2:
+			life1 = App->ui->CreateImage(15, 10, { 550,254,43,39 }, window_ui);
+			life2 = App->ui->CreateImage(65, 10, { 550,254,43,39 }, window_ui);
+			life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
+			break;
+		case 1:
+			life1 = App->ui->CreateImage(15, 10, { 550,254,43,39 }, window_ui);
+			life2 = App->ui->CreateImage(65, 10, { 593,254,43,39 }, window_ui);
+			life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
+			break;
+		default:
+			life1 = App->ui->CreateImage(15, 10, { 593,254,43,39 }, window_ui);
+			life2 = App->ui->CreateImage(65, 10, { 593,254,43,39 }, window_ui);
+			life3 = App->ui->CreateImage(115, 10, { 593,254,43,39 }, window_ui);
+			break;
+		}
+
+		chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
+		chickens_numbers = App->ui->CreateLabel(425, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+
+		score_label = App->ui->CreateLabel(520, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+		score_numbers = App->ui->CreateLabel(615, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+
+		timer_label = App->ui->CreateLabel(905, 20, "Time:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+		timer_numbers = App->ui->CreateLabel(975, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 	}
-
-	chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
-	chickens_numbers = App->ui->CreateLabel(425, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-
-	score_label = App->ui->CreateLabel(520, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-	score_numbers = App->ui->CreateLabel(615, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-
-	timer_label = App->ui->CreateLabel(905, 20, "Time:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-	timer_numbers = App->ui->CreateLabel(975, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 	return true;
 }
@@ -217,77 +230,38 @@ bool j1Scene::Update(float dt)
 		if (App->render->camera.x > 0)
 			speed_scroll = -1;
 	}
-	
-	//std::string s = std::to_string(score);
-	//p2SString s2 = s.c_str();
-	//App->font->CalcSize(s2.GetString(), score_numbers->img_rect.w, score_numbers->img_rect.h, App->font->default);
-	//score_numbers->UpdateText(App->font->Print(s2.GetString(), { 255,255,255,255 }, App->font->default));		//CHANGE THIS TO ...
-	p2SString s2 = std::to_string(score).c_str(); // THIS
-	score_numbers->SetText(s2.GetString());
+	else {
 
-	std::string s3 = std::to_string(c_score);
-	p2SString s4 = s3.c_str();
-	App->font->CalcSize(s4.GetString(), chickens_numbers->img_rect.w, chickens_numbers->img_rect.h, App->font->default);
-	chickens_numbers->UpdateText(App->font->Print(s4.GetString(), { 255,255,255,255 }, App->font->default));
+		
+		p2SString s_score = std::to_string(score).c_str();
+		score_numbers->SetText(s_score.GetString());
 
-	std::string s5 = std::to_string((int)timer.ReadSec());
-	p2SString s6 = s5.c_str();
-	App->font->CalcSize(s6.GetString(), timer_numbers->img_rect.w, timer_numbers->img_rect.h, App->font->default);
-	timer_numbers->UpdateText(App->font->Print(s6.GetString(), { 255,255,255,255 }, App->font->default));
+		p2SString s_chicken = std::to_string(c_score).c_str();
+		chickens_numbers->SetText(s_chicken.GetString());
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
-		App->audio->RaiseVolumeMusic();
-		App->audio->RaiseVolumeFx();
+		p2SString s_time = std::to_string((int)timer.ReadSec()).c_str();
+		timer_numbers->SetText(s_time.GetString());
 	}
+	//if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
+	//	App->audio->RaiseVolumeMusic();
+	//	App->audio->RaiseVolumeFx();
+	//}
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
-		App->audio->DecreaseVolumeMusic();
-		App->audio->DecreaseVolumeFx();
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
+	//	App->audio->DecreaseVolumeMusic();
+	//	App->audio->DecreaseVolumeFx();
+	//}
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		pause = !pause;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
-		
-		
-			App->LoadGame();
-			if (curr_map != App->entities->GetPlayer()->saved_map)
-			{
-			switch (App->entities->GetPlayer()->saved_map) {
-			case 1:
-				curr_map = MAP_1;
-				App->fade->FadeToBlack(this, this, 2.0f);
-				App->map->CleanUp();
-				App->collision->CleanUpMap();
-				App->map->Load("Jungle.tmx");
-				App->map->setColliders();
-				//App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
-				//App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
-				is_fade = true;
-				break;
-			case 2:
-				curr_map = MAP_2;
-				App->fade->FadeToBlack(this, this, 2.0f);
-				App->map->CleanUp();
-				App->collision->CleanUpMap();
-				App->map->Load("Cave.tmx");
-				App->map->setColliders();
-				//App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
-				//App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
-				is_fade = true;
-				break;
-			default:
-				break;
-			}
-		}
-
+		GameLoad();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && App->fade->IsFading() == false) {
-		App->SaveGame();
-		App->entities->GetPlayer()->saved_map = curr_map;
+		GameSave();
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && App->fade->IsFading() == false)
@@ -400,69 +374,86 @@ bool j1Scene::Update(float dt)
 	}
 
 	//UI
+	
 	window_ui->world_pos_x = -App->render->camera.x;
 	
-	if (settings_btn->btn_clicked)
-	{
+	if (App->fade->IsFading() == false && on_main_menu) {
+
+
+		if (play_btn->btn_clicked) {
+			//menu->visible = false;//Delete UI of main menu
+			App->ui->Delete1UIElement(menu);
+			on_main_menu = false;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			timer.Start();
+		}
+
+		if (continue_btn->btn_clicked && game_saved)
+		{
+			GameLoad();
+			App->ui->Delete1UIElement(menu);
+			on_main_menu = false;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			timer.Start();
+		}
+
+		if (settings_btn->btn_clicked)
+		{
+
+			menu_settings->visible = true;
+			music_label_ui->visible = true;
+			music_slider_ui->visible = true;
+			menu_settings_back_btn->visible = true;
+			menu->visible = false;
+		}
+
+		if (menu_settings_back_btn->btn_clicked)
+		{
+			menu->visible = true;
+			continue_btn->visible = true;
+			settings_btn->visible = true;
+			credits_btn->visible = true;
+			exit_btn->visible = true;
+			play_btn->visible = true;
+			menu_title_label->visible = true;
+			menu_continue_label->visible = true;
+			menu_settings_label->visible = true;
+			menu_credits_label->visible = true;
+			menu_exit_label->visible = true;
+			menu_play_label->visible = true;
+			menu_settings->visible = false;
+		}
+
+		if (credits_btn->btn_clicked)
+		{
+
+			menu_credits->visible = true;
+			menu_credits_back_btn->visible = true;
+			menu->visible = false;
+		}
+
+		if (menu_credits_back_btn->btn_clicked)
+		{
+			menu->visible = true;
+			continue_btn->visible = true;
+			settings_btn->visible = true;
+			credits_btn->visible = true;
+			exit_btn->visible = true;
+			play_btn->visible = true;
+			menu_title_label->visible = true;
+			menu_continue_label->visible = true;
+			menu_settings_label->visible = true;
+			menu_credits_label->visible = true;
+			menu_exit_label->visible = true;
+			menu_play_label->visible = true;
+			menu_credits->visible = false;
+		}
+
 		
-		menu_settings->visible = true;
-		music_label_ui->visible = true;
-		music_slider_ui->visible = true;
-		menu_settings_back_btn->visible = true;
-		menu->visible = false;
+
+		if (music_slider_ui->cur_value != music_slider_ui->last_value)
+			App->audio->SetMusicVolume(music_slider_ui->cur_value);
 	}
-
-	if (menu_settings_back_btn->btn_clicked)
-	{
-		menu->visible = true;
-		continue_btn->visible = true;
-		settings_btn->visible = true;
-		credits_btn->visible = true;
-		exit_btn->visible = true;
-		play_btn->visible = true;
-		menu_title_label->visible = true;
-		menu_continue_label->visible = true;
-		menu_settings_label->visible = true;
-		menu_credits_label->visible = true;
-		menu_exit_label->visible = true;
-		menu_play_label->visible = true;
-		menu_settings->visible = false;
-	}
-
-	if (credits_btn->btn_clicked)
-	{
-
-		menu_credits->visible = true;
-		menu_credits_back_btn->visible = true;
-		menu->visible = false;
-	}
-
-	if (menu_credits_back_btn->btn_clicked)
-	{
-		menu->visible = true;
-		continue_btn->visible = true;
-		settings_btn->visible = true;
-		credits_btn->visible = true;
-		exit_btn->visible = true;
-		play_btn->visible = true;
-		menu_title_label->visible = true;
-		menu_continue_label->visible = true;
-		menu_settings_label->visible = true;
-		menu_credits_label->visible = true;
-		menu_exit_label->visible = true;
-		menu_play_label->visible = true;
-		menu_credits->visible = false;
-	}
-
-	if (play_btn->btn_clicked) {
-		//menu->visible = false;//Delete UI of main menu
-		App->ui->Delete1UIElement(menu);
-		on_main_menu = false;
-		App->fade->FadeToBlack(this, this, 2.0f);
-	}
-
-	if (music_slider_ui->cur_value != music_slider_ui->last_value)
-		App->audio->SetMusicVolume(music_slider_ui->cur_value);
 
 	App->map->Draw();
 	
@@ -506,4 +497,44 @@ bool j1Scene::CleanUp()
 	App->ui->DeleteUIElements();
 
 	return true;
+}
+
+void j1Scene::GameSave() {
+	App->SaveGame();
+	App->entities->GetPlayer()->saved_map = curr_map;
+	game_saved = true;
+}
+
+void j1Scene::GameLoad() {
+
+	App->LoadGame();
+	if (curr_map != App->entities->GetPlayer()->saved_map)
+	{
+		switch (App->entities->GetPlayer()->saved_map) {
+		case 1:
+			curr_map = MAP_1;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Jungle.tmx");
+			App->map->setColliders();
+			//App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
+			//App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
+			is_fade = true;
+			break;
+		case 2:
+			curr_map = MAP_2;
+			App->fade->FadeToBlack(this, this, 2.0f);
+			App->map->CleanUp();
+			App->collision->CleanUpMap();
+			App->map->Load("Cave.tmx");
+			App->map->setColliders();
+			//App->entities->GetPlayer()->position.x = App->entities->GetPlayer()->last_saved_pos.x;
+			//App->entities->GetPlayer()->position.y = App->entities->GetPlayer()->last_saved_pos.y;
+			is_fade = true;
+			break;
+		default:
+			break;
+		}
+	}
 }

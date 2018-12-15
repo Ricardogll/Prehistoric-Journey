@@ -596,7 +596,10 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			App->audio->PlayFx(lose_fx);
 			speed = { 0.0f,0.0f };
 			acceleration = { 0.0f,0.0f };
-
+			App->scene->lifes--;
+			App->scene->c_score = 0;
+			App->scene->score = 0;
+			App->scene->timer.Start();
 			position.x = App->map->spawn_pos.x;
 			position.y = App->map->spawn_pos.y;
 		}

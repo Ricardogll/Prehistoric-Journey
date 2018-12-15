@@ -42,7 +42,9 @@ void UIButton::Update() {
 	case MouseState::HOVERING:
 		img_rect = hovering_rect;
 		break;
-
+	case MouseState::UP_CLICK:
+		btn_clicked = true;
+		break;
 	default:
 		img_rect = basic_rect;
 		break;
@@ -50,14 +52,7 @@ void UIButton::Update() {
 
 
 
-	if (mouse_state == MouseState::UP_CLICK)
-		btn_clicked = true;
-
-
-	//if (parent != nullptr) {
-	//	if (!parent->visible)
-	//		visible = false;
-	//}
+	
 
 	SetPositionWithParent();
 

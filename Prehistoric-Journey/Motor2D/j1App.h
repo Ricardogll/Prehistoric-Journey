@@ -24,7 +24,7 @@ class j1PathFinding;
 class j1Entities;
 class j1UI;
 class j1Fonts;
-class j1MainMenu;
+
 
 class j1App
 {
@@ -104,7 +104,7 @@ public:
 	j1Entities*			entities = nullptr;
 	j1UI*				ui = nullptr;
 	j1Fonts*			font = nullptr;
-	j1MainMenu*			main_menu = nullptr;
+	
 
 	
 	float				dt = 0.0f;

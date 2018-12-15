@@ -41,6 +41,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void GameSave();
+	void GameLoad();
+
 public:
 	CurrentMap curr_map = NO_MAP;
 	p2SString music_map1;
@@ -52,6 +55,8 @@ public:
 	bool on_main_menu = true;
 	int speed_scroll = -1;
 	int limit_map = 0;
+	int lifes = 3;
+	bool game_saved = false;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;

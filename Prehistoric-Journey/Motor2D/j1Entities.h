@@ -72,7 +72,7 @@ public:
 	p2DynArray<Entity*> entities;
 	p2List<ToCreate> to_create1;
 	p2List<ToCreate> to_create2;
-	int lifes = 2;
+	
 private:
 	
 };

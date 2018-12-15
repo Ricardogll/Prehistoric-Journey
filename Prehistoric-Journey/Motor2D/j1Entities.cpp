@@ -12,6 +12,7 @@
 
 
 
+
 j1Entities::j1Entities() {
 	name = "entities";
 }
@@ -184,6 +185,7 @@ bool j1Entities::Update(float dt) {
 
 	for (uint i = 0u; i < entities.Count(); i++) {
 		if (entities[i] != nullptr) {
+			
 			entities[i]->Update(dt);
 		}
 	}
