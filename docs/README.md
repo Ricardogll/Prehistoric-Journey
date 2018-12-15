@@ -6,6 +6,9 @@ Game for the videogame development subject. Our goal is to make a platformer wit
 A platformer where you are a caveman armed with a mace, on you have to catch as much food as possible while batting against bats and T-rexs before you end the levels.
 
 ## **Team**
+
+![](team_photo.jpg)
+
 _Gutiérrez LLenas, Ricardo’s work and Github_
 * Pathfinding, normalized logic, entity system, camera culling and UI functionability.
 * [Github account](https://github.com/Ricardogll)
@@ -35,13 +38,9 @@ You have to catch as much food as possible for more score, you get socre beating
 ~~~~~~~~~~~~~~~
 Player controls:
 - Left  (A)
-
 - Right (D)
-
 - Jump  (Espace)
-
 - Attack (C)
-
 - Climb (W,A,S,D). Press W when you are on top of a climbable part of the map to make the player grab onto it.
 
 - Plus and minus in the keypad to change the volume
@@ -50,19 +49,13 @@ Player controls:
 
 Debug Controls:
 - F1:  Start at the very first level
-
 - F2:  Start at the second map
-
 - F5:  Save the current state
-
 - F6:  Load the previous state
-
+- F8:  UI debug mode
 - F9:  Draw colliders and enemies pathfinding
-
 - F10: God Mode
-
 - F11: Cap or uncap FPS. (Capped fps equals 30fps)
-
 - F3: To see camera culling in work with 1 less tile
 
 *Note: You won't be able to save or load while the game is changing scenes or jumping to avoid errors.*
