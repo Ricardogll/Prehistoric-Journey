@@ -99,7 +99,7 @@ public:
 	virtual void Draw();
 	virtual void OnCollision(Collider* c1, Collider* c2);
 	virtual void AnimationsApplyDt() {};
-	
+	virtual void SetMovementZero() {};
 	virtual bool Save(pugi::xml_node& entity_node) const;
 	void SetAnimations(pugi::xml_node& config, Animation& animation);
 	fPoint SpeedNeededFromTo(iPoint& from, iPoint& to) const;

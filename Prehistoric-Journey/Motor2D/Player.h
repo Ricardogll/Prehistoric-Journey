@@ -34,6 +34,7 @@ public:
 	
 	void AnimationsApplyDt();
 
+	void SetMovementZero();
 private:
 
 	SDL_Rect player_rect = { 0,0 };

@@ -171,7 +171,7 @@ void j1UI::DeleteUIElements() {
 
 }
 
-void j1UI::Delete1UIElement(UIElement* ui_el) {
+void j1UI::DeleteUIElementChildren(UIElement* ui_el) {
 
 	for (uint i = 0; i < ui_elements.Count(); i++) 
 	{
@@ -181,12 +181,31 @@ void j1UI::Delete1UIElement(UIElement* ui_el) {
 			//break;
 		}
 
-		if (ui_elements[i]->parent == ui_el && ui_elements[i]->to_destroy == false)
-			Delete1UIElement(ui_elements[i]);
+		if (ui_elements[i]->parent == ui_el)
+			DeleteUIElementChildren(ui_elements[i]);
 
 	}
 
 }
+
+void j1UI::SetInvisibleChildren(UIElement* ui_el) {
+
+	for (uint i = 0; i < ui_elements.Count(); i++)
+	{
+		if (ui_elements[i] == ui_el)
+		{
+			ui_elements[i]->visible = false;
+			//break;
+		}
+
+		if (ui_elements[i]->parent == ui_el)
+			SetInvisibleChildren(ui_elements[i]);
+
+	}
+
+}
+
+
 
 UIElement* j1UI::CreateLabel(int x, int y,  const char* text, int width, int size, SDL_Color color, const char* font, UIElement* parent)
 {

@@ -35,7 +35,8 @@
     <music>
       <music_map1 location="audio/music/theme-1.ogg"/>
       <music_map2 location="audio/music/theme-2.ogg"/>
-      <music_map3 location="audio/music/theme-1.ogg"/>
+      <music_main_menu location="audio/music/menu_theme.ogg"/>
+	  <fx_click location = "audio/fx/click.wav"/>
     </music>
   </scene>
 

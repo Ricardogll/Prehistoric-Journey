@@ -26,6 +26,8 @@ j1Scene::j1Scene() : j1Module()
 j1Scene::~j1Scene()
 {
 
+	/*
+	
 	window_ui->~UIElement();
 	window_ui = nullptr;
 
@@ -55,6 +57,7 @@ j1Scene::~j1Scene()
 
 	menu->~UIElement();
 	menu = nullptr;
+	*/
 
 
 }
@@ -67,11 +70,11 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	pugi::xml_node variables = config.child("music");
 
-	music_map1 = (variables.child("music_map1").attribute("location").as_string());
+	music_map1 = variables.child("music_map1").attribute("location").as_string();
 	music_map2 = variables.child("music_map2").attribute("location").as_string();
-
-	
-
+	music_main_menu = variables.child("music_main_menu").attribute("location").as_string();
+	fx_click_folder = variables.child("fx_click").attribute("location").as_string();
+	App->ui->fx_click = App->audio->LoadFx(fx_click_folder.GetString());
 
 	return ret;
 }
@@ -90,12 +93,22 @@ bool j1Scene::Start()
 		
 	}
 
+	if (lifes < 0) {
+		lifes = 3;
+		on_main_menu = true;
+		App->entities->GetPlayer()->state = IDLE;
+	}
+
+	
+	
 	if (App->entities->GetPlayer() == nullptr) {
 		if (App->audio->active)
 			App->audio->PlayMusic(music_map1.GetString(), 0.5f);			
 	}
 	else if (App->entities->GetPlayer()->player_died == false) {
 		
+		App->entities->GetPlayer()->SetMovementZero();
+		App->entities->GetPlayer()->state = IDLE;
 
 		switch (curr_map) {
 		case MAP_1:
@@ -112,11 +125,8 @@ bool j1Scene::Start()
 	else if (App->entities->GetPlayer()->player_died) 
 		App->entities->GetPlayer()->player_died = false;
 	
-	if (lifes < 0) {
-		lifes = 3;
-		on_main_menu = true;
-		App->entities->GetPlayer()->state = IDLE;
-	}
+	if (on_main_menu)
+		App->audio->PlayMusic(music_main_menu.GetString(), 0.5f);
 
 	int w, h;
 	uchar* data = NULL;
@@ -388,7 +398,8 @@ bool j1Scene::Update(float dt)
 
 		if (play_btn->btn_clicked) {
 			//menu->visible = false;//Delete UI of main menu
-			App->ui->Delete1UIElement(menu);
+			App->ui->DeleteUIElementChildren(menu);
+			App->ui->DeleteUIElementChildren(menu_settings);
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -397,7 +408,7 @@ bool j1Scene::Update(float dt)
 		if (continue_btn->btn_clicked && game_saved)
 		{
 			GameLoad();
-			App->ui->Delete1UIElement(menu);
+			App->ui->DeleteUIElementChildren(menu);
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
@@ -439,6 +450,7 @@ bool j1Scene::Update(float dt)
 			menu_credits_label_license->visible = true;
 			menu_credits_back_btn->visible = true;
 			menu->visible = false;
+			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
 		}
 
 		if (menu_credits_back_btn->btn_clicked)
@@ -478,9 +490,13 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || exit_btn->btn_clicked)
+	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (exit_btn != nullptr) {
+		if (exit_btn->btn_clicked)
+			ret = false;
+	}
 
 	//Draw pathfinding
 	if (App->collision->debug) {
@@ -508,11 +524,15 @@ bool j1Scene::CleanUp()
 
 	App->ui->DeleteUIElements();
 
+
 	return true;
 }
 
 void j1Scene::GameSave() {
 	App->SaveGame();
+	saved_score = score;
+	saved_c_score = c_score;
+	saved_lifes = lifes;
 	App->entities->GetPlayer()->saved_map = curr_map;
 	game_saved = true;
 }
@@ -548,5 +568,11 @@ void j1Scene::GameLoad() {
 		default:
 			break;
 		}
+		
 	}
+	App->entities->GetPlayer()->SetMovementZero();
+	
+	lifes = saved_lifes;
+	score = saved_score;
+	c_score = saved_c_score;
 }

@@ -55,7 +55,9 @@ public:
 	bool CleanUp();
 
 	void DeleteUIElements();
-	void Delete1UIElement(UIElement* ui_el);
+	void DeleteUIElementChildren(UIElement* ui_el);
+	void SetInvisibleChildren(UIElement* ui_el);
+
 	// Gui creation functions
 	UIElement* CreateLabel(int x, int y, const char* text, int width = -1, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT, UIElement* parent = nullptr);
 	UIElement* CreateImage(int x, int y, SDL_Rect rect, UIElement* parent = nullptr);
@@ -68,7 +70,7 @@ public:
 
 public:
 
-	
+	uint fx_click = 0u;
 
 private:
 	bool debug = false;
