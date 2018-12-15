@@ -55,6 +55,7 @@ public:
 	int c_score = 0;
 	j1Timer timer;
 	bool on_main_menu = true;
+	bool on_pause_menu = false;
 	int speed_scroll = -1;
 	int limit_map = 0;
 	int lifes = 3;
@@ -76,8 +77,7 @@ private:
 	UIElement* menu_exit_label;
 	UIElement* menu_play_label;   
 	UIElement* menu;
-	UIElement* window_ui;
-	
+	UIElement* window_ui;	
 
 	UIElement* menu_settings;
 	UIElement* music_slider_ui;
@@ -90,6 +90,22 @@ private:
 	UIElement* menu_credits_authors;
 	UIElement* menu_credits_license;
 	UIElement* menu_credits_back_btn;
+
+	UIElement* menu_in_game;
+	UIElement* menu_in_game_label;
+	UIElement* menu_in_game_settings_label;
+	UIElement* menu_in_game_settings_btn;
+	UIElement* menu_in_game_resume_label;
+	UIElement* menu_in_game_resume_btn;
+	UIElement* menu_in_game_back_label;
+	UIElement* menu_in_game_back_btn;
+
+	UIElement* menu_in_game_settings;
+	UIElement* music_in_game_slider_ui;
+	UIElement* music_in_game_label_ui;
+	UIElement* fx_in_game_slider_ui;
+	UIElement* fx_in_game_label_ui;
+	UIElement* menu_in_game_settings_back_btn;
 
 	UIElement* life1;
 	UIElement* life2;

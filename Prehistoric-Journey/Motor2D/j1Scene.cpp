@@ -212,6 +212,30 @@ bool j1Scene::Start()
 
 		timer_label = App->ui->CreateLabel(905, 20, "Time:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 		timer_numbers = App->ui->CreateLabel(975, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+
+		menu_in_game = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+		menu_in_game->visible = false;
+		menu_in_game_label = App->ui->CreateLabel(200, 50, "Pause", -1, 32, { 146, 98, 57, 255 }, "fonts/Prehistoric Caveman.ttf", menu_in_game);
+
+		menu_in_game_resume_btn = App->ui->CreateButton(180, 140, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu_in_game);
+		menu_in_game_resume_label = App->ui->CreateLabel(55, 13, "Resume", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", menu_in_game_resume_btn);
+
+		menu_in_game_settings_btn = App->ui->CreateButton(180, 240, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu_in_game);
+		menu_in_game_settings_label = App->ui->CreateLabel(55, 13, "Settings", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", menu_in_game_settings_btn);
+
+		menu_in_game_back_btn = App->ui->CreateButton(180, 340, { 550,0,190,49 }, { 550,49,190,49 }, { 550,98,190,49 }, menu_in_game);
+		menu_in_game_back_label = App->ui->CreateLabel(40, 13, "Back to menu", -1, 16, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", menu_in_game_back_btn);
+
+		menu_in_game_settings = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
+		menu_in_game_settings->visible = false;
+		music_in_game_label_ui = App->ui->CreateLabel(50, 75, "Music", -1, 24, { 0,0,0,0 }, "fonts/Kenney Future Narrow.ttf", menu_in_game_settings);
+		music_in_game_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetMusicVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, music_in_game_label_ui);
+		App->audio->SetMusicVolume(music_in_game_slider_ui->cur_value);
+		fx_in_game_label_ui = App->ui->CreateLabel(50, 160, "Sound Effects", -1, 24, { 0, 0, 0, 0 }, "fonts/Kenney Future Narrow.ttf", menu_in_game_settings);
+		fx_in_game_slider_ui = App->ui->CreateSlider(0, 40, App->audio->GetFxVolume(), 255, { 550,209,222,45 }, { 694,160,37,37 }, fx_in_game_label_ui);
+		App->audio->SetFxVolume(fx_in_game_slider_ui->cur_value);
+		menu_in_game_settings_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_in_game_settings);
+
 	}
 
 	return true;
@@ -257,18 +281,10 @@ bool j1Scene::Update(float dt)
 		p2SString s_time = std::to_string((int)timer.ReadSec()).c_str();
 		timer_numbers->SetText(s_time.GetString());
 	}
-	//if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
-	//	App->audio->RaiseVolumeMusic();
-	//	App->audio->RaiseVolumeFx();
-	//}
 
-	//if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
-	//	App->audio->DecreaseVolumeMusic();
-	//	App->audio->DecreaseVolumeFx();
-	//}
-
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		pause = !pause;
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN && !on_main_menu) {
+		pause = true;
+		on_pause_menu = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
@@ -479,6 +495,39 @@ bool j1Scene::Update(float dt)
 			App->audio->SetMusicVolume(music_slider_ui->cur_value);
 		if (fx_slider_ui->cur_value != fx_slider_ui->last_value)
 			App->audio->SetFxVolume(fx_slider_ui->cur_value);
+	}
+	else if (on_pause_menu == true) {
+		menu_in_game->visible = true;
+		App->ui->SetVisibleChildren(menu_in_game);
+
+		if (menu_in_game_resume_btn->btn_clicked) {
+			pause = false;
+			menu_in_game->visible = false;
+			on_pause_menu = false;
+		}
+
+		if (menu_in_game_settings_btn->btn_clicked) {
+			App->ui->SetVisibleChildren(menu_in_game_settings);
+			menu_in_game->visible = false;
+		}
+
+		if (menu_in_game_settings_back_btn->btn_clicked) {
+			App->ui->SetVisibleChildren(menu_in_game);
+			menu_in_game_settings->visible = false;
+		}
+
+		if (menu_in_game_back_btn->btn_clicked) {
+			pause = false;
+			menu_in_game->visible = false;
+			on_pause_menu = false;
+			on_main_menu = true;
+			App->fade->FadeToBlack(this, this, 2.0f);
+		}
+
+		if (music_in_game_slider_ui->cur_value != music_in_game_slider_ui->last_value)
+			App->audio->SetMusicVolume(music_in_game_slider_ui->cur_value);
+		if (fx_in_game_slider_ui->cur_value != fx_in_game_slider_ui->last_value)
+			App->audio->SetFxVolume(fx_in_game_slider_ui->cur_value);
 	}
 
 	App->map->Draw();
