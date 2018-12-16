@@ -66,7 +66,7 @@ Debug Controls:
 ## **Important links**
 
 > ### Check the Github repository [here.](https://github.com/Ricardogll/Prehistoric-Journey)
-> ### Download the latest version of the game [here.]()
+> ### Download the latest version of the game [here.](https://github.com/Ricardogll/Prehistoric-Journey/releases/tag/v1.0.2)
 
 ### Disclosure
 
