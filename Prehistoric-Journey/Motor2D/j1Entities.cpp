@@ -161,7 +161,7 @@ bool j1Entities::PreUpdate() {
 	//do deletes if to_destroy
 	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::DeepPink)
 		
-	//https://stackoverflow.com/questions/25569985/sdl-invalid-texture-error-on-sdl-destroytexture TODO: Check if this is happening
+	
 	for (uint i = 0u; i < entities.Count(); i++) {
 		
 		if (entities[i]->to_destroy) {

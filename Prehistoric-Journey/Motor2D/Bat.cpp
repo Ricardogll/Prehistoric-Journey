@@ -52,13 +52,13 @@ void Bat::Update(float dt) {
 	fPoint player_pos = App->entities->GetPlayer()->position;
 	float dist = position.DistanceNoSqrt(player_pos);
 
-	if (soundtimer.Read() > sound_time && dist < hear_dist && state != DEATH) {
+	if (soundtimer.Read() > sound_time && dist < hear_dist && state != DEATH && App->scene->on_main_menu==false && App->scene->on_pause_menu == false) {
 		App->audio->PlayFx(idle_sound, 0);
 		soundtimer.Start();
 	}
 
 
-	if (position.DistanceNoSqrt(player_pos) < radar && position.DistanceNoSqrt(player_pos) > -radar && state != DEATH ) {
+	if (position.DistanceNoSqrt(player_pos) < radar && position.DistanceNoSqrt(player_pos) > -radar && state != DEATH && App->scene->on_main_menu == false) {
 		
 		
 		if (timer_pathfinding + wait_pf < SDL_GetTicks()) {
