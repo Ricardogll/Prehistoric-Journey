@@ -26,7 +26,7 @@ Chicken::Chicken(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity
 
 		texture = App->tex->Load(spritesheet.GetString());
 		collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_COLLECTABLE, (j1Module*)App->entities);
-		
+
 	}
 	state = IDLE;
 }
@@ -66,7 +66,6 @@ void Chicken::OnCollision(Collider * c1, Collider * c2)
 	if (c2->type == COLLIDER_PLAYER) {
 		
 		App->collision->EraseCollider(collider);
-		
 		App->scene->c_score++;
 		if (App->scene->c_score >= 5 && App->scene->c_score < 10)
 			App->scene->multiplier = 2;

@@ -65,6 +65,7 @@ private:
 	uint hit_fx = 0u;
 	uint chicken_sound = 0u;
 
+
 	//****XML variables	
 	float acceleration_x = 0.0f;
 	float liana_speed = 0.0f;

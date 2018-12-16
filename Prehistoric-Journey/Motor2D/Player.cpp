@@ -80,6 +80,7 @@ bool Player::Start()
 	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
 	hit_fx = App->audio->LoadFx(hit_fx_folder.GetString());
 	chicken_sound = App->audio->LoadFx(chicken_fx_folder.GetString());
+
 	texture = App->tex->Load(spritesheet.GetString());
 	state = IDLE;
 	position.x = App->map->spawn_pos.x;
@@ -627,9 +628,11 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			position.y = App->map->spawn_pos.y;
 		}
 
+
 		if (c2->type == COLLIDER_COLLECTABLE && App->scene->on_main_menu == false) {
 			App->audio->PlayFx(chicken_sound);
 		}
+
 	}
 
 }

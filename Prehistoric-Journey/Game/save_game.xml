@@ -7,43 +7,40 @@
 	<map />
 	<scene />
 	<entities>
-		<player_position x="192" y="519" />
+		<player_position x="758.878296" y="519" />
 		<bat>
-			<position x="1890.75757" y="144.98082" dead="false" />
+			<position x="1825.05957" y="237.364441" dead="false" />
 		</bat>
 		<bat>
-			<position x="2531.59521" y="94.2287369" dead="false" />
+			<position x="2408.24048" y="239.008987" dead="false" />
 		</bat>
 		<bat>
-			<position x="3968.32837" y="93.4863281" dead="false" />
+			<position x="4162.32568" y="174.626877" dead="false" />
 		</bat>
 		<bat>
-			<position x="4903.60693" y="93.910553" dead="false" />
+			<position x="4838.79932" y="218.113968" dead="false" />
 		</bat>
 		<bat>
-			<position x="5607.64697" y="93.3802643" dead="false" />
+			<position x="5682.63916" y="99.0017624" dead="false" />
 		</bat>
 		<bat>
-			<position x="6230.83252" y="93.3802719" dead="false" />
+			<position x="6165.81982" y="99.0017624" dead="false" />
 		</bat>
 		<mini-tyranosaur>
-			<position x="1831.04932" y="339" dead="false" />
+			<position x="1770.90076" y="342.5" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="2997.65649" y="254.75" dead="false" />
+			<position x="2966.20874" y="251" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="5642.2583" y="1285.25" dead="false" />
+			<position x="5306.53662" y="1591.5" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="6046" y="1285.25" dead="false" />
+			<position x="6248.26416" y="1591.5" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="6191.7417" y="1285.25" dead="false" />
+			<position x="6534.26416" y="1591.5" dead="false" />
 		</mini-tyranosaur>
-		<chicken>
-			<position x="500" y="500" dead="false" />
-		</chicken>
 		<chicken>
 			<position x="2176" y="256" dead="false" />
 		</chicken>
@@ -69,6 +66,6 @@
 	<:anonymous />
 	<pathfinding />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-267" y="0" />
 	</renderer>
 </game_state>
