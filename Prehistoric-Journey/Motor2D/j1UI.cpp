@@ -59,7 +59,7 @@ bool j1UI::PreUpdate()
 
 bool j1UI::Update(float dt)
 {
-	BROFILER_CATEGORY("PreUpdate Entities", Profiler::Color::Moccasin)
+	BROFILER_CATEGORY("Update UI", Profiler::Color::Moccasin)
 	int mouse_x = 0, mouse_y = 0;
 	MouseState mouse_click = MouseState::NONE;
 
@@ -102,7 +102,7 @@ bool j1UI::Update(float dt)
 // Called after all Updates
 bool j1UI::PostUpdate()
 {
-
+	BROFILER_CATEGORY("PostUpdate UI", Profiler::Color::CornflowerBlue)
 	for (uint i = 0u; i < ui_elements.Count(); i++) {
 		if (ui_elements[i] != nullptr) {
 			if (ui_elements[i]->visible) {
