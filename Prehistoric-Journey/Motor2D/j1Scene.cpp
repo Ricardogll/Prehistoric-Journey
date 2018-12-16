@@ -207,13 +207,13 @@ bool j1Scene::Start()
 		}
 
 		chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
-		chickens_numbers = App->ui->CreateLabel(425, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+		chickens_numbers = App->ui->CreateLabel(425, 20, "0", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 		score_label = App->ui->CreateLabel(520, 20, "Score:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-		score_numbers = App->ui->CreateLabel(615, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+		score_numbers = App->ui->CreateLabel(615, 20, "0", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 		timer_label = App->ui->CreateLabel(905, 20, "Time:", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
-		timer_numbers = App->ui->CreateLabel(975, 20, "", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
+		timer_numbers = App->ui->CreateLabel(975, 20, "0", -1, 24, { 255,255,255,255 }, "fonts/Kenney Future Narrow.ttf", window_ui);
 
 		menu_in_game = App->ui->CreateImage(237, 83, { 0, 0, 549, 474 }, window_ui);
 		menu_in_game->visible = false;
