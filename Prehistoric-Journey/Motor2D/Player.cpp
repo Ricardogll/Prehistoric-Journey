@@ -589,19 +589,39 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 
 		if (c2->type == COLLIDER_LEVEL_END && change_map == false) {
 			change_map = true;
+			if (App->scene->curr_map == 1) {
+				App->scene->c_score_2nd_lvl = App->scene->c_score;
+				App->scene->score_2nd_lvl = App->scene->score;
+				App->scene->time_2nd_lvl = App->scene->time + App->scene->timer.ReadSec();
+			}
 		}
+		
 
-		if ((c2->type == COLLIDER_DEAD || c2->type == COLLIDER_ENEMY) && player_died == false && god_mode == false) {
+		if ((c2->type == COLLIDER_DEAD || c2->type == COLLIDER_ENEMY) && player_died == false && god_mode == false && App->scene->on_main_menu==false) {
 			player_died = true;
 			App->audio->PlayFx(lose_fx);
 			speed = { 0.0f,0.0f };
 			acceleration = { 0.0f,0.0f };
 			App->scene->lifes--;
-			App->scene->c_score = 0;
-			App->scene->score = 0;
-			App->scene->multiplier = 1;
-			App->scene->time = 0.0f;
-			App->scene->timer.Start();
+			if (App->scene->lifes < 0 || App->scene->curr_map == 1) {
+				App->scene->c_score = 0;
+				App->scene->score = 0;
+				App->scene->multiplier = 1;
+				App->scene->time = 0.0f;
+				App->scene->timer.Start();
+			}
+			else {
+				App->scene->c_score = App->scene->c_score_2nd_lvl;
+				App->scene->score = App->scene->score_2nd_lvl;
+				App->scene->time = App->scene->time_2nd_lvl;
+				App->scene->timer.Start();
+				App->scene->multiplier = 1;
+				if (App->scene->c_score >= 5 && App->scene->c_score < 10)
+					App->scene->multiplier = 2;
+				else if (App->scene->c_score >= 10)
+					App->scene->multiplier = 3;
+			}
+			
 			position.x = App->map->spawn_pos.x;
 			position.y = App->map->spawn_pos.y;
 		}

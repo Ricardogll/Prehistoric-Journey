@@ -64,6 +64,9 @@ public:
 	int saved_score = 0;
 	int saved_c_score = 0;
 	int saved_lifes = 0;
+	int score_2nd_lvl = 0;
+	int c_score_2nd_lvl = 0;
+	float time_2nd_lvl = 0.0f;
 	int multiplier = 1;
 	float saved_time = 0.0f;
 private:

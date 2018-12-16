@@ -9,42 +9,62 @@
 	<entities>
 		<player_position x="192" y="519" />
 		<bat>
-			<position x="1056" y="224" dead="false" />
+			<position x="1890.75757" y="144.98082" dead="false" />
 		</bat>
 		<bat>
-			<position x="1824" y="224" dead="false" />
+			<position x="2531.59521" y="94.2287369" dead="false" />
 		</bat>
 		<bat>
-			<position x="2432" y="64" dead="false" />
+			<position x="3968.32837" y="93.4863281" dead="false" />
 		</bat>
 		<bat>
-			<position x="4064" y="64" dead="false" />
+			<position x="4903.60693" y="93.910553" dead="false" />
 		</bat>
 		<bat>
-			<position x="4928" y="64" dead="false" />
+			<position x="5607.64697" y="93.3802643" dead="false" />
 		</bat>
 		<bat>
-			<position x="5696" y="64" dead="false" />
-		</bat>
-		<bat>
-			<position x="6208" y="64" dead="false" />
+			<position x="6230.83252" y="93.3802719" dead="false" />
 		</bat>
 		<mini-tyranosaur>
-			<position x="1856" y="150.25" dead="false" />
+			<position x="1831.04932" y="339" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="3104" y="118.25" dead="false" />
+			<position x="2997.65649" y="254.75" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="5504" y="54.25" dead="false" />
+			<position x="5642.2583" y="1285.25" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="6048" y="54.25" dead="false" />
+			<position x="6046" y="1285.25" dead="false" />
 		</mini-tyranosaur>
 		<mini-tyranosaur>
-			<position x="6329" y="54.25" dead="false" />
+			<position x="6191.7417" y="1285.25" dead="false" />
 		</mini-tyranosaur>
+		<chicken>
+			<position x="500" y="500" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="2176" y="256" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="2432" y="192" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="3648" y="96" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="4064" y="128" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="4512" y="352" dead="false" />
+		</chicken>
+		<chicken>
+			<position x="5760" y="64" dead="false" />
+		</chicken>
 	</entities>
+	<fonts />
+	<gui />
 	<fade />
 	<:anonymous />
 	<pathfinding />

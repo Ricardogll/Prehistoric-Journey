@@ -437,12 +437,38 @@ bool j1Scene::Update(float dt)
 
 
 		if (play_btn->btn_clicked) {
-			//menu->visible = false;//Delete UI of main menu
-			App->ui->DeleteUIElementChildren(window_ui);
 			
+			App->ui->DeleteUIElementChildren(window_ui);
+			App->entities->DeleteEnemies();
+			if (curr_map == MAP_1)
+				App->entities->SetEnemies(1);
+			else if (curr_map == 2) {
+				curr_map = MAP_1;
+				App->map->CleanUp();
+				App->collision->CleanUpMap();
+				App->map->Load("Jungle.tmx");
+				App->map->setColliders();
+				App->entities->GetPlayer()->position.x = App->map->spawn_pos.x;
+				App->entities->GetPlayer()->position.y = App->map->spawn_pos.y;
+				is_fade = true;
+				App->entities->SetEnemies(1);
+			}
+
+
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
 			timer.Start();
+			saved_score = 0;
+			saved_c_score = 0;
+			saved_lifes = 0;
+			score_2nd_lvl = 0;
+			c_score_2nd_lvl = 0;
+			time_2nd_lvl = 0.0f;
+			time = 0.0f;
+			score = 0;
+			c_score = 0;
+			lifes = 3;
+
 		}
 
 		if (continue_btn->btn_clicked && game_saved)
@@ -459,40 +485,18 @@ bool j1Scene::Update(float dt)
 		if (settings_btn->btn_clicked)
 		{
 			App->ui->SetVisibleChildren(menu_settings);
-			/*menu_settings->visible = true;
-			music_label_ui->visible = true;
-			music_slider_ui->visible = true;
-			fx_label_ui->visible = true;
-			fx_slider_ui->visible = true;
-			menu_settings_back_btn->visible = true;*/
 			menu->visible = false;
 		}
 
 		if (menu_settings_back_btn->btn_clicked)
 		{
 			App->ui->SetVisibleChildren(menu);
-			/*menu->visible = true;
-			continue_btn->visible = true;
-			settings_btn->visible = true;
-			credits_btn->visible = true;
-			exit_btn->visible = true;
-			play_btn->visible = true;
-			menu_title_label->visible = true;
-			menu_continue_label->visible = true;
-			menu_settings_label->visible = true;
-			menu_credits_label->visible = true;
-			menu_exit_label->visible = true;
-			menu_play_label->visible = true;*/
 			menu_settings->visible = false;
 		}
 
 		if (credits_btn->btn_clicked)
 		{
 			App->ui->SetVisibleChildren(menu_credits);
-			/*menu_credits->visible = true;
-			menu_credits_authors->visible = true;
-			menu_credits_license->visible = true;
-			menu_credits_back_btn->visible = true;*/
 			menu->visible = false;
 			
 		}
@@ -500,18 +504,6 @@ bool j1Scene::Update(float dt)
 		if (menu_credits_back_btn->btn_clicked)
 		{
 			App->ui->SetVisibleChildren(menu);
-			/*menu->visible = true;
-			continue_btn->visible = true;
-			settings_btn->visible = true;
-			credits_btn->visible = true;
-			exit_btn->visible = true;
-			play_btn->visible = true;
-			menu_title_label->visible = true;
-			menu_continue_label->visible = true;
-			menu_settings_label->visible = true;
-			menu_credits_label->visible = true;
-			menu_exit_label->visible = true;
-			menu_play_label->visible = true;*/
 			menu_credits->visible = false;
 		}
 
