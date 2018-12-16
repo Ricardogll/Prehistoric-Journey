@@ -29,6 +29,11 @@ All animations, paths and levels are read through a xml file since this is a dat
 
 * Entities wander, if they are not following you they start moving around.
 
+## **Gameplay**
+___
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L2X9tgzint4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 ## **How to play**
 You have to catch as much food as possible for more score, you get score by beating enemies and collecting chicken. You have 3 lifes, if you run out of lifes you will return to the main menu, for the game controls check down down below. Hope you enjoy!
 
