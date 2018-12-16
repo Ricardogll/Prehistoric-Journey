@@ -628,7 +628,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 
 		if (c2->type == COLLIDER_COLLECTABLE)
-			App->audio->PlayFx(lose_fx,0);
+			App->audio->PlayFx(chicken_fx,0);
 	}
 
 }
