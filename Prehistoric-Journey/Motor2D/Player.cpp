@@ -79,6 +79,7 @@ bool Player::Start()
 	jump_fx = App->audio->LoadFx(jump_fx_folder.GetString());
 	lose_fx = App->audio->LoadFx(lose_fx_folder.GetString());
 	hit_fx = App->audio->LoadFx(hit_fx_folder.GetString());
+	chicken_fx = App->audio->LoadFx(chicken_fx_folder.GetString());
 	texture = App->tex->Load(spritesheet.GetString());
 	state = IDLE;
 	position.x = App->map->spawn_pos.x;
@@ -605,6 +606,9 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			position.x = App->map->spawn_pos.x;
 			position.y = App->map->spawn_pos.y;
 		}
+
+		if (c2->type == COLLIDER_COLLECTABLE)
+			App->audio->PlayFx(lose_fx,0);
 	}
 
 }
@@ -635,6 +639,7 @@ void Player::LoadVariablesXML(const pugi::xml_node& player_node) {
 	jump_fx_folder = variables.child("jump_fx_folder").attribute("location").as_string();
 	lose_fx_folder = variables.child("lose_fx_folder").attribute("location").as_string();
 	hit_fx_folder = variables.child("hit_fx_folder").attribute("location").as_string();
+	chicken_fx_folder = variables.child("chicken_fx_folder").attribute("location").as_string();
 	attack_time = variables.child("attack_time").attribute("value").as_int();
 	knee_height = variables.child("knee_height").attribute("value").as_float();
 	

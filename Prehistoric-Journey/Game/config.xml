@@ -88,6 +88,7 @@
       <jump_fx_folder location="audio/fx/jump.wav"/>
       <lose_fx_folder location="audio/fx/lose.wav"/>
       <hit_fx_folder location="audio/fx/hit.wav"/>
+      <chicken_fx_folder location ="audio/fx/pick_up.wav"/>
       <limit_map value="-5375"/>
       <attack_time value="325"/>
       <gravity value="500"  />
@@ -282,7 +283,6 @@
 			<spritesheet location="textures/chicken.png"/>
 			<collider_offset x="0" y="10" />
 			<collider_dimensions x="28" y="50" />
-      <sounds death_location="audio/fx/pick_up.wav"/>
 		</variables>
     </chicken>
   

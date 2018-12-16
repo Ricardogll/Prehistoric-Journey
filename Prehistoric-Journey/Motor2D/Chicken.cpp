@@ -26,7 +26,6 @@ Chicken::Chicken(int x, int y, pugi::xml_node& config, EntityTypes type) :Entity
 
 		texture = App->tex->Load(spritesheet.GetString());
 		collider = App->collision->AddCollider({ (int)position.x + collider_offset.x, (int)position.y + collider_offset.y, collider_dimensions.x, collider_dimensions.y }, COLLIDER_COLLECTABLE, (j1Module*)App->entities);
-		death_sound = App->audio->LoadFx(death_sound_folder.GetString());
 	}
 	state = IDLE;
 }
@@ -64,7 +63,6 @@ void Chicken::AnimationsApplyDt()
 void Chicken::OnCollision(Collider * c1, Collider * c2)
 {
 	if (c2->type == COLLIDER_PLAYER) {
-		App->audio->PlayFx(death_sound, 0);
 		/*App->collision->EraseCollider(collider);
 		App->tex->UnLoad(texture);*/
 		App->scene->c_score++;

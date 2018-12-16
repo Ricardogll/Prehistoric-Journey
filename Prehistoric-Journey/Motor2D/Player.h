@@ -63,6 +63,7 @@ private:
 	uint jump_fx = 0u;
 	uint lose_fx = 0u;
 	uint hit_fx = 0u;
+	uint chicken_fx = 0u;
 
 	//****XML variables	
 	float acceleration_x = 0.0f;
@@ -76,6 +77,7 @@ private:
 	p2SString jump_fx_folder;
 	p2SString lose_fx_folder;
 	p2SString hit_fx_folder;
+	p2SString chicken_fx_folder;
 
 public:
 
