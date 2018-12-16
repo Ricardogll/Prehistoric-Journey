@@ -18,7 +18,7 @@ private:
 
 
 public:
-	SDL_Color color;
+	SDL_Color color = { 255,255,255,255 };
 
 };
 

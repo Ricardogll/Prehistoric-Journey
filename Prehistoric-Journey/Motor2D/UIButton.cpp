@@ -12,16 +12,7 @@ UIButton::UIButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clic
 	basic_rect = rect;
 	hovering_rect = hovering;
 	clicked_rect = clicked;
-	//if (parent != nullptr)
-	//{
-	//	local_pos_x = parent->local_pos_x + x;
-	//	local_pos_y = parent->local_pos_y + y;
-	//}
-	//else
-	//{
-	//	local_pos_x = x;
-	//	local_pos_y = y;
-	//}
+
 	this->rect = { world_pos_x,world_pos_y,rect.w,rect.h };
 
 }

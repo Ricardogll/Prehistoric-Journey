@@ -26,38 +26,7 @@ j1Scene::j1Scene() : j1Module()
 j1Scene::~j1Scene()
 {
 
-	/*
-	
-	window_ui->~UIElement();
-	window_ui = nullptr;
 
-	continue_btn->~UIElement();
-	continue_btn = nullptr;
-	settings_btn->~UIElement();
-	settings_btn = nullptr;
-	credits_btn->~UIElement();
-	credits_btn = nullptr;
-	exit_btn->~UIElement();
-	exit_btn = nullptr;
-	play_btn->~UIElement();
-	play_btn = nullptr;
-
-	menu_title_label->~UIElement();
-	menu_title_label = nullptr;
-	menu_continue_label->~UIElement();
-	menu_continue_label = nullptr;
-	menu_settings_label->~UIElement();
-	menu_settings_label = nullptr;
-	menu_credits_label->~UIElement();
-	menu_credits_label = nullptr;
-	menu_exit_label->~UIElement();
-	menu_exit_label = nullptr;
-	menu_play_label->~UIElement();
-	menu_play_label = nullptr;
-
-	menu->~UIElement();
-	menu = nullptr;
-	*/
 
 
 }
@@ -255,13 +224,6 @@ bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Scene", Profiler::Color::MediumSpringGreen)
 
-	//For debug only (for now)
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
-		score += 50;
-		c_score += 2;
-		timer.AddTime(100);
-	}
-
 
 	if (on_main_menu) {
 		App->render->camera.x+=speed_scroll;
@@ -276,13 +238,16 @@ bool j1Scene::Update(float dt)
 		switch (multiplier)
 		{
 		case 1:
-			chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
+			//chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
+			chickens->img_rect = { 636,254,43,39 };
 			break;
 		case 2:
-			chickens = App->ui->CreateImage(370, 10, { 679,254,43,39 }, window_ui);
+			//chickens = App->ui->CreateImage(370, 10, { 679,254,43,39 }, window_ui);
+			chickens->img_rect = { 679,254,43,39 };
 			break;
 		case 3:
-			chickens = App->ui->CreateImage(370, 10, { 722,254,43,39 }, window_ui);
+			//chickens = App->ui->CreateImage(370, 10, { 722,254,43,39 }, window_ui);
+			chickens->img_rect = { 722,254,43,39 };
 			break;
 		}
 		

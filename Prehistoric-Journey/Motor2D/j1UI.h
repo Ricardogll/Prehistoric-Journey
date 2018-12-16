@@ -9,11 +9,7 @@
 
 #define CURSOR_WIDTH 2
 
-// TODO 1: Create your structure of classes
 
-
-
-// ---------------------------------------------------
 enum UIType {
 
 	LABEL,
@@ -61,7 +57,6 @@ public:
 	// Gui creation functions
 	UIElement* CreateLabel(int x, int y, const char* text, int width = -1, int size = DEFAULT_FONT_SIZE, SDL_Color color = { 255,255,255,255 }, const char* font = DEFAULT_FONT, UIElement* parent = nullptr);
 	UIElement* CreateImage(int x, int y, SDL_Rect rect, UIElement* parent = nullptr);
-	//UIElement* CreateImageNoAtlas(int x, int y, SDL_Rect rect, SDL_Texture* tex);
 	UIElement* CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent = nullptr);
 	UIElement* CreateSlider(int x, int y, float cur_value, float max_value, SDL_Rect bar, SDL_Rect ball, UIElement* parent = nullptr);
 
@@ -76,7 +71,7 @@ private:
 	bool debug = false;
 
 	p2DynArray<UIElement*> ui_elements;
-	SDL_Texture* atlas;
+	SDL_Texture* atlas=nullptr;
 
 	p2SString atlas_file_name;
 };

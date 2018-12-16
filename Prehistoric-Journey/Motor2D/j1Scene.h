@@ -71,61 +71,61 @@ public:
 	float saved_time = 0.0f;
 private:
 	bool is_fade = false;
-	UIElement* continue_btn;
-	UIElement* settings_btn;
-	UIElement* credits_btn;
-	UIElement* exit_btn;
-	UIElement* play_btn;
-	UIElement* menu_title_label;
-	UIElement* menu_continue_label;
-	UIElement* menu_settings_label;
-	UIElement* menu_credits_label;
-	UIElement* menu_exit_label;
-	UIElement* menu_play_label;   
-	UIElement* menu;
-	UIElement* window_ui;	
+	UIElement* continue_btn=nullptr;
+	UIElement* settings_btn = nullptr;
+	UIElement* credits_btn = nullptr;
+	UIElement* exit_btn = nullptr;
+	UIElement* play_btn = nullptr;
+	UIElement* menu_title_label = nullptr;
+	UIElement* menu_continue_label = nullptr;
+	UIElement* menu_settings_label = nullptr;
+	UIElement* menu_credits_label = nullptr;
+	UIElement* menu_exit_label = nullptr;
+	UIElement* menu_play_label = nullptr;
+	UIElement* menu = nullptr;
+	UIElement* window_ui = nullptr;
 
-	UIElement* menu_settings;
-	UIElement* music_slider_ui;
-	UIElement* music_label_ui;
-	UIElement* fx_slider_ui;
-	UIElement* fx_label_ui;
-	UIElement* menu_settings_back_btn;
+	UIElement* menu_settings = nullptr;
+	UIElement* music_slider_ui = nullptr;
+	UIElement* music_label_ui = nullptr;
+	UIElement* fx_slider_ui = nullptr;
+	UIElement* fx_label_ui = nullptr;
+	UIElement* menu_settings_back_btn = nullptr;
 
-	UIElement* menu_credits;
-	UIElement* menu_credits_authors;
-	UIElement* menu_credits_license;
-	UIElement* menu_credits_back_btn;
-	UIElement* menu_credits_web_btn;
+	UIElement* menu_credits = nullptr;
+	UIElement* menu_credits_authors = nullptr;
+	UIElement* menu_credits_license = nullptr;
+	UIElement* menu_credits_back_btn = nullptr;
+	UIElement* menu_credits_web_btn = nullptr;
 
-	UIElement* menu_in_game;
-	UIElement* menu_in_game_label;
-	UIElement* menu_in_game_settings_label;
-	UIElement* menu_in_game_settings_btn;
-	UIElement* menu_in_game_resume_label;
-	UIElement* menu_in_game_resume_btn;
-	UIElement* menu_in_game_back_label;
-	UIElement* menu_in_game_back_btn;
+	UIElement* menu_in_game = nullptr;
+	UIElement* menu_in_game_label = nullptr;
+	UIElement* menu_in_game_settings_label = nullptr;
+	UIElement* menu_in_game_settings_btn = nullptr;
+	UIElement* menu_in_game_resume_label = nullptr;
+	UIElement* menu_in_game_resume_btn = nullptr;
+	UIElement* menu_in_game_back_label = nullptr;
+	UIElement* menu_in_game_back_btn = nullptr;
 
-	UIElement* menu_in_game_settings;
-	UIElement* music_in_game_slider_ui;
-	UIElement* music_in_game_label_ui;
-	UIElement* fx_in_game_slider_ui;
-	UIElement* fx_in_game_label_ui;
-	UIElement* menu_in_game_settings_back_btn;
+	UIElement* menu_in_game_settings = nullptr;
+	UIElement* music_in_game_slider_ui = nullptr;
+	UIElement* music_in_game_label_ui = nullptr;
+	UIElement* fx_in_game_slider_ui = nullptr;
+	UIElement* fx_in_game_label_ui = nullptr;
+	UIElement* menu_in_game_settings_back_btn = nullptr;
 
-	UIElement* life1;
-	UIElement* life2;
-	UIElement* life3;
+	UIElement* life1 = nullptr;
+	UIElement* life2 = nullptr;
+	UIElement* life3 = nullptr;
 
-	UIElement* chickens;
-	UIElement* chickens_numbers;
+	UIElement* chickens = nullptr;
+	UIElement* chickens_numbers = nullptr;
 
-	UIElement* score_label;
-	UIElement* score_numbers;
+	UIElement* score_label = nullptr;
+	UIElement* score_numbers = nullptr;
 
-	UIElement* timer_label;
-	UIElement* timer_numbers;
+	UIElement* timer_label = nullptr;
+	UIElement* timer_numbers = nullptr;
 };
 
 #endif // __j1SCENE_H__

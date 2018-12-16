@@ -11,7 +11,7 @@ UISlider::UISlider(int x, int y, float cur_value, float max_value, SDL_Rect bar,
 {
 	clickable = true;
 	draggable = true;
-	//this->rect = { world_pos_x,world_pos_y,bar.w,bar.h };
+	
 	bar_rect = bar;
 	ball_rect = ball;
 	world_ball_x = world_pos_x;
@@ -39,19 +39,16 @@ void UISlider::Update() {
 	if (mouse_state == MouseState::REPEAT_CLICK && draggable) {
 
 		if (prev_mouse != mouse_pos_aux) {
-			//iPoint mouse_motion;
-			//App->input->GetMouseMotion(mouse_motion.x, mouse_motion.y);
+			
 			local_ball_x += mouse_pos_aux.x - prev_mouse.x;
 			
-			//world_ball_x += mouse_pos_aux.x - prev_mouse.x;
 			
-			//LOG("MouseMotion: %i, %i", mouse_motion.x, mouse_motion.y);
 		}
 
 	}
 
 
-	if (parent == nullptr) {//maybe more useful the other way around? check when more developed
+	if (parent == nullptr) {
 		world_pos_x = local_pos_x;
 		world_pos_y = local_pos_y;
 	}
@@ -67,8 +64,7 @@ void UISlider::Update() {
 	else if (local_ball_x < 0)
 		local_ball_x = 0;
 
-	//rect.x = world_pos_x;
-	//rect.y = world_pos_y;
+
 
 	world_ball_x = local_ball_x + world_pos_x;
 	world_ball_y = local_ball_y + world_pos_y;
@@ -78,10 +74,6 @@ void UISlider::Update() {
 
 	prev_mouse = mouse_pos_aux;
 
-	//if (parent != nullptr) {
-	//	if (!parent->visible)
-	//		visible = false;
-	//}
 
 
 	last_value = cur_value;
@@ -96,7 +88,6 @@ float UISlider::GetSliderValue() const {
 		float value = ((float)world_ball_x - (float)world_pos_x) / ((float)bar_rect.w - (float)ball_rect.w); //value between 0 and 1 
 
 		
-		//LOG("Slider value: %f", value * max_value);
 		return value * max_value;
 	}
 	

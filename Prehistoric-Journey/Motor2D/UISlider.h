@@ -20,8 +20,8 @@ private:
 	int local_ball_x = 0;
 	int local_ball_y = 0;
 
-	SDL_Rect bar_rect;
-	SDL_Rect ball_rect;
+	SDL_Rect bar_rect = { 0,0,0,0 };
+	SDL_Rect ball_rect = { 0,0,0,0 };
 	
 };
 

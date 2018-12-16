@@ -9,7 +9,7 @@
 #include	"Animation.h"
 #include	"Entity.h"
 
-struct SDL_texture;//TODO look if works with class
+struct SDL_texture;
 struct Collider;
 
 class Player :public Entity
@@ -39,7 +39,7 @@ private:
 
 	SDL_Rect player_rect = { 0,0 };
 	SDL_Rect attack_player_rect = { 0,0 };
-	Collider* player_attack;
+	Collider* player_attack=nullptr;
 	fPoint acceleration = { 0.0f,0.0f };	
 	
 	bool jumping = false;

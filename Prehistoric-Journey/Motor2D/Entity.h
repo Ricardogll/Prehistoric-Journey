@@ -32,7 +32,7 @@ class Entity {
 
 public:
 	
-	Collider* collider;
+	Collider* collider=nullptr;
 	iPoint collider_dimensions = { 0,0 };
 	iPoint collider_offset = { 0,0 };
 	iPoint collider_attack_dimensions = { 0,0 };

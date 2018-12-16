@@ -11,7 +11,7 @@ public:
 	
 	void Draw(SDL_Texture* atlas);
 	void Update();
-	void OnClick();
+
 
 private:
 	SDL_Rect basic_rect;

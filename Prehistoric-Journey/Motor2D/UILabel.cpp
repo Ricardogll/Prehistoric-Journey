@@ -11,16 +11,6 @@ UILabel::UILabel(int x, int y, const char* text, int width, int size,  SDL_Color
 	this->text = text;
 	this->color = color;
 
-	//if (parent != nullptr)
-	//{
-	//	local_pos_x = parent->local_pos_x + x;
-	//	local_pos_y = parent->local_pos_y + y;
-	//}
-	//else
-	//{
-	//	local_pos_x = x;
-	//	local_pos_y = y;
-	//}
 
 	this->rect = { world_pos_x,world_pos_y,0,0 };
 
@@ -33,8 +23,7 @@ UILabel::UILabel(int x, int y, const char* text, int width, int size,  SDL_Color
 	else
 		texture = App->font->PrintMultiLine(text, width, color, newFont);
 
-	/*App->font->Unload(newFont);
-	newFont = nullptr;*/
+
 }
 
 

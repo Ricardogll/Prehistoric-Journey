@@ -7,16 +7,7 @@ UIImage::UIImage(int x, int y, SDL_Rect rect, UIElement* parent) :UIElement(x, y
 {
 	img_rect = rect;
 
-	//if (parent != nullptr)
-	//{
-	//	local_pos_x = parent->local_pos_x + x;
-	//	local_pos_y = parent->local_pos_y + y;
-	//}
-	//else
-	//{
-	//	local_pos_x = x;
-	//	local_pos_y = y;
-	//}
+
 
 	this->rect = { world_pos_x,world_pos_y,rect.w,rect.h };
 }

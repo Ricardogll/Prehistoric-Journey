@@ -209,7 +209,7 @@ void j1App::PrepareUpdate()
 	frame_count++;
 	last_sec_frame_count++;
 
-	// TODO 4: Calculate the dt: differential time since last frame
+	
 	frame_time.Start();
 
 	current_frame_time = startup_time.Read();

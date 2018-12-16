@@ -47,8 +47,7 @@ void UIElement::PreUpdate() {
 		if (!parent->visible)
 			visible = false;
 
-		//if (parent->to_destroy)
-			//to_destroy = true;
+	
 	}
 }
 
@@ -70,18 +69,17 @@ void UIElement::SetPositionWithParent() {
 	if (mouse_state == MouseState::REPEAT_CLICK && draggable) {
 
 		if (prev_mouse != mouse_pos_aux) {
-			//iPoint mouse_motion;
-			//App->input->GetMouseMotion(mouse_motion.x, mouse_motion.y);
+			
 			local_pos_x += mouse_pos_aux.x - prev_mouse.x;
 			local_pos_y += mouse_pos_aux.y - prev_mouse.y;
 			
-			//LOG("MouseMotion: %i, %i", mouse_motion.x, mouse_motion.y);
+			
 		}
 
 	}
 
 
-	if (parent == nullptr) {//maybe more useful the other way around? check when more developed
+	if (parent == nullptr) {
 		world_pos_x = local_pos_x;
 		world_pos_y = local_pos_y;
 	}
@@ -167,7 +165,7 @@ void UIElement::CheckMouseState(int mouse_x, int mouse_y, MouseState mouse_click
 	}
 	prev_mouse_state = mouse_state;
 
-	//return mouse_state;
+	
 }
 
 void UIElement::UpdateText(SDL_Texture* tex)

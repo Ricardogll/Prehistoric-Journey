@@ -232,13 +232,6 @@ UIElement * j1UI::CreateImage(int x, int y, SDL_Rect rect, UIElement* parent)
 	return aux;
 }
 
-//UIElement* j1UI::CreateImageNoAtlas(int x, int y, SDL_Rect rect, SDL_Texture* tex) {
-//
-//	UIElement* aux = new UIImageNoAtlas(x, y, rect, tex);
-//	ui_elements.PushBack(aux);
-//
-//	return aux;
-//}
 
 UIElement * j1UI::CreateButton(int x, int y, SDL_Rect rect, SDL_Rect hovering, SDL_Rect clicked, UIElement* parent)
 {
@@ -263,5 +256,5 @@ const SDL_Texture* j1UI::GetAtlas() const
 	return atlas;
 }
 
-// class Gui ---------------------------------------------------
+
 

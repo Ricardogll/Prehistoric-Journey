@@ -253,9 +253,9 @@ void j1Audio::SetFxVolume(int volume) {
 
 }
 
-uint j1Audio::GetMusicVolume() {
+uint j1Audio::GetMusicVolume() const{
 	return music_volume;
 }
-uint j1Audio::GetFxVolume() {
+uint j1Audio::GetFxVolume() const{
 	return fx_volume;
 }

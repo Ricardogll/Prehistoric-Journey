@@ -43,8 +43,8 @@ public:
 	void DecreaseVolumeFx();
 	void SetMusicVolume(int volume);
 	void SetFxVolume(int volume);
-	uint GetMusicVolume();
-	uint GetFxVolume();
+	uint GetMusicVolume() const;
+	uint GetFxVolume() const;
 
 private:
 
