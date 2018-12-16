@@ -59,10 +59,11 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 - [Ricardo Gutiérrez Llenas:](https://github.com/Ricardogll) Pathfinding, normalized logic, entity system, camera culling and UI functionality.
 
 
-
 - [Sergio Gómez Roldán:](https://github.com/Sersius) Sprites, audio, entities wander, UI interaction and some modules of code.
 
+
 - [Project](https://github.com/Ricardogll/Prehistoric-Journey)
+
 
 - [Website](https://ricardogll.github.io/Prehistoric-Journey/)
 
