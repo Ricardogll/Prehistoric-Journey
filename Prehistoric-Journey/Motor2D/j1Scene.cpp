@@ -177,7 +177,7 @@ bool j1Scene::Start()
 		menu_credits_authors = App->ui->CreateLabel(13, 10, "Authors: Ricardo Gutiérrez Llenas  |  Sergio Gómez Roldán", 560, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
 		menu_credits_license = App->ui->CreateLabel(13, 50, "MIT License Copyright(c) 2018 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", 530, 15, { 146, 98, 57, 255 }, "fonts/Kenney Future Narrow.ttf", menu_credits);
 		menu_credits_back_btn = App->ui->CreateButton(475, 400, { 550,160,45,49 }, { 595,160,45,49 }, { 640,160,45,49 }, menu_credits);
-
+		menu_credits_web_btn = App->ui->CreateButton(400, 400, { 550,297,45,49 }, { 595,297,45,49 }, { 640,297,45,49 }, menu_credits);
 	}
 	else {
 
@@ -259,7 +259,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 		score += 50;
 		c_score += 2;
-		
+		timer.AddTime(100);
 	}
 
 
@@ -292,13 +292,24 @@ bool j1Scene::Update(float dt)
 		p2SString s_chicken = std::to_string(c_score).c_str();
 		chickens_numbers->SetText(s_chicken.GetString());
 
-		p2SString s_time = std::to_string((int)timer.ReadSec()).c_str();
-		timer_numbers->SetText(s_time.GetString());
+		if (!on_pause_menu) {
+			p2SString s_time = std::to_string((int)(time + timer.ReadSec())).c_str();
+			timer_numbers->SetText(s_time.GetString());
+		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN && !on_main_menu) {
-		pause = true;
-		on_pause_menu = true;
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && !on_main_menu) {
+		pause = !pause;
+		on_pause_menu = pause;
+		if (pause) {
+			App->ui->SetVisibleChildren(menu_in_game);
+			time += timer.ReadSec();
+		}
+		else {
+			timer.Start();
+			menu_in_game->visible = false;
+			menu_in_game_settings->visible = false;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && App->fade->IsFading()==false) {
@@ -441,6 +452,7 @@ bool j1Scene::Update(float dt)
 			
 			on_main_menu = false;
 			App->fade->FadeToBlack(this, this, 2.0f);
+			
 			timer.Start();
 		}
 
@@ -482,7 +494,7 @@ bool j1Scene::Update(float dt)
 			menu_credits_license->visible = true;
 			menu_credits_back_btn->visible = true;*/
 			menu->visible = false;
-			//ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
+			
 		}
 
 		if (menu_credits_back_btn->btn_clicked)
@@ -503,6 +515,10 @@ bool j1Scene::Update(float dt)
 			menu_credits->visible = false;
 		}
 
+		if (menu_credits_web_btn->btn_clicked)
+		{
+			ShellExecute(NULL, "open", "https://ricardogll.github.io/Prehistoric-Journey/", NULL, NULL, SW_SHOWNORMAL);
+		}
 		
 
 		if (music_slider_ui->cur_value != music_slider_ui->last_value)
@@ -511,13 +527,14 @@ bool j1Scene::Update(float dt)
 			App->audio->SetFxVolume(fx_slider_ui->cur_value);
 	}
 	else if (on_pause_menu == true) {
-		menu_in_game->visible = true;
-		App->ui->SetVisibleChildren(menu_in_game);
+		
+		
 
 		if (menu_in_game_resume_btn->btn_clicked) {
 			pause = false;
 			menu_in_game->visible = false;
 			on_pause_menu = false;
+			timer.Start();
 		}
 
 		if (menu_in_game_settings_btn->btn_clicked) {
@@ -535,6 +552,7 @@ bool j1Scene::Update(float dt)
 			menu_in_game->visible = false;
 			on_pause_menu = false;
 			on_main_menu = true;
+			GameSave();
 			App->fade->FadeToBlack(this, this, 2.0f);
 		}
 
@@ -543,7 +561,7 @@ bool j1Scene::Update(float dt)
 		if (fx_in_game_slider_ui->cur_value != fx_in_game_slider_ui->last_value)
 			App->audio->SetFxVolume(fx_in_game_slider_ui->cur_value);
 	}
-
+	
 	App->map->Draw();
 	
 	return true;
@@ -555,13 +573,12 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::RoyalBlue)
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	//if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		//ret = false;
 
-	if (exit_btn != nullptr) {
-		if (exit_btn->btn_clicked)
+	if (exit_btn != nullptr && exit_btn->visible == true && exit_btn->btn_clicked)
 			ret = false;
-	}
+	
 
 	//Draw pathfinding
 	if (App->collision->debug) {
@@ -598,6 +615,7 @@ void j1Scene::GameSave() {
 	saved_score = score;
 	saved_c_score = c_score;
 	saved_lifes = lifes;
+	saved_time = time;
 	App->entities->GetPlayer()->saved_map = curr_map;
 	game_saved = true;
 }
@@ -640,4 +658,5 @@ void j1Scene::GameLoad() {
 	lifes = saved_lifes;
 	score = saved_score;
 	c_score = saved_c_score;
+	time = saved_time;
 }

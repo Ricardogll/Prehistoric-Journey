@@ -54,6 +54,7 @@ public:
 	int score = 0;
 	int c_score = 0;
 	j1Timer timer;
+	float time = 0.0f;
 	bool on_main_menu = true;
 	bool on_pause_menu = false;
 	int speed_scroll = -1;
@@ -64,6 +65,7 @@ public:
 	int saved_c_score = 0;
 	int saved_lifes = 0;
 	int multiplier = 1;
+	float saved_time = 0.0f;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;
@@ -91,6 +93,7 @@ private:
 	UIElement* menu_credits_authors;
 	UIElement* menu_credits_license;
 	UIElement* menu_credits_back_btn;
+	UIElement* menu_credits_web_btn;
 
 	UIElement* menu_in_game;
 	UIElement* menu_in_game_label;
