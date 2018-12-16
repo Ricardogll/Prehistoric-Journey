@@ -64,7 +64,7 @@ For this game we used C++, using SDL and pugi libraries. The maps have been made
 
 - [Project](https://github.com/Ricardogll/Prehistoric-Journey)
 
-
+- [Website](https://ricardogll.github.io/Prehistoric-Journey/)
 
 ### Disclosure
 
