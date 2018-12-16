@@ -1,6 +1,6 @@
 ﻿# **Our Project**
 
-Game for the videogame development subject. Our goal is to make a data driven platformer with two levels made in Tiled with the player as a character moving and climbing on the levels, also being able to save and load the game. With all of this there is enemies pathfinding implemented along with animations and logic normalized based on the fps, which can be capped at 30 or uncapped. For the entities and UI we have a structured system documented in UML.
+Game for the Videogame Development subject at UPC CITM Terrassa. Our goal is to make a data driven platformer with two levels made in Tiled with the player as a character moving and climbing on the levels, also being able to save and load the game. With all of this there is enemies pathfinding implemented along with animations and logic normalized based on the fps, which can be capped at 30 or uncapped. For the entities and UI we have a structured system documented in UML.
 
 ## **The game**
 A platformer where you are a caveman armed with a mace and you have to catch as much food as possible while batting against bats and T-Rexs running through the levels.
