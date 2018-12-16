@@ -29,6 +29,8 @@ All animations, paths and levels are read through a xml file since this is a dat
 
 * Entities wander, if they are not following you they start moving around.
 
+* Main menu with animation
+
 ## **Gameplay**
 ___
 <iframe width="560" height="315" src="https://www.youtube.com/embed/L2X9tgzint4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
