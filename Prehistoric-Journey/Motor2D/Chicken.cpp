@@ -68,6 +68,17 @@ void Chicken::OnCollision(Collider * c1, Collider * c2)
 		/*App->collision->EraseCollider(collider);
 		App->tex->UnLoad(texture);*/
 		App->scene->c_score++;
+		if (App->scene->c_score >= 5 && App->scene->c_score < 10)
+			App->scene->multiplier = 2;
+		else if (App->scene->c_score >= 10)
+			App->scene->multiplier = 3;
+
+		if (App->scene->multiplier == 1)
+			App->scene->score += 50;
+		else if (App->scene->multiplier == 2)
+			App->scene->score += 100;
+		else
+			App->scene->score += 150;
 		this->to_destroy = true;
 	}
 }

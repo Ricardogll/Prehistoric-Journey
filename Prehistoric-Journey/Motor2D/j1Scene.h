@@ -51,7 +51,7 @@ public:
 	p2SString music_main_menu;
 	p2SString fx_click_folder;
 	bool pause = false;
-	int score = 100;
+	int score = 0;
 	int c_score = 0;
 	j1Timer timer;
 	bool on_main_menu = true;
@@ -63,6 +63,7 @@ public:
 	int saved_score = 0;
 	int saved_c_score = 0;
 	int saved_lifes = 0;
+	int multiplier = 1;
 private:
 	bool is_fade = false;
 	UIElement* continue_btn;

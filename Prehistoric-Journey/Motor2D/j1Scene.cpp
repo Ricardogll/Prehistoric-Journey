@@ -261,7 +261,8 @@ bool j1Scene::Update(float dt)
 		c_score += 2;
 		
 	}
-	
+
+
 	if (on_main_menu) {
 		App->render->camera.x+=speed_scroll;
 
@@ -272,7 +273,18 @@ bool j1Scene::Update(float dt)
 			speed_scroll = -1;
 	}
 	else {
-
+		switch (multiplier)
+		{
+		case 1:
+			chickens = App->ui->CreateImage(370, 10, { 636,254,43,39 }, window_ui);
+			break;
+		case 2:
+			chickens = App->ui->CreateImage(370, 10, { 679,254,43,39 }, window_ui);
+			break;
+		case 3:
+			chickens = App->ui->CreateImage(370, 10, { 722,254,43,39 }, window_ui);
+			break;
+		}
 		
 		p2SString s_score = std::to_string(score).c_str();
 		score_numbers->SetText(s_score.GetString());

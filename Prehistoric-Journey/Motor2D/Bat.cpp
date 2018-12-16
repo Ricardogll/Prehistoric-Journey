@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "j1Map.h"
 #include "j1Audio.h"
+#include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
 #include <time.h>
 
@@ -247,6 +248,14 @@ void Bat::OnCollision(Collider* c1, Collider* c2) {
 	if (c2->type == COLLIDER_PLAYER_ATTACK || c2->type == COLLIDER_DEAD) {
 		App->audio->PlayFx(death_sound, 0);
 		state = DEATH;
+
+		if (App->scene->multiplier == 1)
+			App->scene->score += 20;
+		else if (App->scene->multiplier == 2)
+			App->scene->score += 40;
+		else
+			App->scene->score += 60;
+
 		App->collision->EraseCollider(collider);
 	}
 }

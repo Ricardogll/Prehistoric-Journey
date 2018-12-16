@@ -46,7 +46,6 @@
   </audio>
 <entities>
 	<spawns1>
-		<bat x="1056" y="224" />
 		<bat x="1824" y="224" />
     <bat x="2432" y="64" />
     <bat x="4064" y="64" />
@@ -58,20 +57,29 @@
     <mini_trex x="5504" y="-32" />
     <mini_trex x="6048" y="-32" />
     <mini_trex x="6336" y="-32" />
-    <chicken x="100" y="200"/>
-	<chicken x="500" y="500"/>
+    <chicken x="500" y="500"/>
+    <chicken x="2176" y="256"/>
+    <chicken x="2432" y="192"/>
+    <chicken x="3648" y="96"/>
+    <chicken x="4064" y="128"/>
+    <chicken x="4512" y="352"/>
+    <chicken x="5760" y="64"/>
 	
 	</spawns1>
 	<spawns2>
-		<bat x="352" y="224" />
-		<bat x="864" y="192" />
     <bat x="3840" y="128" />
     <bat x="4512" y="224" />
     <bat x="5664" y="192" />
 		<mini_trex x="672" y="64" />
 		<mini_trex x="2720" y="32" />
     <mini_trex x="3296" y="-32" />
-	<chicken x="550" y="500"/>
+    <chicken x="480" y="288"/>
+    <chicken x="1344" y="160"/>
+    <chicken x="1600" y="288"/>
+    <chicken x="2720" y="192"/>
+    <chicken x="3840" y="96"/>
+    <chicken x="4256" y="256"/>
+    <chicken x="6144" y="288"/>
 	
 	</spawns2>
   <player>

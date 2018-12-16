@@ -599,6 +599,7 @@ void Player::OnCollision(Collider* c1, Collider* c2) {
 			App->scene->lifes--;
 			App->scene->c_score = 0;
 			App->scene->score = 0;
+			App->scene->multiplier = 1;
 			App->scene->timer.Start();
 			position.x = App->map->spawn_pos.x;
 			position.y = App->map->spawn_pos.y;
